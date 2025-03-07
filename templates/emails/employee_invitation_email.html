@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+    .footer {
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .button {
+      display: inline-block;
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .button:hover {
+      background-color: #e65c00;
+    }
+    .divider {
+      border-top: 2px solid #ff6b00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Bessie Invitation</h1>
+    </div>
+    
+    <div class="content">
+      <h2 style="color: #ff6b00;">Hi {{ user.first_name }},</h2>
+
+      <p>Finding yourself here, means that your organisation is keen to find ways to support wellbeing within your workforce in a meaningful way and has taken the decision to complete a company wide stress risk assessment.</p>
+      <p>We are finding that Bessie is a great way for business' and their teams to collaborate and together help understand and improve wellbeing in the workplace, ensuring that we create workplaces where everyone wins.</p>
+      <p>You can access Bessie <a href="{{ login_url }}">here</a> and to login, you will also need your email address and password. See login details section below.</p>
+      <p>You will need to use your login details each time you wish to access your portal, to both fill in the Bessie survey and to access your results dashboard.</p>
+      <p><strong>If you are unable to fill out the form in one sitting, you can save your progress and return to it by logging back in when you are ready.  We estimate it takes between 15-20 minutes.</strong></p>
+      <p>I have also attached a little more information for you on Bessie, why we created it and why it is so unique.</p>
+      <p>I am your case manager and this means if at any point you would like a conversation or have any questions during this process, you can email me and we can arrange a call. My email is nicky@thriveandshine.co.uk</p>
+      <p><strong>The deadline for completing Bessie is 12:00:00 on {{ company.survey_completion_date }}.  You within 24 hours after the last person in your organisation has completed their survey, however, on some occasions, it may take a little longer.</strong></p>
+      <p><strong>Please also take some time to watch the induction video in your portal before starting and tick the box to indicate you have watched it. The induction will explain more information about Bessie, what you can expect and the benefits you can expect to receive for participating. We also want to reassure you of our utmost confidentiality and be sure that you are aware that no identifiable information, including email addresses are shared with anyone within your organisation.</strong></p>
+      <p>Following this process, a Wellbeing Strategy will be created by the person in charge within your organisation, utilising the information and data around risks and you and all of your colleagues will again be consulted with. We encourage all of our client organisations to collaborate with their employees, to include them in any ideas and in particula, garner their ideas regarding any change.</p>
+      <p>Our mission at Thrive & Shine is to create a world where everyone wins and from experience, we know that we can only do that with you, so thank you again for trusting us to help support growth, change and wellbeing within your organisation.</p>
+      <p>If you have any questions or would like any additional support, I would be more than happy to help.  Once again, thank you for taking part.</p>
+      
+      <div class="divider"></div>
+      
+      <h3 style="color: #ff6b00;">Login Details</h3>
+      <p><strong>Email:</strong> {{ user.email }} </p>
+      <p><strong>Password:</strong> {{ password }} </p>
+      <center>
+        <a href="{{ login_url }}" class="button">Login</a>
+      </center>
+      <div class="divider"></div>
+      <p>Warmest wishes.</p>
+    </div>
+    
+    <div class="footer">
+      <p>© 2025 Bessie<br>
+      You're receiving this email because your employer has invited you.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+def calc_potential_cost(val):
+    match val:
+        case 3:
+            return 7500
+        case 2:
+            return 10200
+        case 1:
+            return 15000
+        case 0:
+            return 15000

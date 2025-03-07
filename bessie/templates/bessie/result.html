@@ -1,0 +1,480 @@
+{% extends 'bessie/dashboard.html' %}
+{% load static %}
+{% block title %}Bessie Quiz Results{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bessie.css' %}">
+<link rel="stylesheet" href="{% static 'css/result.css' %}">
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="color-bar bg-lime"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/SWIcon.png' %}" alt="stress_and_wellbeing">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Stress and wellbeing</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="swSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-pink"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/WPSIcon.png' %}" alt="workplace_stress">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">workplace Stress</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="wpsSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-orange"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/PRIcon.png' %}" alt="presenteeism">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Presenteeism</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="prSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-blue"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/WRIcon.png' %}" alt="wider_risks">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Wider Risks</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="wrSummary"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview">
+            <div style="width: 1100px; margin: auto;"><canvas id="overview"></canvas></div>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <div class="color-bar bg-lime"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/ENVIcon.png' %}" alt="environment">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Environment</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="envSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-pink"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/HIcon.png' %}" alt="Health">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Health</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="hSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-orange"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/FIcon.png' %}" alt="family">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Family</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="fSummary"></canvas></div>
+                </div>
+            </div>
+            <div class="summary-card">
+                <div class="color-bar bg-blue"></div>
+                <div class="cont">
+                    <div class="header">
+                        <img src="{% static 'images/PIcon.png' %}" alt="personal">
+                        <div class="header-text">
+                            <span style="font-weight: 600; display: block; text-align: center;">Personal</span>
+                            <span style="display: block; text-align: center;">Top 3 Risks</span>
+                        </div>
+                    </div>
+                    <div style="width: 250px;"><canvas id="pSummary"></canvas></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview">
+            <div style="width: 1100px; margin: auto;"><canvas id="extFactors"></canvas></div>
+        </div>
+
+        <div class="overview">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/ENVIcon.png' %}" alt="environment_icon">
+                    <span style="display: block;">Environment</span>
+                </div>
+                <div class="right">
+                    <span>Environment stress load: {{ environment_stressload }}</span>
+                </div>
+            </div>
+            <div style="width: 1100px; margin: auto;"><canvas id="environment"></canvas></div>
+        </div>
+
+        <div class="overview">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/HIcon.png' %}" alt="health_icon">
+                    <span style="display: block;">Health</span>
+                </div>
+                <div class="right">
+                    <span>Health stress load: {{ health_stressload }}</span>
+                </div>
+            </div>
+            <div style="width: 1100px; margin: auto;"><canvas id="health"></canvas></div>
+        </div>
+
+        <div class="overview">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/FIcon.png' %}" alt="family_icon">
+                    <span style="display: block;">Family</span>
+                </div>
+                <div class="right">
+                    <span>Family stress load: {{ family_stressload }}</span>
+                </div>
+            </div>
+            <div style="width: 1100px; margin: auto;"><canvas id="family"></canvas></div>
+        </div>
+
+        <div class="overview">
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/PIcon.png' %}" alt="personal_icon">
+                    <span style="display: block;">Personal</span>
+                </div>
+                <div class="right">
+                    <span>Personal stress load: {{ personal_stressload }}</span>
+                </div>
+            </div>
+            <div style="width: 1100px; margin: auto;"><canvas id="personal"></canvas></div>
+        </div>
+        <div class="risk-report">
+            <div class="chart-card">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/SWIcon.png' %}" alt="stress and wellbeing">
+                    <h3>Stress and wellbeing</h3>
+                </div>
+                <div style="width: 100%; margin: auto;"><canvas id="stressAndWb"></canvas></div>
+            </div>
+            <div class="text-card" x-data="stressAndWb">
+                <div class="nav-cont">
+                    <div class="tabs-wrapper">
+                        <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === 'overview' }" 
+                              @click="activeTab = 'overview'"
+                            >
+                            Overview
+                        </button>
+                        <template x-for="tab in tabs" :key="tab.id">
+                            <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === tab.id }" 
+                              @click="activeTab = tab.id"
+                              x-text="tab.name"
+                            ></button>
+                          </template>
+                    </div>                 
+                </div>
+                <div class="text-cont">
+                    <div class="content-wrapper">
+                        <div 
+                              class="tab-content"
+                              :class="{ 'active': activeTab === 'overview' }"
+                        >
+                        <h3>Overview</h3>
+                        <p>
+                            Wellbeing describes the state of a person as a whole and is made up of physical, mental, emotional and spiritual factors.  All of these components as a whole and on their own, play an intrinsic part of how someone is able to function, think and behave. Research shows a clear link between stress and it’s impact upon all or any of the aspects of a persons wellbeing and we therefor measure and assess wellbeing and its components to uncover any risks. 
+                            People who are not experiencing or subject to stress tend to communicate more effectively, build better relationships, meet challenges and problems better and can access their creativity more easily.  They are also more productive and responsive.
+                            Workplaces have an important role to play when it comes to wellbeing. Since work is the one area of life, that most adults have to participate in where they don’t necessarily get to choose who they are in relationship with, it’s often the area in which they have least control. People are generally reliant on the business within which they work to recognise this. 
+                            The businesses that take this into account are likely to be more supportive of the wellbeing of their employees, are more likely to have a healthier workforce, a more positive culture, higher engagement and a lower rate of employee’s leaving. They are also less likely to be challenged legally at tribunal, any issues and challenges having been resolved sooner.
+                            Understanding why an individual or team might be finding their experience at work difficult can enable open and honest conversations, improve psychological safety and give them the confidence and capacity to remain working within the organisation.
+                            These businesses are also likely to have a lower level of presenteeism and therefore a better rate of productivity, ultimately, benefitting the whole organisation and their customers.
+                        </p>
+                        </div>
+                        <template x-for="tab in tabs" :key="tab.id">
+                        <div 
+                        class="tab-content"
+                        :class="{ 'active': activeTab === tab.id }"
+                        >
+                        <h4 x-text="tab.name"></h4>
+                        <p x-text="tab.overview">
+                        </p>
+                        <span class="category" x-text="tab.cat" :class="tab.cat.split('_').join('-')"></span>
+                        <p x-text="tab.content"></p>
+                        </div>
+                        </template>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="risk-report">
+            <div class="chart-card">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/WPSIcon.png' %}" alt="workplace stress">
+                    <h3>Workplace stress</h3>
+                </div>
+                <div style="width: 100%; margin: auto;"><canvas id="workplaceStress"></canvas></div>
+            </div>
+            <div class="text-card" x-data="workplaceStress">
+                <div class="nav-cont">
+                    <div class="tabs-wrapper">
+                        <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === 'overview' }" 
+                              @click="activeTab = 'overview'"
+                            >
+                            Overview
+                        </button>
+                        <template x-for="tab in tabs" :key="tab.id">
+                            <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === tab.id }" 
+                              @click="activeTab = tab.id"
+                              x-text="tab.name"
+                            ></button>
+                          </template>
+                    </div>                 
+                </div>
+                <div class="text-cont">
+                    <div class="content-wrapper">
+                        <div 
+                              class="tab-content"
+                              :class="{ 'active': activeTab === 'overview' }"
+                        >
+                        <h3>Overview</h3>
+                        <p>
+                        Here, we assess workplace factors that may directly contribute to stress. If any of these factors score medium or above, it indicates the presence of risks for some or all of the workforce. The Health and Safety Executive (HSE) mandates that employers oversee employee wellbeing. Employers have a duty of care to manage workplace stress, requiring them to conduct risk assessments and adhere to the Management Standards, which cover six key areas:</p>
+                        <p>
+                            <ul style="color: #4b5563; font-size: 0.875rem;">
+                            <li>Demands – This includes workload, work patterns, and the work environment.</li>
+                            <li>Control – The level of autonomy employees have over how they complete their work.</li>
+                            <li>Support – The encouragement, sponsorship, and resources provided by the organisation, line management, and colleagues.</li>
+                            <li>Relationships – Encouraging positive workplace interactions to prevent conflict and address unacceptable behaviour.</li>
+                            <li>Role – Ensuring employees understand their roles clearly and do not experience conflicting responsibilities.</li> 
+                            <li>Change – How organisational changes, both large and small, are managed and communicated.</li>
+                            </ul>
+                        </p>
+                        
+                        <p>
+                            Bessie builds upon the Management Standards, offering a comprehensive way to gather accurate data directly from employees to measure workplace stress effectively. This approach ensures that organisations can proactively identify risks and implement targeted wellbeing strategies.
+                        </p>
+                        </div>
+                        <template x-for="tab in tabs" :key="tab.id">
+                        <div 
+                        class="tab-content"
+                        :class="{ 'active': activeTab === tab.id }"
+                        >
+                        <h4 x-text="tab.name"></h4>
+                        <p x-text="tab.overview">
+                        </p>
+                        <span class="category" x-text="tab.cat" :class="tab.cat.split('_').join('-')"></span>
+                        <p x-text="tab.content"></p>
+                        </div>
+                        </template>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="risk-report">
+            <div class="chart-card">
+                <div style="display: flex; align-items: center;">
+                    <img src="{% static 'images/PRIcon.png' %}" alt="presenteeism">
+                    <h3>Presenteeism</h3>
+                </div>
+                <div style="width: 100%; margin: auto;"><canvas id="presenteeism"></canvas></div>
+                {% if request.user.user_type != 'EMPLOYEE' %}
+                <h2 style="margin-top: 50px;">Potential cost to organisation: &pound;{{ potential_cost }}</h2>
+                {% endif %}
+            </div>
+            <div class="text-card" x-data="presenteeism">
+                <div class="nav-cont">
+                    <div class="tabs-wrapper">
+                        <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === 'overview' }" 
+                              @click="activeTab = 'overview'"
+                            >
+                            Overview
+                        </button>
+                        <template x-for="tab in tabs" :key="tab.id">
+                            <button 
+                              class="tab" 
+                              :class="{ 'active': activeTab === tab.id }" 
+                              @click="activeTab = tab.id"
+                              x-text="tab.name"
+                            ></button>
+                          </template>
+                    </div>                 
+                </div>
+                <div class="text-cont">
+                    <div class="content-wrapper">
+                        <div 
+                              class="tab-content"
+                              :class="{ 'active': activeTab === 'overview' }"
+                        >
+                        <h3>Overview</h3>
+                        <p>
+                            Presenteeism describes the state of being physically present in the workplace but emotionally and/or
+                            mentally absent, leaving the individual less engaged, less productive, and at high risk of burnout, 
+                            physical and mental illness, and an increased likelihood of leaving. The detrimental effects of 
+                            presenteeism extend across all areas of life; social, economic, biological, and spiritual. 
+                            Ultimately, presenteeism damages a company's reputation and creates a culture that makes it 
+                            difficult to retain and attract employees. Evidence indicates that presenteeism is a more significant
+                            cost to businesses than absenteeism due to its wide-reaching effects, many of which are intangible.
+                            While some symptoms of presenteeism, such as poor performance, workplace conflicts, and customer
+                            complaints, are visible, they are often mistakenly attributed to individual flaws rather than an
+                            underlying issue: stress. The financial cost of presenteeism to a business is estimated to be
+                            between 25% and 40% of an individual's salary. Thrive & Shine calculates at the lower end of
+                            30%, though this figure is likely to increase as more data and research become available. 
+                            Employees experiencing presenteeism impact multiple areas of the business, as well as their
+                            colleagues. Ignoring presenteeism metrics has significant long-term implications beyond just 
+                            financial loss. With many employees feeling afraid or unable to take time off for illness 
+                            and rest, workforce wellbeing is deteriorating. Businesses that proactively address presenteeism
+                            tend to perform better in all economic climates. Employees who are not subject to chronic stress
+                            communicate more effectively, build stronger relationships, navigate challenges with greater resilience,
+                            and access their creativity more easily. They are also more productive and engaged in their work.
+                            Workplaces play a crucial role in supporting wellbeing. Since work is one of the few areas of life 
+                            that most adults must participate in without choosing their colleagues or environment, it is also the
+                            area where they have the least control. Businesses that acknowledge this reality and take steps to 
+                            support employee wellbeing will foster a healthier workforce, a more positive work culture, higher 
+                            engagement, and lower turnover rates. These businesses are also likely to experience lower levels of
+                            presenteeism, leading to better productivity and overall organisational success. When measuring 
+                            presenteeism, we examine all the risk factors that serve as indicators. Since presenteeism itself
+                            is a key risk indicator of stress, we take a deep dive into all of its underlying causes to 
+                            provide a comprehensive analysis and actionable insights.
+                        </p>
+                        </div>
+                        <template x-for="tab in tabs" :key="tab.id">
+                        <div 
+                        class="tab-content"
+                        :class="{ 'active': activeTab === tab.id }"
+                        >
+                        <h4 x-text="tab.name"></h4>
+                        <p x-text="tab.overview">
+                        </p>
+                        <span class="category" x-text="tab.cat" :class="tab.cat.split('_').join('-')"></span>
+                        <p x-text="tab.content"></p>
+                        </div>
+                        </template>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            {% if staff_comment %}
+            <h3>Staff Comment</h3>
+            <p>{{staff_comment}}</p>
+            <br/>
+            {% endif %}
+        </div>
+
+        {% if request.user.is_staff %}
+        <div class="section">
+        User text responses:
+        {% if responses.q1 != '' %}
+           <p>1. Please tell us the first part of your postcode (e.g., ST1): <strong>{{ responses.q1 }}</strong></p>
+        {% endif %}
+        {% if responses.q14 != '' %}
+        <p>14. What is your job title?: <strong>{{ responses.q14 }}</strong></p>
+        {% endif %}
+        {% if responses.q45 != '' %}
+        <p>45. Please suggest any potential barriers stopping others from consulting you? (Please indicate if unsure): <strong>{{ responses.q45 }}</strong></p>
+        {% endif %}
+        {% if responses.q66 != '' %}
+        <p>66. Please tell me if and how these factors impact other areas of your life that haven't been mentioned: <strong>{{ responses.q66 }}</strong></p>
+        {% endif %}
+        {% if responses.q74 != '' %}
+        <p>74. If other, please explain your living situation: <strong>{{ responses.q74 }}</strong> </p>
+        {% endif %}
+        {% if responses.q100 != '' %}
+        <p>100. Please tell me if and how these factors impact other areas of your life that haven't been mentioned: <strong>{{ responses.q100 }}</strong></p>
+        {% endif %}
+        {% if responses.q154 != '' %}
+        <p>154. If other, please tell us what neurodivergent characteristics apply to you: <strong>{{ responses.q154 }}</strong></p>
+        {% endif %}
+        {% if responses.q159 != '' %}
+        <p>159. Please tell me if and how these factors impact other areas of your life that haven't been mentioned: <strong>{{ responses.q159 }}</strong></p>
+        {% endif %}
+        {% if responses.q167 != '' %}
+        <p>167. Please state what your nationality is: <strong>{{ responses.q167 }}</strong></p>
+        {% endif %}
+        {% if responses.q168 != '' %}
+        <p>168. Please state your ethnicity: <strong>{{ responses.q168 }}</strong></p>
+        {% endif %}
+        {% if responses.q176 != '' %}
+        <p>176. If other, please state the type(s) of discrimination you face: <strong>{{ responses.q176 }}</strong></p>
+        {% endif %}
+        {% if responses.q228 != '' %}
+        <p>228. Please tell me if and how these factors impact other areas of your life that haven't been mentioned: <strong>{{ responses.q228 }}</strong></p>
+        </div>
+        {% endif %}
+        
+    
+        <div class="section">
+            <h3>Add comments form</h3>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea 
+                        id="comment" 
+                        name="comment" 
+                        rows="4" 
+                        cols="100"
+                        class="form-control"
+                        placeholder="Enter your comment here"></textarea>
+                </div>
+                <button class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        {% endif %}
+
+    </div>
+    <script>
+        let personalFactors = {{ personal_factors|safe }}
+        let healthFactors = {{ health_factors|safe }}
+        let familyFactors = {{ family_factors|safe }}
+        let environmentFactors = {{ environment_factors|safe }}
+        let presenteeismFactors = {{ presenteeism_factors|safe }}
+        let workplaceStressFactors = {{ workplace_stress_factors|safe }}
+        let stressAndWellbeing = {{ stress_and_wellbeing|safe }}
+        let reportText = {{ report_text|safe }}
+    </script>
+    {% load static %}
+    <script type="module" src="{% static 'js/illustration.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js" defer></script>
+{% endblock %}

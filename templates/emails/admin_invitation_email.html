@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .header {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+    .footer {
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .button {
+      display: inline-block;
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .button:hover {
+      background-color: #e65c00;
+    }
+    .divider {
+      border-top: 2px solid #ff6b00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Company Admin Onboarding Email</h1>
+    </div>
+    <div class="content">
+      <h2 style="color: #ff6b00;">Hi {{ user.first_name }},</h2>
+      <p>
+        Welcome to <strong>Bessie!</strong> As the <strong>organisation administrator</strong>, you'll oversee the process,
+        have access to each dashboard's results, and develop your wellbeing strategy based
+        on the insights provided.
+      </p>
+
+      <h3 style="color: #ff6b00;">Key Dates & Next Steps</h3>
+      <ul>
+        <li><strong>Start Date:</strong> {{ company.survey_start_date }} – This is when your employees will receive their
+            introductory email, login details, and survey instructions.
+        </li>
+        <li><strong>Survey Completion Deadline:</strong> {{ company.survey_completion_date }} – Employees must complete the
+            survey by this date.
+        </li>
+        <li>You should have already received an email with <strong>communication tips</strong> on
+            introducing Bessie to your workforce. If not, please reply to this email, and we'll
+            send it over.
+        </li>
+      </ul>
+
+      <h3 style="color: #ff6b00;">Your First Task: Upload Employee Details</h3>
+      <ol>
+        <li><strong>Log in to your Bessie Portal</strong> using your email and password: find login details and login link below.</li>
+        <li><strong>Download the CSV File</strong> and fill in the required details (employee email
+            addresses, team/area if applicable).</li>
+        <li><strong>Upload the completed CSV file</strong> back into the portal - we'll take it from there!</li>
+      </ol>
+
+      <h3 style="color: #ff6b00;">What Happens Next?</h3>
+
+      <ul>
+        <li><strong>Employee Onboarding:</strong> Employees will receive an email with login details and
+            an introduction to Bessie
+        </li>
+        <li><strong>Survey Opens:</strong> Employees log in and complete their survey.</li>
+        <li><strong>Survey Closes:</strong> The dashboards are populated, and each employee can log in to
+        view <strong>their own results</strong>. They won't have access to anyone else's data.
+        </li>
+      </ul>
+
+      <h3 style="color: #ff6b00;">Final Step: Strategy Meeting</h3>
+      <p>
+        On {{ company.strategy_meeting_date }}, we'll meet to review the dashboards together. This session will help
+        you understand the insights, ask any questions, and finalize your wellbeing strategy.
+      </p>
+      <p>
+        If you have any questions along the way, just hit reply - we're here to help.
+      </p>
+      <p>
+        Thank you for choosing to work with Thrive & Shine!
+      </p>
+      
+      <div class="divider"></div>
+      
+      <h3 style="color: #ff6b00;">Login Details</h3>
+      <p><strong>Email:</strong> {{ user.email }} </p>
+      <p><strong>Password:</strong> {{ password }} </p>
+      <center>
+        <a href="{{ login_url }}" class="button">Login</a>
+      </center>
+      <div class="divider"></div>
+      <p>Best Wishes,<br>Nicky Bartley</p>
+    </div>
+    
+    <div class="footer">
+      <p>© 2025 Bessie</p>
+    </div>
+  </div>
+</body>
+</html>

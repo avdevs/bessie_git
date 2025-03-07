@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Welcome to Bessie</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="hero-section">
+        <div class="overlay">
+            <div class="container text-center text-white">
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <h1 class="display-4 animate__animated animate__fadeInDown">Welcome to Thrive And Shine</h1>
+                <p class="lead animate__animated animate__fadeInUp animate__delay-1s">Your journey to discovering health and well-being insights starts here.</p>
+                <a href="{% url 'calculate_scores' %}" class="btn btn-primary btn-lg mt-4 animate__animated animate__zoomIn animate__delay-2s" role="button">Take Mini Bessie</a>
+                <a href="{% url 'bessie_index' %}" class="btn btn-success">Take Bessie Quiz</a>
+                <a href="{% url 'signup' %}" class="btn btn-success">Register for bessie</a>
+                {% if user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Log Out</button>
+                </form>
+                {% else %}
+                <a href="{% url 'password_reset' %}">Password Reset</a>
+                <a href="{% url 'login' %}" class="btn btn-success">Log In</a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                    <a href="{% url 'user_list' %}" class="btn btn-success">View user</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

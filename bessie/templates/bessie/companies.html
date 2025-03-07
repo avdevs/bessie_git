@@ -1,0 +1,48 @@
+{% extends "bessie/dashboard.html" %}
+{% block content %}
+<div class="section">
+
+    <div class="controls">
+        <form style="width: 30%; display: flex; gap: 10px; align-items: center;" action="">
+            <input style="width: 100%;" type="text" id="filterInput" name="search" placeholder="Search companies...">
+            <button class="btn btn-primary">search</button>
+        </form>
+        <a href="{% url 'create_company' %}">Add Company</a>
+    </div>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Company Name</th>
+                <th>Used Slots</th>
+                <th>Available Slots</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            {% for company in page_obj %}
+            <tr>
+                <td>{{ company.name }}</td>
+                <td>{{ company.slots }}</td>
+                <td>{{ company.used_slots }}</td>
+                <td><a href="{% url 'company' company.id %}" class="view-link">View</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination" id="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

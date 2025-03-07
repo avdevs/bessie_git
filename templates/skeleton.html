@@ -1,0 +1,21 @@
+{% load i18n view_breadcrumbs lotus %}{% get_current_language as LANGUAGE_CODE %}<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block header-title %}{% trans "Lotus weblog" %}{% endblock header-title %}</title>
+    {% block metas %}{% endblock metas %}
+</head>
+
+<body>
+
+<div class="d-grid gap-3 p-3">
+    <div class="main-content container-xxl">
+        {% block breadcrumbs %}
+            {% render_breadcrumbs "view_breadcrumbs/bootstrap5.html" %}
+        {% endblock %}
+        {% block content %}Sandbox skeleton{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

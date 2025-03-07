@@ -1,0 +1,115 @@
+.password-reset-form {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fieldWrapper {
+  margin-bottom: 1.5rem;
+}
+
+.fieldWrapper label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.fieldWrapper input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.fieldWrapper input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.help-text {
+  font-size: 0.875rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.errorlist {
+  color: #dc3545;
+  font-size: 0.875rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0;
+}
+
+button,
+input[type="submit"] {
+  width: auto;
+  font-size: 15px;
+  height: auto;
+  line-height: normal;
+  text-align: center;
+  background: #fb6512;
+  border-width: 1px;
+  border-color: #fb6512;
+  border-style: solid;
+  color: #ffffff;
+  cursor: pointer;
+  font-weight: normal;
+  border-radius: 4px;
+  text-shadow: none;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  box-shadow: 0 1px 1px #eeeeee;
+  margin: 10px;
+  margin-left: 0;
+  margin-right: 0;
+  vertical-align: middle;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: #efefef;
+  border-color: #cccccc;
+  color: #444444;
+}
+
+.reset-complete {
+  max-width: 400px;
+  margin: 3rem auto;
+  padding: 2rem;
+  text-align: center;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reset-complete h1 {
+  color: #2d3748;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.reset-complete p {
+  color: #4a5568;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.login-link {
+  display: inline-block;
+  background: #fb6512;
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.login-link:hover {
+  background: #ee9768;
+}

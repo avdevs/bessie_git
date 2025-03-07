@@ -1,0 +1,19 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    margin: auto;
+    width: 95%;
+}
+
+#q76, #q78, #q79, #q80, #q81, #q82, #q85, #q86, #q87,
+#q106, #q107, #q108, #q109, #q110, #q111, #q112, #q113,
+#q116, #q117, #q118, #q119, #q120, #q121, #q122, #q125,
+#q126, #q128, #q129, #q130, #q131, #q135, #q136, #q137,
+#q138, #q139, #q140, #q141, #q142, #q164, #q165, #q166,
+#q178, #q179, #q180, #q181, #q186, #q187, #q111Heading,
+#q120Heading, #q135Heading, #q138Heading, #q164q, #q164Heading,
+#q179Heading {
+    display: none;
+}

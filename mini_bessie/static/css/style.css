@@ -1,0 +1,165 @@
+/* General body styling */
+body {
+    background-color: #eef2f7;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Form Container */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
+    background: linear-gradient(to bottom right, #ffffff, #f1f4f9);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Header */
+.card-header {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #fb6512;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Form Fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="text"], input[type="radio"], textarea, select {
+    color: #555555;
+    background-color: #ffffff;
+    border: 1px solid #BFC3C8;
+    border-radius: 4px;
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+}
+
+input[type="radio"]:checked {
+    border-color: #fb6512;
+}
+
+textarea {
+    height: 80px;
+}
+
+/* Buttons */
+button, input[type="submit"], .btn-success {
+    background-color: #fb6512;
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+button:hover, input[type="submit"]:hover, .btn-success:hover {
+    background-color: #e14c4c;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Inline Radios */
+.inline-radios {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.inline-radios label {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Error and Success Messages */
+.error {
+    background-color: #F2DEDE;
+    color: #B94A48;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #EBCCD1;
+}
+
+.success {
+    background-color: #DFF0D8;
+    color: #468847;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 10px;
+    border: 1px solid #D6E9C6;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    button, input[type="submit"], .btn-success {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+}
+
+/* Orange Button Style */
+.btn-orange {
+    background-color: #fb6512;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    padding: 10px 20px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.btn-orange:hover {
+    background-color: #e14c4c;
+    color: #ffffff;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.inline-radios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.inline-radios label {
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+

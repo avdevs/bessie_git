@@ -1,0 +1,30 @@
+{# upload_csv.html #}
+<h4>Invite employees</h4>
+<p>Download the csv file sample below, enter employee details and reupload it.</p>
+<p>employees will automatically be sent an ivite email with a login password</p>
+<a href="{% url 'csv_sample' %}">Download sample here</a>
+<br>
+<h4>Upload filled csv file below</h4>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="form-group">
+        {{ form.csv_file.label_tag }}
+        {{ form.csv_file }}
+        
+        {% if form.csv_file.errors %}
+            <div class="alert alert-danger">
+                {% for error in form.csv_file.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Upload CSV</button>
+</form>
+
+<div>
+    <h3>View company results</h3>
+    <a href="{% url 'company_results' company.id %}">View results</a>
+</div>

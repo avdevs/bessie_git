@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <title>Bessie {% block title %}{% endblock %}</title>
+    {% block css %}{% endblock %}
+    <style>
+        .messages-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            max-width: 24rem;
+            width: 100%;
+        }
+    
+        .message {
+            position: relative;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease-out;
+        }
+    
+        .message-success {
+            background-color: #f0fdf4;
+            border: 1px solid #86efac;
+        }
+    
+        .message-error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+        }
+    
+        .message-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+    
+        .message-close svg {
+            width: 1rem;
+            height: 1rem;
+            color: #666;
+        }
+    
+        .message-close:hover svg {
+            color: #333;
+        }
+    
+        .message-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    
+        .message-success .message-icon {
+            color: #22c55e;
+        }
+    
+        .message-error .message-icon {
+            color: #ef4444;
+        }
+    
+        .message-title {
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+    
+        .message-success .message-title {
+            color: #166534;
+        }
+    
+        .message-error .message-title {
+            color: #991b1b;
+        }
+    
+        .message-content {
+            margin-top: 0.25rem;
+            margin-left: 1.75rem;
+            margin-bottom: 0;
+        }
+    
+        .message-success .message-content {
+            color: #166534;
+        }
+    
+        .message-error .message-content {
+            color: #991b1b;
+        }
+    
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <span class="brand">Bessie</span>
+        <div class="user-info">
+            <span class="username">Hello, {{ request.user.email }}!</span>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-primary">Log Out</button>
+            </form>
+        </div>
+    </nav>
+{% if messages %}
+    <div class="messages-container" id="messages-container">
+    {% for message in messages %}
+    <div class="message {% if message.tags %}message-{{ message.tags }}{% endif %}">
+        <!-- Close button -->
+        <button onclick="this.parentElement.remove()" class="message-close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <!-- Message icon -->
+        {% if message.tags == 'error' %}
+        <svg class="message-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        {% elif message.tags == 'success' %}
+        <svg class="message-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        {% endif %}
+
+        <!-- Message title -->
+        <span class="message-title">
+            {% if message.tags == 'error' %}Error{% elif message.tags == 'success' %}Success{% endif %}
+        </span>
+
+        <!-- Message content -->
+        <p class="message-content">
+            {{ message }}
+        </p>
+    </div>
+{% endfor %}
+{% endif %}
+</div>
+ {% block content %}
+ {% endblock %}
+ <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const messages = document.getElementById('messages-container');
+            if (messages) {
+                messages.style.opacity = '0';
+                messages.style.transition = 'opacity 0.3s ease-out';
+                setTimeout(function() {
+                    messages.remove();
+                }, 300);
+            }
+        }, 5000);
+    });
+</script>
+</body>
+</html>
+
+
+
+

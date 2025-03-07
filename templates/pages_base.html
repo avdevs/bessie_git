@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bessie</title>
+    <link rel="stylesheet" href="{% static 'css/header.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/pages.css' %}">
+</head>
+<body
+    class="page-template-default page page-id-194 et-tb-has-template et-tb-has-footer et_pb_button_helper_class et_fixed_nav et_show_nav et_primary_nav_dropdown_animation_fade et_secondary_nav_dropdown_animation_fade et_header_style_left et_cover_background et_pb_gutter windows et_pb_gutters3 et_pb_pagebuilder_layout et_no_sidebar et_divi_theme et-db chrome"
+  >
+  <div id="page-container" class="et-animated-content" style="margin-top: -1px; padding-top: 70px;">
+    <div id="et-boc" class="et-boc">
+      {% include "partials/header.html" %}
+      <div id="et-main-area">
+        {% block content %}
+        {% endblock %}
+        {% include "partials/footer.html" %}
+      </div>
+    </div>
+  </div>
+</body>
+</html>

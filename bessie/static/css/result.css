@@ -1,0 +1,216 @@
+:root {
+  --color-veryhigh: #ff0000;
+  --color-high: #fb6513;
+  --color-medium: #ffbf00;
+  --color-low: #8fa604;
+}
+
+.summary-cards {
+  height: 30vh;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.summary-card {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  width: 23%;
+  height: 90%;
+  display: flex;
+  background-color: white;
+}
+
+.summary-card img {
+  width: 60px;
+  height: 60px;
+}
+
+.color-bar {
+  height: 100%;
+  width: 11%;
+}
+
+.bg-lime {
+  background-color: #8EA604;
+}
+
+.bg-orange {
+  background-color: #FB6512;
+}
+
+.bg-blue {
+  background-color: #007FFF;
+}
+
+.bg-pink {
+  background-color: #D20B5D;
+}
+
+.summary-card .cont {
+  padding-top: 5px;
+  width: 88%;
+}
+
+.summary-card .header-text {
+  height: 60px;
+  padding-block: 5px;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.summary-card .header {
+  display: flex;
+  height: 30%;
+}
+
+.overview {
+  width: 1200px;
+  margin: auto;
+  margin-top: 40px;
+  background-color: #fff;
+  padding-block: 30px;
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+
+.team-factors {
+  width: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-evenly;
+  gap: 10px;
+}
+
+.team-factor-card {
+  width: 100%;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  height: 90%;
+  display: flex;
+  background-color: white;
+}
+
+.team-factor-card .color-bar {
+  width: 5%;
+}
+
+.team-factor-card .cont {
+  width: 100%;
+}
+
+.team-factor-card .header {
+  padding-top: 10px;
+  padding-inline: 20px;
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.f-icon-text {
+  display: flex;
+  align-items: center;
+}
+
+.risk-report {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  margin-block: 50px;
+  border-radius: 20px;
+}
+
+.chart-card {
+  height: 100%;
+  width: 40%;
+  background: #fff;
+}
+
+.text-card {
+  height: 100%;
+  width: 60%;
+  display: flex;
+}
+
+.nav-cont {
+  width: 30%;
+  height: 100%;
+}
+
+.text-cont {
+  overflow-y: scroll;
+  width: 70%;
+  height: 100%;
+  background-color: #fff;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  background-color: #fff;
+}
+
+.tab {
+  padding: 8px 16px;
+  width: 80%;
+  margin-left: auto; 
+  margin-right: 0;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background: #255C99;
+  color: #fff;
+  display: block;
+  margin-block: 5px;
+  padding-block: 10px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+.tab.active {
+  background: #D20B5D;
+  border-bottom: 1px solid #fff;
+  margin-bottom: -1px;
+}
+.tabs-wrapper {
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+.content-wrapper {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+.category {
+    width: 100%;
+    padding-block: 10px;
+    display: block;
+    text-align: center;
+}
+
+.low {
+  background-color: var(--color-low);
+}
+
+.medium {
+  background-color: var(--color-medium);
+}
+
+.high {
+  background-color: var(--color-high);
+}
+
+.very-high {
+  background-color: var(--color-veryhigh);
+}
