@@ -47,7 +47,7 @@
         {% if results_ready %}
             <a href="{% url 'company_results' company.id %}">View results</a>
             {% for team in company.teams %}
-                <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team }}</a>
+                <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team }}</a> <!-- ERRORS HERE -->
             {% endfor %}
             
         {% else %}

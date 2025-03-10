@@ -68,8 +68,8 @@ def inviteUsers(request):
 
                     if team:
                         if team not in company_teams:
-                            company_teams.add(team)
-                            company.teams.append(team)
+                            company_teams.add(team)     # only one of these I think - will crash
+                            # company.teams.append(team)  # only one of these I think - will crash
                         employees_to_create.append(Employee(company=company, user=user, team=team))
                     else:
                         employees_to_create.append(Employee(company=company, user=user))
