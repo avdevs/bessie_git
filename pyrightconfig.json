@@ -1,0 +1,6 @@
+{
+  "venvPath": ".",
+  "venv": "venv",
+  "include": ["**/*.py"],
+  "exclude": ["**/node_modules", "**/__pycache__", "**/.vscode", "**/.git", "**/.ropeproject"]
+}
