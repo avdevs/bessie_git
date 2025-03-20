@@ -328,7 +328,7 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
             employee=employee,
             multichoice=form_data,
             q1=form_data.get("q1", ""),
-            q14=form_data.get("q24", ""),
+            q14=form_data.get("q14", ""),
             q45=form_data.get("q45", ""),
             q66=form_data.get("q66", ""),
             q74=form_data.get("q74", ""),
@@ -3195,4 +3195,3 @@ def export_data(request, id):
         writer.writerow([question, answer])
 
     return response
-
