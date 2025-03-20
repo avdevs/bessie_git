@@ -320,6 +320,8 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
 
         form_data = {k: v for k, v in form_data.items() if v != ""}
 
+        print(form_data)
+
         employee = Employee.objects.get(user=self.request.user)
 
         BessieResponse.objects.filter(employee=employee).delete()
@@ -3180,18 +3182,30 @@ def get_category(value):
 
 def export_data(request, id):
     """
-    Export employee data to a csv file
+    Export employee data (their scores and calculations) to a csv file
     """
     employee = Employee.objects.get(pk=id)
     bessie_response = BessieResponse.objects.get(employee=employee)
     sorted_questions = bessie_response.get_sorted_questions()
 
+    bessie_result = BessieResult.objects.get(response=bessie_response)
+    result = model_to_dict(bessie_result)
+
     response = HttpResponse(content_type="text/csv")
     response["Content-Disposition"] = f'attachment; filename="employee_{id}_data.csv"'
 
     writer = csv.writer(response)
-    writer.writerow(["Question", "Answer"])
+    writer.writerow(["Question", "Score"])
     for question, answer in sorted_questions.items():
         writer.writerow([question, answer])
+
+    writer.writerow([""])
+    writer.writerow(["--------------------------------"])
+    writer.writerow([""])
+
+    writer.writerow(["Category", "Score"])
+    for key, value in result.items():
+        formatted_key = key.replace("_", " ").capitalize()
+        writer.writerow([formatted_key, value])
 
     return response
