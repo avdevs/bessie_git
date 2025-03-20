@@ -10,9 +10,10 @@
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.user_type == "COMPANY_ADMIN" %}
                 <th>Quiz Status</th>
                 <th>View Results</th>
+                <th>Export Data</th>
                 {% endif %}
             </tr>
         </thead>
@@ -23,13 +24,16 @@
                 <td>{{ item.user.last_name }}</td>
                 <td>{{ item.user.email }}</td>
 
-                {% if request.user.is_staff %}
+                {% if request.user.is_staff or request.user.user_type == "COMPANY_ADMIN" %}
                     {% if item.has_response > 0 %}
                         <td><span class="badge badge-success">Completed</span></td>
                     {% else %}
                         <td><span class="badge badge-warning">Pending</span></td>
                     {% endif %}    
-                    <td><a href="{% url 'view_results' item.id %}">View Results</a></td>
+                    <td><a href="{% url 'view_results' item.id %}" style="margin-bottom: 0;">View Results</a></td>
+                    {% if item.has_response > 0 %}
+                        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
+                    {% endif %}
                 {% endif %}
             </tr>
             {% endfor %}

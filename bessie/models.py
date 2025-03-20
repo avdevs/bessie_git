@@ -2,6 +2,7 @@ from django.db import models
 from users.models import User
 from django.core.exceptions import ValidationError
 
+
 class Company(models.Model):
     name = models.CharField(max_length=255, unique=True)
     teams = models.JSONField(default=list, blank=True)
@@ -10,8 +11,8 @@ class Company(models.Model):
     survey_start_date = models.DateField()
     survey_completion_date = models.DateField()
     strategy_meeting_date = models.DateField()
-    induction_video = models.FileField(upload_to='videos/', null=True, blank=True)
-    results_video = models.FileField(upload_to='videos/', null=True, blank=True)
+    induction_video = models.FileField(upload_to="videos/", null=True, blank=True)
+    results_video = models.FileField(upload_to="videos/", null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Companies"
@@ -19,28 +20,38 @@ class Company(models.Model):
 
     def clean(self):
         super().clean()
-        
+
         # Only perform validation if all date fields have values
-        if self.survey_start_date and self.survey_completion_date and self.strategy_meeting_date:
+        if (
+            self.survey_start_date
+            and self.survey_completion_date
+            and self.strategy_meeting_date
+        ):
             # Validate that survey_start_date is not after survey_completion_date
             if self.survey_start_date > self.survey_completion_date:
-                raise ValidationError({
-                    'survey_start_date': 'Survey start date cannot be after survey completion date.',
-                    'survey_completion_date': 'Survey completion date cannot be before survey start date.'
-                })
-            
+                raise ValidationError(
+                    {
+                        "survey_start_date": "Survey start date cannot be after survey completion date.",
+                        "survey_completion_date": "Survey completion date cannot be before survey start date.",
+                    }
+                )
+
             # Validate that strategy_meeting_date is not before survey_completion_date
             if self.strategy_meeting_date < self.survey_completion_date:
-                raise ValidationError({
-                    'strategy_meeting_date': 'Strategy meeting date must be after survey completion date.'
-                })
-            
+                raise ValidationError(
+                    {
+                        "strategy_meeting_date": "Strategy meeting date must be after survey completion date."
+                    }
+                )
+
             # Validate that strategy_meeting_date is not before survey_start_date
             if self.strategy_meeting_date < self.survey_start_date:
-                raise ValidationError({
-                    'strategy_meeting_date': 'Strategy meeting date must be after survey start date.'
-                })
-    
+                raise ValidationError(
+                    {
+                        "strategy_meeting_date": "Strategy meeting date must be after survey start date."
+                    }
+                )
+
     def save(self, *args, **kwargs):
         # Run validation before saving
         self.full_clean()
@@ -48,6 +59,7 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class CompanyAdmin(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -70,16 +82,20 @@ class Employee(models.Model):
 
     def __str__(self):
         return f"{self.user.email} ({self.company.name})"
-    
+
+
 class WizardState(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     data = models.JSONField(default=dict)
     step = models.CharField(max_length=50)
 
+
 class BessieResponse(models.Model):
-    employee = models.OneToOneField(Employee, on_delete=models.CASCADE, related_name='owner')
+    employee = models.OneToOneField(
+        Employee, on_delete=models.CASCADE, related_name="owner"
+    )
     timestamp = models.DateTimeField(auto_now_add=True)
-    multichoice  = models.JSONField()
+    multichoice = models.JSONField()
     q1 = models.TextField()
     q14 = models.CharField(max_length=255)
     q45 = models.TextField()
@@ -93,11 +109,37 @@ class BessieResponse(models.Model):
     q176 = models.TextField()
     q228 = models.TextField()
 
+    def get_sorted_questions(self):
+        # Extract questions from the JSON field
+        questions = self.multichoice.copy()
+
+        # Add individual question fields to the dictionary
+        for field in self._meta.get_fields():
+            if field.name.startswith("q") and field.name[1:].isdigit():
+                questions[field.name] = getattr(self, field.name)
+
+        # Filter and sort the questions by their keys
+        sorted_questions = dict(
+            sorted(
+                (
+                    item
+                    for item in questions.items()
+                    if item[0].startswith("q") and item[0][1:].isdigit()
+                ),
+                key=lambda item: int(item[0][1:]),
+            )
+        )
+
+        return sorted_questions
+
     def __str__(self):
         return f"Response from {self.employee.user.first_name} on {self.timestamp}"
 
+
 class BessieResult(models.Model):
-    response = models.OneToOneField(BessieResponse, on_delete=models.CASCADE, related_name='response')
+    response = models.OneToOneField(
+        BessieResponse, on_delete=models.CASCADE, related_name="response"
+    )
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     environment = models.FloatField()
     residence = models.FloatField()

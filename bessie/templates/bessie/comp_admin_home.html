@@ -137,7 +137,8 @@
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Email</th>
-                    <!-- <th>Quiz Status</th> -->
+                    <th>Quiz Status</th>
+                    <th>Export Data</th>
                 </tr>
             </thead>
             <tbody>
@@ -146,11 +147,12 @@
                     <td>{{ item.user.first_name }}</td>
                     <td>{{ item.user.last_name }}</td>
                     <td>{{ item.user.email }}</td>
-                    <!-- {% if item.has_response > 0 %}
+                    {% if item.has_response > 0 %}
                         <td><span class="badge badge-success">Completed</span></td>
                     {% else %}
                         <td><span class="badge badge-warning">Pending</span></td>
-                    {% endif %}     -->
+                    {% endif %}
+                    <td>{% if item.has_response > 0 %}<a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export</a>{% endif %}</td>
                 </tr>
                 {% endfor %}
             </tbody>
