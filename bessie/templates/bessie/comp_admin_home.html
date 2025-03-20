@@ -152,7 +152,9 @@
                     {% else %}
                         <td><span class="badge badge-warning">Pending</span></td>
                     {% endif %}
-                    <td>{% if item.has_response > 0 %}<a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export</a>{% endif %}</td>
+                    {% if item.has_response > 0 %}
+                        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
