@@ -68,6 +68,7 @@
                     <th>Last Name</th>
                     <th>Email</th>
                     <th>Quiz Status</th>
+                    <th>Export Data</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,6 +82,9 @@
                     {% else %}
                         <td><span class="badge badge-warning">Pending</span></td>
                     {% endif %}    
+                    {% if item.has_response > 0 %}
+                        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
