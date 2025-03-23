@@ -724,7 +724,7 @@ class Form8(forms.Form):
 
     q59 = forms.ChoiceField(
         label="59. During periods of sick leave, I was given adequate support from my employer.",
-        choices=SIX_ZERO_ZERO,
+        choices=ZERO_ZERO_SIX_ZERO,
         widget=forms.RadioSelect,
         required=False,
     )
