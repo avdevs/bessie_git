@@ -318,7 +318,7 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         for form in form_list:
             form_data = {**form_data, **form.cleaned_data}
 
-        form_data = {k: v for k, v in form_data.items() if v != ""}
+        form_data = {k: (0 if v == "" else v) for k, v in form_data.items()}
 
         print(form_data)
 
@@ -353,11 +353,12 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         total_environment_score = 0
 
         for question_key in environment_questions:
-            if (
-                form_data.get(question_key) != None
-                and form_data.get(question_key).isdigit()
-            ):
-                total_environment_score += int(form_data.get(question_key, 0))
+            value = form_data.get(question_key)
+            if value is not None:
+                if isinstance(value, int) or (
+                    isinstance(value, str) and value.isdigit()
+                ):
+                    total_environment_score += int(value)
 
         # Calculate Environment Percentage
         environment_percentage = (total_environment_score / max_environment_score) * 100
@@ -1798,11 +1799,12 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         total_family_score = 0
 
         for question_key in family_questions:
-            if (
-                form_data.get(question_key) != None
-                and form_data.get(question_key).isdigit()
-            ):
-                total_family_score += int(form_data.get(question_key, 0))
+            value = form_data.get(question_key)
+            if value is not None:
+                if isinstance(value, int):
+                    total_family_score += value
+                elif isinstance(value, str) and value.isdigit():
+                    total_family_score += int(value)
 
         # Calculate family Percentage
         family_percentage = (total_family_score / max_family_score) * 100
@@ -1929,11 +1931,12 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         total_health_score = 0
 
         for question_key in health_questions:
-            if (
-                form_data.get(question_key) != None
-                and form_data.get(question_key).isdigit()
-            ):
-                total_health_score += int(form_data.get(question_key, 0))
+            value = form_data.get(question_key)
+            if value is not None:
+                if isinstance(value, int):
+                    total_health_score += value
+                elif isinstance(value, str) and value.isdigit():
+                    total_health_score += int(value)
 
         # Calculate personal Percentage
         health_percentage = (total_health_score / max_health_score) * 100
@@ -1945,11 +1948,12 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         total_personal_score = 0
 
         for question_key in personal_questions:
-            if (
-                form_data.get(question_key) != None
-                and form_data.get(question_key).isdigit()
-            ):
-                total_personal_score += int(form_data.get(question_key, 0))
+            value = form_data.get(question_key)
+            if value is not None:
+                if isinstance(value, int):
+                    total_personal_score += value
+                elif isinstance(value, str) and value.isdigit():
+                    total_personal_score += int(value)
 
         # Calculate personal Percentage
         personal_percentage = (total_personal_score / max_personal_score) * 100
