@@ -320,8 +320,6 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
 
         form_data = {k: (0 if v == "" else v) for k, v in form_data.items()}
 
-        print(form_data)
-
         employee = Employee.objects.get(user=self.request.user)
 
         BessieResponse.objects.filter(employee=employee).delete()
