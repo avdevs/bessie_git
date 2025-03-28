@@ -511,9 +511,18 @@ class Form5(forms.Form):
         required=False,
     )
 
+    # this question scores 3 points for Neither Agree Nor Disagree as an exception
     q37 = forms.ChoiceField(
         label="37. I enjoy my job.",
-        choices=ZERO_ZERO_SIX,
+        choices=[
+            (0, "Strongly Agree"),
+            (1, "Agree"),
+            (2, "Somewhat Agree"),
+            (3, "Neither Agree Nor Disagree"),
+            (4, "Somewhat Disagree"),
+            (5, "Disagree"),
+            (6, "Strongly Disagree"),
+        ],
         widget=forms.RadioSelect,
         required=False,
     )
