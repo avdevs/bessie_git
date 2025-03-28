@@ -2236,6 +2236,8 @@ def user_results(request):
 
     res = read_result(results)
 
+    # TODO: MAKE CAN SEE RESULT FUNCTIONALITY
+
     return render(
         request,
         "bessie/result.html",
@@ -2253,6 +2255,7 @@ def user_results(request):
             "report_text": json.dumps(texts),
             "potential_cost": round(results["potential_cost"]),
             "staff_comment": staff_comment,
+            "can_see_result": False,
         },
     )
 

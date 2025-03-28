@@ -144,7 +144,7 @@ class Form1(forms.Form):
                 <li>I understand that data collected during the project may also contribute to ongoing research and will be processed in accordance with Data Protection law as explained in the Induction pack.</li>\
                 <li>I understand and agree that my words may be quoted in publications, reports, web pages, and other research outputs. I understand that I will not be named in these outputs and there is no risk that I could be identified.</li>\
                 <li>I understand and agree that other authorised researchers may use my data in publications, reports, and other research outputs, only if they agree to preserve the confidentiality of the information as requested in this form.</li></ul></p>",
-        required=False,
+        required=True,
     )
 
 
@@ -344,7 +344,7 @@ class Form4(forms.Form):
         label="19. To what extent are there opportunities to receive incremental pay rises in your workplace.",
         help_text='<div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=[
             (4, "None"),
             (3, "A Small Extent"),
@@ -745,7 +745,7 @@ class Form9(forms.Form):
         help_text='<h3>Your Environment (Continued)</h3>\
                 <div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -769,7 +769,7 @@ class Form9(forms.Form):
         label="63. To what extent have environmental factors as discussed in this section impacted your work life?",
         help_text='<div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -1032,7 +1032,7 @@ class Form13(forms.Form):
         label="96. To what extent have family factors as discussed in this section impacted your home life?",
         help_text='<div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -1256,7 +1256,7 @@ class Form16(forms.Form):
         label="120. To what extent does your mental health condition affect the extent to which you can cope with demands at home?",
         help_text='<div class="frm_likert__heading form-field" id="q120Heading"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -1409,7 +1409,7 @@ class Form18(forms.Form):
         label="135. To what extent have you experienced physical abuse?",
         help_text='<div class="frm_likert__heading form-field" id="q135Heading"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -1612,7 +1612,7 @@ class Form19(forms.Form):
         label="155. To what extent have health factors as discussed in this section impacted your home life?",
         help_text='<div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
@@ -2301,7 +2301,7 @@ class Form27(forms.Form):
         help_text='<h3>Personal (Continued)</h3>\
                 <div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=[
             (4, "None"),
             (3, "A Small Extent"),
@@ -2356,7 +2356,7 @@ class Form27(forms.Form):
         label="224. To what extent have personal factors as discussed in this section impacted your home life?",
         help_text='<div class="frm_likert__heading form-field"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
-				A significant extent</div><div class="frm_likert__column">completely</div></div></div>',
+				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
         choices=ZERO_TO_FOUR,
         widget=ExternalLabelRadioSelect(attrs={"class": "inline-radios"}),
         required=False,
