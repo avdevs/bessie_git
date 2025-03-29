@@ -1895,15 +1895,11 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
 
         # physical_health_condition_affecting_work
         physical_health_condition_affecting_work_score = int(form_data.get("q112", 0))
-        max_physical_health_condition_affecting_work_score = 6
+        max_physical_health_condition_affecting_work_score = 4
         physical_health_condition_affecting_work_percentage = (
-            (
-                physical_health_condition_affecting_work_score
-                / max_physical_health_condition_affecting_work_score
-            )
+            physical_health_condition_affecting_work_score
+            / max_physical_health_condition_affecting_work_score
             * 100
-            if max_physical_health_condition_affecting_work_score
-            else 0
         )
         results.physical_health_condition_affecting_work = round(
             physical_health_condition_affecting_work_percentage, 2
