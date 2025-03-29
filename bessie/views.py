@@ -1,4 +1,5 @@
 import json
+import sys
 from django.shortcuts import render, redirect, get_object_or_404
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -346,17 +347,20 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         results = BessieResult(response=response, company=employee.company)
 
         # Example: Environment calculation
-        environment_questions = [f"q{i}" for i in range(2, 66)]  # Questions 1 to 66
+        # Question 1 and 66 are skipped as they are not scored
+        environment_questions = [f"q{i}" for i in range(2, 66)]
+
         max_environment_score = 311
         total_environment_score = 0
 
         for question_key in environment_questions:
             value = form_data.get(question_key)
             if value is not None:
-                if isinstance(value, int) or (
-                    isinstance(value, str) and value.isdigit()
-                ):
-                    total_environment_score += int(value)
+                if isinstance(value, int):
+                    total_environment_score += value
+                elif isinstance(value, str):
+                    if value.isdigit():
+                        total_environment_score += int(value)
 
         # Calculate Environment Percentage
         environment_percentage = (total_environment_score / max_environment_score) * 100
@@ -847,20 +851,18 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Covid calculation
-        covid_score = int(form_data.get("q60", 0))
+        covid_score = int(form_data.get("q60", 0)) + int(form_data.get("q61", 0))
         max_covid_score = 8
-        covid_percentage = (covid_score / max_covid_score) * 100
+        covid_percentage = covid_score / max_covid_score * 100
         results.covid = round(covid_percentage, 2)
 
         # Covid Multiplier calculation
         covid_multiplier_score = covid_score * q63_response
         max_covid_multiplier_score = 32
         covid_multiplier_percentage = (
-            (covid_multiplier_score / max_covid_multiplier_score) * 100
-            if max_covid_multiplier_score
-            else 0
+            covid_multiplier_score / max_covid_multiplier_score * 100
         )
-        results.covid_multiplier = round(covid_percentage, 2)
+        results.covid_multiplier = covid_multiplier_percentage
 
         # Work-Related Stress Impacting personal life calculation
         work_stress_personal_life_score = total_environment_score * q63_response
