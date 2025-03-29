@@ -2011,10 +2011,11 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
                 total_mental_health_score
                 + total_physical_health_score
                 + total_culture_score
-            )
+            ) * q63_response
         else:
             mental_physical_culture_multiplier_score = 0
         max_mental_physical_culture_multiplier_score = 328
+
         mental_physical_culture_multiplier_percentage = (
             (
                 mental_physical_culture_multiplier_score
