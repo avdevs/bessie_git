@@ -1972,16 +1972,17 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
             )
         else:
             mental_physical_absence_from_work_score = 0
-        max_mental_physical_absence_from_work_score = 89
+        max_mental_physical_absence_from_work_score = 76
         mental_physical_absence_from_work_percentage = (
             (
                 mental_physical_absence_from_work_score
                 / max_mental_physical_absence_from_work_score
+                * 100
             )
-            * 100
-            if max_mental_physical_absence_from_work_score
+            if max_mental_physical_absence_from_work_score > 0
             else 0
         )
+
         results.mental_and_physical_health_and_absence_from_work = round(
             mental_physical_absence_from_work_percentage, 2
         )
