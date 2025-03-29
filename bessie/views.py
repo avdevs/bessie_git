@@ -2105,9 +2105,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and management support
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_management_support_score = (
-                pregnancy_impact_score + total_management_support_score
+                total_fertility_score + total_management_support_score
             )
         else:
             pregnancy_management_support_score = 0
