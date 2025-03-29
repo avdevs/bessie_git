@@ -27,7 +27,11 @@
                 <form action="" method="post">{% csrf_token %}
                     <div class="forms-nav"></div>
                     {% for step in wizard.steps.all %}
+                      {% if step == wizard.steps.current %}
+                        <button class="nav-btn current-step" disabled style="transform: scale(1.6); margin: 0 10px 0 10px; cursor: default; background-color: cornflowerblue;">{{ step|add:1 }}</button>
+                      {% else %}
                         <button class="nav-btn" name="wizard_goto_step" type="submit" value="{{ step }}">{{ step|add:1 }}</button>
+                      {% endif %}
                     {% endfor %}
                 </div>
                 <table>
@@ -42,7 +46,7 @@
                 {% endif %}
                 </table>
                 {% if wizard.steps.prev %}
-                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "previous" %}</button>
+                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "Previous" %}</button>
                 {% endif %}
                 {% if wizard.steps.next %}
                 <input type="submit" value="{% translate "Next" %}"/>

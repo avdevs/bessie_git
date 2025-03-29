@@ -1,4 +1,5 @@
 import json
+import sys
 from django.shortcuts import render, redirect, get_object_or_404
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -346,17 +347,20 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         results = BessieResult(response=response, company=employee.company)
 
         # Example: Environment calculation
-        environment_questions = [f"q{i}" for i in range(2, 66)]  # Questions 1 to 66
+        # Question 1 and 66 are skipped as they are not scored
+        environment_questions = [f"q{i}" for i in range(2, 66)]
+
         max_environment_score = 311
         total_environment_score = 0
 
         for question_key in environment_questions:
             value = form_data.get(question_key)
             if value is not None:
-                if isinstance(value, int) or (
-                    isinstance(value, str) and value.isdigit()
-                ):
-                    total_environment_score += int(value)
+                if isinstance(value, int):
+                    total_environment_score += value
+                elif isinstance(value, str):
+                    if value.isdigit():
+                        total_environment_score += int(value)
 
         # Calculate Environment Percentage
         environment_percentage = (total_environment_score / max_environment_score) * 100
@@ -847,20 +851,18 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Covid calculation
-        covid_score = int(form_data.get("q60", 0))
+        covid_score = int(form_data.get("q60", 0)) + int(form_data.get("q61", 0))
         max_covid_score = 8
-        covid_percentage = (covid_score / max_covid_score) * 100
+        covid_percentage = covid_score / max_covid_score * 100
         results.covid = round(covid_percentage, 2)
 
         # Covid Multiplier calculation
         covid_multiplier_score = covid_score * q63_response
         max_covid_multiplier_score = 32
         covid_multiplier_percentage = (
-            (covid_multiplier_score / max_covid_multiplier_score) * 100
-            if max_covid_multiplier_score
-            else 0
+            covid_multiplier_score / max_covid_multiplier_score * 100
         )
-        results.covid_multiplier = round(covid_percentage, 2)
+        results.covid_multiplier = covid_multiplier_percentage
 
         # Work-Related Stress Impacting personal life calculation
         work_stress_personal_life_score = total_environment_score * q63_response
@@ -1893,15 +1895,11 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
 
         # physical_health_condition_affecting_work
         physical_health_condition_affecting_work_score = int(form_data.get("q112", 0))
-        max_physical_health_condition_affecting_work_score = 6
+        max_physical_health_condition_affecting_work_score = 4
         physical_health_condition_affecting_work_percentage = (
-            (
-                physical_health_condition_affecting_work_score
-                / max_physical_health_condition_affecting_work_score
-            )
+            physical_health_condition_affecting_work_score
+            / max_physical_health_condition_affecting_work_score
             * 100
-            if max_physical_health_condition_affecting_work_score
-            else 0
         )
         results.physical_health_condition_affecting_work = round(
             physical_health_condition_affecting_work_percentage, 2
@@ -1974,16 +1972,17 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
             )
         else:
             mental_physical_absence_from_work_score = 0
-        max_mental_physical_absence_from_work_score = 89
+        max_mental_physical_absence_from_work_score = 76
         mental_physical_absence_from_work_percentage = (
             (
                 mental_physical_absence_from_work_score
                 / max_mental_physical_absence_from_work_score
+                * 100
             )
-            * 100
-            if max_mental_physical_absence_from_work_score
+            if max_mental_physical_absence_from_work_score > 0
             else 0
         )
+
         results.mental_and_physical_health_and_absence_from_work = round(
             mental_physical_absence_from_work_percentage, 2
         )
@@ -2012,10 +2011,11 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
                 total_mental_health_score
                 + total_physical_health_score
                 + total_culture_score
-            )
+            ) * q63_response
         else:
             mental_physical_culture_multiplier_score = 0
         max_mental_physical_culture_multiplier_score = 328
+
         mental_physical_culture_multiplier_percentage = (
             (
                 mental_physical_culture_multiplier_score
@@ -2105,9 +2105,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and management support
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_management_support_score = (
-                pregnancy_impact_score + total_management_support_score
+                total_fertility_score + total_management_support_score
             )
         else:
             pregnancy_management_support_score = 0
@@ -2126,9 +2126,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and physical health
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_physical_health_score = (
-                pregnancy_impact_score + total_physical_health_score
+                total_fertility_score + total_physical_health_score
             )
         else:
             pregnancy_physical_health_score = 0
@@ -2144,9 +2144,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and mental health
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_mental_health_score = (
-                pregnancy_impact_score + total_mental_health_score
+                total_fertility_score + total_mental_health_score
             )
         else:
             pregnancy_mental_health_score = 0
@@ -2236,6 +2236,8 @@ def user_results(request):
 
     res = read_result(results)
 
+    # TODO: MAKE CAN SEE RESULT FUNCTIONALITY
+
     return render(
         request,
         "bessie/result.html",
@@ -2253,6 +2255,7 @@ def user_results(request):
             "report_text": json.dumps(texts),
             "potential_cost": round(results["potential_cost"]),
             "staff_comment": staff_comment,
+            "can_see_result": False,
         },
     )
 
