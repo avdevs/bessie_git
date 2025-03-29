@@ -2126,9 +2126,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and physical health
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_physical_health_score = (
-                pregnancy_impact_score + total_physical_health_score
+                total_fertility_score + total_physical_health_score
             )
         else:
             pregnancy_physical_health_score = 0
