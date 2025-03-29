@@ -2144,9 +2144,9 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         )
 
         # Pregnancy and mental health
-        if pregnancy_impact_score > 0:
+        if total_fertility_score > 0:
             pregnancy_mental_health_score = (
-                pregnancy_impact_score + total_mental_health_score
+                total_fertility_score + total_mental_health_score
             )
         else:
             pregnancy_mental_health_score = 0
