@@ -1457,16 +1457,6 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
             wellbeing_management_support_percentage, 2
         )
 
-        # Personal Multiplier calculation
-        personal_multiplier_score = total_personal_relationships_score * q225_response
-        max_personal_multiplier_score = 952
-        personal_multiplier_percentage = (
-            (personal_multiplier_score / max_personal_multiplier_score) * 100
-            if max_personal_multiplier_score
-            else 0
-        )
-        results.personal_multiplier = round(personal_multiplier_percentage, 2)
-
         # Mental and Physical Health and Absence calculation
         if mental_physical_health_score > 0:
             mental_physical_absence_score = (
@@ -1939,7 +1929,7 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         results.health = round(health_percentage, 2)
 
         # Personal
-        personal_questions = [f"q{i}" for i in range(160, 228)]  # Questions 1 to 66
+        personal_questions = [f"q{i}" for i in range(160, 228)]  # Questions 160 to 228
         max_personal_score = 238
         total_personal_score = 0
 
@@ -1954,6 +1944,16 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         # Calculate personal Percentage
         personal_percentage = (total_personal_score / max_personal_score) * 100
         results.personal = round(personal_percentage, 2)
+
+        # Personal Multiplier calculation
+        personal_multiplier_score = total_personal_score * q225_response
+        max_personal_multiplier_score = 952
+        personal_multiplier_percentage = (
+            (personal_multiplier_score / max_personal_multiplier_score) * 100
+            if max_personal_multiplier_score
+            else 0
+        )
+        results.personal_multiplier = round(personal_multiplier_percentage, 2)
 
         # Hobbies
         hobbies_score = int(form_data.get("q188", 0))
