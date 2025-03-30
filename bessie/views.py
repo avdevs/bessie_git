@@ -2183,7 +2183,7 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
 
         # Training multiplier
         training_multiplier_score = total_training_score * q63_response
-        max_training_multiplier_score = 70
+        max_training_multiplier_score = 72
         training_multiplier_percentage = (
             (training_multiplier_score / max_training_multiplier_score) * 100
             if max_training_multiplier_score
