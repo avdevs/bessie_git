@@ -106,6 +106,7 @@
 
 <div class="section">
   <h2 class="section-title">Company results</h2>
+  {% if company.results_visible %}
   {% if results_ready %}
   <div>
     <a href="{% url 'company_results' company.id %}">View results</a>
@@ -121,6 +122,10 @@
   {% else %}
   <p>Cummulative results not ready. Some employees have not submitted their responses</p>
   {% endif %}
+  {% else %}
+  <p>Your results are not ready yet. You will be notified when you can view the results.</p>
+  {% endif %}
+
 </div>
 
 <!-- Employees Section -->

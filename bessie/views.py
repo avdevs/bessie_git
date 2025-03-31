@@ -238,6 +238,18 @@ def companyDetail(request, id):
     )
 
 
+def toggle_company_results_visible(request, id):
+    company = get_object_or_404(Company, pk=id)
+    if request.method == "POST":
+        # Toggle the results_visible field
+        company.results_visible = not company.results_visible
+        company.save()
+
+        messages.success(request, "Results enabled successfully.")
+
+    return redirect("company", id=company.id)
+
+
 from .models import WizardState
 from .utils import calc_potential_cost
 
@@ -2236,8 +2248,6 @@ def user_results(request):
 
     res = read_result(results)
 
-    # TODO: MAKE CAN SEE RESULT FUNCTIONALITY
-
     return render(
         request,
         "bessie/result.html",
@@ -2255,7 +2265,7 @@ def user_results(request):
             "report_text": json.dumps(texts),
             "potential_cost": round(results["potential_cost"]),
             "staff_comment": staff_comment,
-            "can_see_result": False,
+            "can_see_result": employee.company.results_visible,
         },
     )
 

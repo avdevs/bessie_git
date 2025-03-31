@@ -11,6 +11,7 @@ class Company(models.Model):
     survey_start_date = models.DateField()
     survey_completion_date = models.DateField()
     strategy_meeting_date = models.DateField()
+    results_visible = models.BooleanField(default=False)
     induction_video = models.FileField(upload_to="videos/", null=True, blank=True)
     results_video = models.FileField(upload_to="videos/", null=True, blank=True)
 
