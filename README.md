@@ -54,3 +54,23 @@ Currently this will install 3 packages:
 - gulp - a task runner that will run 2 below packages,
 - gulp-sass - Sass to CSS compiler
 - browser-sync - a package that can refresh browser when you make project changes
+
+#DEPLOY
+bessie.repo is git repository created on the server like so
+```
+git init --bare
+```
+This creates minified version of git version control
+
+Every git repository has so called hooks, and this one has post-receive hook setup in bessie.repo/hooks
+
+Then add a remote to your local repo and push to it
+```
+git remote add PRODUCTION ubuntu@bessie:/home/ubuntu/bessie.repo
+git push PRODUCTION PRODUCTION
+```
+
+# REDEPLOY
+```
+git push PRODUCTION PRODUCTION
+```
