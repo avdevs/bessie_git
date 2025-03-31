@@ -54,3 +54,13 @@ Currently this will install 3 packages:
 - gulp - a task runner that will run 2 below packages,
 - gulp-sass - Sass to CSS compiler
 - browser-sync - a package that can refresh browser when you make project changes
+
+# REDEPLOY
+First add a remote
+```
+git remote add PRODUCTION ubuntu@bessie:/home/ubuntu/bessie.repo
+```
+Then simply push to the remote
+```
+git push PRODUCTION PRODUCTION
+```
