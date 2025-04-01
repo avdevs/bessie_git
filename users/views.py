@@ -19,6 +19,11 @@ import io
 from django.core.mail import EmailMultiAlternatives, get_connection
 from django.db import IntegrityError
 
+import os
+from pathlib import Path
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 def inviteUsers(request):
     comp_admin = CompanyAdmin.objects.get(user=request.user)
     company = comp_admin.company
@@ -85,7 +90,7 @@ def inviteUsers(request):
                     email = EmailMultiAlternatives(
                         subject=subject,
                         body=plain_message,
-                        from_email='no-reply@bessietech.com',
+                        from_email=os.getenv("EMAILFROM"),
                         to=[data[2]]
                     )
                     email.attach_alternative(html_message, "text/html")

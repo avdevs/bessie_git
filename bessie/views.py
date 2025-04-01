@@ -16,6 +16,11 @@ from django.contrib import messages
 import csv
 from django.http import HttpResponse
 
+import os
+from pathlib import Path
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 
 def index(request):
     match request.user.user_type:
@@ -144,7 +149,7 @@ class CompanyFormView(FormView):
         send_mail(
             subject=subject,
             message=plain_message,
-            from_email="no-reply@bessietech.com",
+            from_email=os.getenv("EMAILFROM"),
             recipient_list=[form.cleaned_data["email"]],
             html_message=html_message,
         )
@@ -200,7 +205,7 @@ def inviteAdmin(request):
             send_mail(
                 subject=subject,
                 message=plain_message,
-                from_email="no-reply@bessietech.com",
+                from_email=os.getenv("EMAILFROM"),
                 recipient_list=[form.cleaned_data["email"]],
                 html_message=html_message,
             )
