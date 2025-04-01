@@ -7,6 +7,11 @@ from django.db import models
 import secrets
 import string
 
+import os
+from pathlib import Path
+from os.path import join, dirname
+from dotenv import load_dotenv
+
 class UserManager(BaseUserManager):
     """
     Defines how the User(or the model to which attached)
@@ -181,7 +186,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         self,
         subject, 
         message,
-        from_email=None, 
+        from_email=os.getenv("EMAILFROM"), 
         **kwargs):
         """Email this user."""
         send_mail(
