@@ -149,7 +149,7 @@ class CompanyFormView(FormView):
         send_mail(
             subject=subject,
             message=plain_message,
-            from_email=os.getenv("EMAILFROM"),
+            from_email=None,
             recipient_list=[form.cleaned_data["email"]],
             html_message=html_message,
         )
@@ -205,7 +205,7 @@ def inviteAdmin(request):
             send_mail(
                 subject=subject,
                 message=plain_message,
-                from_email=os.getenv("EMAILFROM"),
+                from_email=None,
                 recipient_list=[form.cleaned_data["email"]],
                 html_message=html_message,
             )

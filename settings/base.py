@@ -30,7 +30,6 @@ EMAILHOST = os.getenv("EMAILHOST")
 EMAILPORT = os.getenv("EMAILPORT")
 EMAILUSER = os.getenv("EMAILUSER")
 EMAILPASSWORD = os.getenv("EMAILPASSWORD")
-SERVEREMAIL = os.getenv("EMAILFROM")
 
 # Database... If postgresql envs are not set, use sqlite3
 if DBHOST and DBPORT and DBNAME and DBUSER and DBPASS:
@@ -58,7 +57,8 @@ EMAIL_HOST = EMAILHOST
 EMAIL_PORT = EMAILPORT
 EMAIL_HOST_USER = EMAILUSER
 EMAIL_HOST_PASSWORD = EMAILPASSWORD
-SERVER_EMAIL = SERVEREMAIL
+DEFAULT_FROM_EMAIL = "no-reply@bessiestressriskassessment.com"
+SERVER_EMAIL = "no-reply@bessiestressriskassessment.com"
 
 
 # Application definition
