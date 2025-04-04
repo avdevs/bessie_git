@@ -5,7 +5,14 @@ from formtools.wizard.views import SessionWizardView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.safestring import mark_safe
 from django.contrib.auth.decorators import login_required
-from .models import BessieResponse, BessieResult, Employee, CompanyAdmin, Company
+from .models import (
+    BessieResponse,
+    BessieResult,
+    CompanyRiskSummary,
+    Employee,
+    CompanyAdmin,
+    Company,
+)
 from django.core.paginator import Paginator
 from users.forms import BulkUserInviteForm
 from .forms import AdminInviteForm, CompanyForm
@@ -2394,9 +2401,152 @@ def calculate_stress_load(factors):
     return round(stress_load, 2)  # Return rounded percentage
 
 
-def view_company_results(request, id):
+from .forms import (
+    StressAndWellbeingRiskForm,
+    WorkplaceStressRiskForm,
+    PresenteeismRiskForm,
+    WiderRisksForm,
+)
 
+
+def view_company_results(request, id):
     team = request.GET.get("team")
+    company = Company.objects.get(pk=id)
+    risk_summary, created = CompanyRiskSummary.objects.get_or_create(company=company)
+
+    stress_and_wellbeing_form = StressAndWellbeingRiskForm(
+        initial={
+            "stress_and_wellbeing_risk_level": risk_summary.stress_and_wellbeing_risk_level,
+            "stress_and_wellbeing_risk_in_place": risk_summary.stress_and_wellbeing_in_place,
+            "stress_and_wellbeing_risk_recommendations": risk_summary.stress_and_wellbeing_recommendations,
+            "stress_and_wellbeing_risk_date": risk_summary.stress_and_wellbeing_risk_date,
+        }
+    )
+
+    workplace_stress_form = WorkplaceStressRiskForm(
+        initial={
+            "workplace_stress_risk_level": risk_summary.workplace_stress_risk_level,
+            "workplace_stress_in_place": risk_summary.workplace_stress_in_place,
+            "workplace_stress_recommendations": risk_summary.workplace_stress_recommendations,
+            "workplace_stress_risk_date": risk_summary.workplace_stress_risk_date,
+        }
+    )
+
+    presenteeism_form = PresenteeismRiskForm(
+        initial={
+            "presenteeism_risk_level": risk_summary.presenteeism_risk_level,
+            "presenteeism_in_place": risk_summary.presenteeism_in_place,
+            "presenteeism_recommendations": risk_summary.presenteeism_recommendations,
+            "presenteeism_risk_date": risk_summary.presenteeism_risk_date,
+        }
+    )
+
+    wider_risks_form = WiderRisksForm(
+        initial={
+            "wider_risks_risk_level": risk_summary.wider_risks_risk_level,
+            "wider_risks_in_place": risk_summary.wider_risks_in_place,
+            "wider_risks_recommendations": risk_summary.wider_risks_recommendations,
+            "wider_risks_risk_date": risk_summary.wider_risks_risk_date,
+        }
+    )
+
+    if request.method == "POST":
+        form_type = request.POST.get("form_type")
+
+        print("FORM TYPE", form_type)
+
+        if form_type == "stress_and_wellbeing_form":
+            form = StressAndWellbeingRiskForm(request.POST)
+            if form.is_valid():
+                risk_summary.stress_and_wellbeing_risk_level = form.cleaned_data[
+                    "stress_and_wellbeing_risk_level"
+                ]
+                risk_summary.stress_and_wellbeing_in_place = form.cleaned_data[
+                    "stress_and_wellbeing_risk_in_place"
+                ]
+                risk_summary.stress_and_wellbeing_recommendations = form.cleaned_data[
+                    "stress_and_wellbeing_risk_recommendations"
+                ]
+                risk_summary.stress_and_wellbeing_risk_date = form.cleaned_data[
+                    "stress_and_wellbeing_risk_date"
+                ]
+                risk_summary.save()
+
+                messages.success(
+                    request, "Stress and wellbeing summary updated successfully."
+                )
+                return redirect("company_results", id=id)
+            else:
+                print("FORM INVALID", form.errors)
+                stress_and_wellbeing_form = form
+
+        elif form_type == "workplace_stress_form":
+            form = WorkplaceStressRiskForm(request.POST)
+            if form.is_valid():
+                risk_summary.workplace_stress_risk_level = form.cleaned_data[
+                    "workplace_stress_risk_level"
+                ]
+                risk_summary.workplace_stress_in_place = form.cleaned_data[
+                    "workplace_stress_in_place"
+                ]
+                risk_summary.workplace_stress_recommendations = form.cleaned_data[
+                    "workplace_stress_recommendations"
+                ]
+                risk_summary.workplace_stress_risk_date = form.cleaned_data[
+                    "workplace_stress_risk_date"
+                ]
+                risk_summary.save()
+
+                messages.success(
+                    request, "Workplace stress summary updated successfully."
+                )
+                return redirect("company_results", id=id)
+            else:
+                workplace_stress_form = form
+
+        elif form_type == "presenteeism_form":
+            form = PresenteeismRiskForm(request.POST)
+            if form.is_valid():
+                risk_summary.presenteeism_risk_level = form.cleaned_data[
+                    "presenteeism_risk_level"
+                ]
+                risk_summary.presenteeism_in_place = form.cleaned_data[
+                    "presenteeism_in_place"
+                ]
+                risk_summary.presenteeism_recommendations = form.cleaned_data[
+                    "presenteeism_recommendations"
+                ]
+                risk_summary.presenteeism_risk_date = form.cleaned_data[
+                    "presenteeism_risk_date"
+                ]
+                risk_summary.save()
+
+                messages.success(request, "Presenteeism summary updated successfully.")
+                return redirect("company_results", id=id)
+            else:
+                presenteeism_form = form
+
+        elif form_type == "wider_risks_form":
+            form = WiderRisksForm(request.POST)
+            if form.is_valid():
+                risk_summary.wider_risks_risk_level = form.cleaned_data[
+                    "wider_risks_risk_level"
+                ]
+                risk_summary.wider_risks_in_place = form.cleaned_data[
+                    "wider_risks_in_place"
+                ]
+                risk_summary.wider_risks_recommendations = form.cleaned_data[
+                    "wider_risks_recommendations"
+                ]
+                risk_summary.wider_risks_risk_date = form.cleaned_data[
+                    "wider_risks_risk_date"
+                ]
+                risk_summary.save()
+
+                messages.success(request, "Wider risks summary updated successfully.")
+                return redirect("company_results", id=id)
+            else:
+                wider_risks_form = form
 
     query = Q(company_id=id)
     if team:
@@ -2637,6 +2787,10 @@ def view_company_results(request, id):
             "family_stressload": family_stressload,
             "personal_stressload": personal_stressload,
             "potential_cost": round(result["potential_cost"]),
+            "stress_and_wellbeing_form": stress_and_wellbeing_form,
+            "workplace_stress_form": workplace_stress_form,
+            "presenteeism_form": presenteeism_form,
+            "wider_risks_form": wider_risks_form,
         },
     )
 
