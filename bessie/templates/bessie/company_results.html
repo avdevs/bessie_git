@@ -169,7 +169,6 @@
       <button class="tab-btn" data-tab="tab3">Workplace stress</button>
       <button class="tab-btn" data-tab="tab4">Presenteeism</button>
       <button class="tab-btn" data-tab="tab5">Wider Risks</button>
-      <button class="tab-btn" data-tab="tab6">Confirm</button>
     </div>
 
     <div class="switch-tab-content">
@@ -719,6 +718,9 @@
           </div>
         </div>
         <div>
+          <h2 style="margin-top: 50px;">Potential cost to organisation: &pound;{{ potential_cost }}</h2>
+        </div>
+        <div>
           <h3>Presenteeism summary</h3>
           <form method="post" id="presenteeism_form" class="summary-report-wrapper">
             {% csrf_token %}
@@ -754,8 +756,14 @@
       </div>
 
       <div id="tab5" class="tab-panel">
-        <!-- TODO: BRING IN WIDER RISKS SECTION -->
-        <div>
+        <div class="risk-report">
+          <div class="chart-card">
+            <div style="display: flex; align-items: center;">
+              <img src="{% static 'images/WRIcon.png' %}" alt="widerRisksFactors">
+              <h3>Wider Risks</h3>
+            </div>
+            <div style="width: 100%; margin: auto;"><canvas id="widerRisksFactors"></canvas></div>
+          </div>
         </div>
         <div>
           <h3>Wider Risks summary</h3>
@@ -791,81 +799,6 @@
           </form>
         </div>
       </div>
-
-      <div id="tab6" class="tab-panel">
-        <div>
-          <h2 style="margin-top: 50px;">Potential cost to organisation: &pound;{{ potential_cost }}</h2>
-          {% if staff_comment %}
-          <h3>Staff Comment</h3>
-          <p>{{staff_comment}}</p>
-          <br />
-          {% endif %}
-        </div>
-        {% if request.user.is_staff %}
-
-        User text responses:
-        {% if responses.q1 != '' %}
-        <p>1. Please tell us the first part of your postcode (e.g., ST1): <strong>{{ response.q1 }}</strong></p>
-        {% endif %}
-        {% if responses.q14 != '' %}
-        <p>14. What is your job title?: <strong>{{ response.q14 }}</strong></p>
-        {% endif %}
-        {% if responses.q45 != '' %}
-        <p>45. Please suggest any potential barriers stopping others from consulting you? (Please indicate if unsure):
-          <strong>{{ response.q45 }}</strong>
-        </p>
-        {% endif %}
-        {% if responses.q66 != '' %}
-        <p>66. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-          <strong>{{ response.q66 }}</strong>
-        </p>
-        {% endif %}
-        {% if responses.q74 != '' %}
-        <p>74. If other, please explain your living situation: <strong>{{ response.q74 }}</strong> </p>
-        {% endif %}
-        {% if responses.q100 != '' %}
-        <p>100. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-          <strong>{{ response.q100 }}</strong>
-        </p>
-        {% endif %}
-        {% if responses.q154 != '' %}
-        <p>154. If other, please tell us what neurodivergent characteristics apply to you: <strong>{{ response.q154
-            }}</strong></p>
-        {% endif %}
-        {% if responses.q159 != '' %}
-        <p>159. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-          <strong>{{ response.q159 }}</strong>
-        </p>
-        {% endif %}
-        {% if responses.q167 != '' %}
-        <p>167. Please state what your nationality is: <strong>{{ response.q167 }}</strong></p>
-        {% endif %}
-        {% if responses.q168 != '' %}
-        <p>168. Please state your ethnicity: <strong>{{ response.q168 }}</strong></p>
-        {% endif %}
-        {% if responses.q176 != '' %}
-        <p>176. If other, please state the type(s) of discrimination you face: <strong>{{ response.q176 }}</strong></p>
-        {% endif %}
-        {% if responses.q228 != '' %}
-        <p>228. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-          <strong>{{ response.q228 }}</strong>
-        </p>
-        {% endif %}
-
-        <div>
-          <h3>Add comments form</h3>
-          <form method="post">
-            {% csrf_token %}
-            <div class="form-group">
-              <label for="comment">Comment:</label>
-              <textarea id="comment" name="comment" rows="4" cols="100" class="form-control"
-                placeholder="Enter your comment here"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-        {% endif %}
-      </div>
     </div>
   </div>
 
@@ -896,7 +829,8 @@
   let personalFactorsStats = {{ personal_factors_stats| safe }};
   let healthFactorsStats = {{ health_factors_stats| safe }};
   let reportText = {{ report_text| safe }};
-</script>
+  let widerRisksFactors = {{ wider_risks_factors| safe }};
+
 </script>
 {% load static %}
 <script>

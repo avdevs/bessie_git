@@ -31,27 +31,58 @@
     data.add(element);
   });
 
+  // sort data alphabetically
+  // data = [...data].sort((a, b) => a.attr.localeCompare(b.attr));
+
+  // console.log(data);
+
   workplaceStressFactors = workplaceStressFactors.sort((a, b) => b.val - a.val);
   presenteeismFactors = presenteeismFactors.sort((a, b) => b.val - a.val);
   stressAndWellbeing = stressAndWellbeing.sort((a, b) => b.val - a.val);
   environmentFactors = environmentFactors.sort((a, b) => b.val - a.val);
   healthFactors = healthFactors.sort((a, b) => b.val - a.val);
-  personalFactors = personalFactors.sort((a, b) => b.val - a.val);
   familyFactors = familyFactors.sort((a, b) => b.val - a.val);
+  widerRisksFactors = widerRisksFactors.sort((a, b) => b.val - a.val);
 
   let external = new Set();
 
-  personalFactors.forEach((element) => {
-    external.add(element);
-  });
-  healthFactors.forEach((element) => {
-    external.add(element);
-  });
-  familyFactors.forEach((element) => {
-    external.add(element);
-  });
-  environmentFactors.forEach((element) => {
-    external.add(element);
+  const externalFactors = [
+    "emotional_distress",
+    "work_commitments_as_a_barrier_for_holidays",
+    "carer",
+    "emotional_distress_multiplier",
+    "pay",
+    "responsibility_for_family",
+    "emotional_health",
+    "holidays_and_pay",
+    "travel_to_work",
+    "emotional_health_multiplier",
+    "holidays",
+    "responsibility_of_children",
+    "complexity",
+    "family",
+    "complexity_plus_training",
+    "covid",
+    "personal_finances_and_responsibility_for_children",
+    "responsibility_for_children_multiplier",
+    "family_multiplier",
+    "personal",
+    "consultation",
+    "fertility_and_pregnancy_impacting_work",
+    "financial_position_as_a_barrier_for_holidays",
+    "personal_finances",
+    "personal_satisfaction",
+    "team_morale",
+    "training",
+    "wider_team_support",
+    "willingness_to_progress",
+    "work_breaks",
+  ];
+
+  data.forEach((row) => {
+    if (externalFactors.includes(row.attr)) {
+      external.add(row);
+    }
   });
 
   new Chart(document.getElementById("swSummary"), {
@@ -555,7 +586,6 @@
       tabs: stressAndWbText,
       init() {
         this.activeTab = "overview";
-        console.log(this.tabs);
       },
     }));
 
@@ -739,6 +769,31 @@
           label: "Personal Factors",
           data: personalFactors.map((row) => row.val),
           backgroundColor: personalFactors
+            .map((row) => row.val)
+            .map((value) => getBarColor(value)),
+          borderWidth: 1,
+        },
+      ],
+    },
+  });
+
+  new Chart(document.getElementById("widerRisksFactors"), {
+    type: "bar",
+    options: {
+      indexAxis: "y",
+      scales: {
+        y: {
+          max: 100,
+        },
+      },
+    },
+    data: {
+      labels: widerRisksFactors.map((row) => formatText(row.attr)),
+      datasets: [
+        {
+          label: "Wider Risks Factors",
+          data: widerRisksFactors.map((row) => row.val),
+          backgroundColor: widerRisksFactors
             .map((row) => row.val)
             .map((value) => getBarColor(value)),
           borderWidth: 1,
