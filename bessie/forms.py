@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.safestring import mark_safe
 
+from bessie.models import CompanyRiskSummary
+
 ZERO_TO_SIX = [
     (0, "Strongly Agree"),
     (1, "Agree"),
@@ -2463,4 +2465,88 @@ class AdminInviteForm(forms.Form):
     email = forms.CharField(
         max_length=256,
         widget=forms.EmailInput(attrs={"placeholder": "Enter email address"}),
+    )
+
+
+class StressAndWellbeingRiskForm(forms.Form):
+    stress_and_wellbeing_risk_level = forms.ChoiceField(
+        choices=[
+            ("", "Select Risk Level"),
+            ("Low", "Low"),
+            ("Medium", "Medium"),
+            ("High", "High"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    stress_and_wellbeing_risk_in_place = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "In place now"}),
+    )
+    stress_and_wellbeing_risk_recommendations = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+    )
+    stress_and_wellbeing_risk_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+    )
+
+
+class WorkplaceStressRiskForm(forms.Form):
+    workplace_stress_risk_level = forms.ChoiceField(
+        choices=[
+            ("", "Select Risk Level"),
+            ("Low", "Low"),
+            ("Medium", "Medium"),
+            ("High", "High"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    workplace_stress_in_place = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "In place now"}),
+    )
+    workplace_stress_recommendations = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+    )
+    workplace_stress_risk_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+    )
+
+
+class PresenteeismRiskForm(forms.Form):
+    presenteeism_risk_level = forms.ChoiceField(
+        choices=[
+            ("", "Select Risk Level"),
+            ("Low", "Low"),
+            ("Medium", "Medium"),
+            ("High", "High"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    presenteeism_in_place = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "In place now"}),
+    )
+    presenteeism_recommendations = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+    )
+    presenteeism_risk_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+    )
+
+
+class WiderRisksForm(forms.Form):
+    wider_risks_risk_level = forms.ChoiceField(
+        choices=[
+            ("", "Select Risk Level"),
+            ("Low", "Low"),
+            ("Medium", "Medium"),
+            ("High", "High"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    wider_risks_in_place = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "In place now"}),
+    )
+    wider_risks_recommendations = forms.CharField(
+        widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+    )
+    wider_risks_risk_date = forms.DateField(
+        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
     )
