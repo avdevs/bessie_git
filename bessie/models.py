@@ -74,34 +74,56 @@ class CompanyRiskSummary(models.Model):
     stress_and_wellbeing_risk_level = models.CharField(
         max_length=10,
         choices=RISK_LEVELS,
-        default="low",
+        blank=True,
+        null=True,
     )
     stress_and_wellbeing_in_place = models.TextField()
-    stress_and_wellbeing_recommendations = models.TextField()
+    stress_and_wellbeing_recommendations = models.TextField(
+        blank=True,
+        null=True,
+    )
     stress_and_wellbeing_risk_date = models.DateField(null=True, blank=True)
+
     workplace_stress_risk_level = models.CharField(
         max_length=10,
         choices=RISK_LEVELS,
         default="low",
+        blank=True,
+        null=True,
     )
     workplace_stress_in_place = models.TextField()
-    workplace_stress_recommendations = models.TextField()
+    workplace_stress_recommendations = models.TextField(
+        blank=True,
+        null=True,
+    )
     workplace_stress_risk_date = models.DateField(null=True, blank=True)
+
     presenteeism_risk_level = models.CharField(
         max_length=10,
         choices=RISK_LEVELS,
         default="low",
+        blank=True,
+        null=True,
     )
     presenteeism_in_place = models.TextField()
-    presenteeism_recommendations = models.TextField()
+    presenteeism_recommendations = models.TextField(
+        blank=True,
+        null=True,
+    )
     presenteeism_risk_date = models.DateField(null=True, blank=True)
+
     wider_risks_risk_level = models.CharField(
         max_length=10,
         choices=RISK_LEVELS,
         default="low",
+        blank=True,
+        null=True,
     )
     wider_risks_in_place = models.TextField()
-    wider_risks_recommendations = models.TextField()
+    wider_risks_recommendations = models.TextField(
+        blank=True,
+        null=True,
+    )
     wider_risks_risk_date = models.DateField(null=True, blank=True)
 
     def __str__(self):

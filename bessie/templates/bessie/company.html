@@ -4,14 +4,15 @@
 <div class="section">
   <h2 class="section-title">Company Metrics</h2>
   <div class="metrics-grid">
-    <div class="metric-card">
+    <!-- TODO: check the comment to this section in comp_admin_home.html -->
+    <!-- <div class="metric-card">
       <div class="metric-title">Slots Available</div>
       <div class="metric-value">{{ available_slots }}</div>
     </div>
     <div class="metric-card">
       <div class="metric-title">Slots Used</div>
       <div class="metric-value">{{ company.used_slots }}</div>
-    </div>
+    </div> -->
     <div class="metric-card">
       <div class="metric-title">Quizzes Taken</div>
       <div class="metric-value">{{ quizzes }}</div>
@@ -19,33 +20,37 @@
   </div>
 </div>
 
-<!-- Admins Section -->
 <div class="section">
-  <h2 class="section-title">Company Administrators</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in company_admins %}
-      <tr>
-        <td>{{ item.user.first_name }}</td>
-        <td>{{ item.user.last_name }}</td>
-        <td>{{ item.user.email }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h2 class="section-title">Invite Employees</h2>
+  <p>Download the csv file sample below, enter employee details and reupload it.</p>
+  <p>employees will automatically be sent an ivite email with a login password</p>
+  <a href="{% url 'csv_sample' %}">Click here to download csv file sample</a>
+  <br>
+  <h4>Upload filled csv file below</h4>
+  <form method="post" action="{% url 'upload_csv' company.id %}" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-group">
+      {{ form.csv_file.label_tag }}
+      {{ form.csv_file }}
+
+      {% if form.csv_file.errors %}
+      <div class="alert alert-danger">
+        {% for error in form.csv_file.errors %}
+        {{ error }}
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload CSV</button>
+  </form>
 </div>
 
 <div class="section">
   <h2 class="section-title">Company results</h2>
-  {% if not company.results_visible and  user.is_staff %}
-    <a href="{% url 'company_results' company.id %}">View results as super admin</a>
+  {% if not company.results_visible and user.is_staff %}
+  <a href="{% url 'company_results' company.id %}">View results as super admin</a>
   {% endif %}
   {% if company.results_visible %}
   {% if results_ready %}
@@ -109,4 +114,28 @@
     </tbody>
   </table>
 </div>
+
+<!-- Admins Section -->
+<div class="section">
+  <h2 class="section-title">Company Administrators</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in company_admins %}
+      <tr>
+        <td>{{ item.user.first_name }}</td>
+        <td>{{ item.user.last_name }}</td>
+        <td>{{ item.user.email }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
 {% endblock %}

@@ -83,6 +83,14 @@ ZERO_TO_FOUR = [
     (4, "Completely"),
 ]
 
+SUMMARY_RISK_CHOICES = [
+    ("", "Select Risk Level"),
+    ("Low", "Low"),
+    ("Medium", "Medium"),
+    ("High", "High"),
+    ("VeryHigh", "Very High"),
+]
+
 from django import forms
 from django.utils.safestring import mark_safe
 
@@ -2470,83 +2478,79 @@ class AdminInviteForm(forms.Form):
 
 class StressAndWellbeingRiskForm(forms.Form):
     stress_and_wellbeing_risk_level = forms.ChoiceField(
-        choices=[
-            ("", "Select Risk Level"),
-            ("Low", "Low"),
-            ("Medium", "Medium"),
-            ("High", "High"),
-        ],
+        choices=SUMMARY_RISK_CHOICES,
         widget=forms.Select(attrs={"class": "form-control"}),
+        required=False,
     )
     stress_and_wellbeing_risk_in_place = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "In place now"}),
     )
     stress_and_wellbeing_risk_recommendations = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+        required=False,
     )
     stress_and_wellbeing_risk_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+        widget=forms.DateInput(attrs={"type": "date"}),
+        label="Select Date",
+        required=False,
     )
 
 
 class WorkplaceStressRiskForm(forms.Form):
     workplace_stress_risk_level = forms.ChoiceField(
-        choices=[
-            ("", "Select Risk Level"),
-            ("Low", "Low"),
-            ("Medium", "Medium"),
-            ("High", "High"),
-        ],
+        choices=SUMMARY_RISK_CHOICES,
         widget=forms.Select(attrs={"class": "form-control"}),
+        required=False,
     )
     workplace_stress_in_place = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "In place now"}),
     )
     workplace_stress_recommendations = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+        required=False,
     )
     workplace_stress_risk_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+        widget=forms.DateInput(attrs={"type": "date"}),
+        label="Select Date",
+        required=False,
     )
 
 
 class PresenteeismRiskForm(forms.Form):
     presenteeism_risk_level = forms.ChoiceField(
-        choices=[
-            ("", "Select Risk Level"),
-            ("Low", "Low"),
-            ("Medium", "Medium"),
-            ("High", "High"),
-        ],
+        choices=SUMMARY_RISK_CHOICES,
         widget=forms.Select(attrs={"class": "form-control"}),
+        required=False,
     )
     presenteeism_in_place = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "In place now"}),
     )
     presenteeism_recommendations = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+        required=False,
     )
     presenteeism_risk_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+        widget=forms.DateInput(attrs={"type": "date"}),
+        label="Select Date",
+        required=False,
     )
 
 
 class WiderRisksForm(forms.Form):
     wider_risks_risk_level = forms.ChoiceField(
-        choices=[
-            ("", "Select Risk Level"),
-            ("Low", "Low"),
-            ("Medium", "Medium"),
-            ("High", "High"),
-        ],
+        choices=SUMMARY_RISK_CHOICES,
         widget=forms.Select(attrs={"class": "form-control"}),
+        required=False,
     )
     wider_risks_in_place = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "In place now"}),
     )
     wider_risks_recommendations = forms.CharField(
         widget=forms.Textarea(attrs={"placeholder": "Recommendations"}),
+        required=False,
     )
     wider_risks_risk_date = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
+        widget=forms.DateInput(attrs={"type": "date"}),
+        label="Select Date",
+        required=False,
     )
