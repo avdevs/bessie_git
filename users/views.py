@@ -4,7 +4,7 @@ from .forms import BulkUserInviteForm
 from django.contrib import messages
 from formtools.wizard.views import SessionWizardView
 from django.contrib.auth import login
-from bessie.models import Employee, CompanyAdmin
+from bessie.models import Company, Employee, CompanyAdmin
 from .models import User
 from django.http import HttpResponse
 from django.contrib import messages
@@ -24,9 +24,13 @@ from os.path import join, dirname
 from dotenv import load_dotenv
 
 
-def inviteUsers(request):
-    comp_admin = CompanyAdmin.objects.get(user=request.user)
-    company = comp_admin.company
+def inviteUsers(request, id):
+    # THIS IS FOR ADMIN USER TO UPLOAD EMPLOYEE CSV
+    # comp_admin = CompanyAdmin.objects.get(user=request.user)
+    # company = comp_admin.company
+
+    # THIS IS SO SUPER ADMIN CAN UPLOAD EMPLOYEE CSV
+    company = Company.objects.get(id=id)
 
     if request.method == "POST":
         form = BulkUserInviteForm(request.POST, request.FILES)
