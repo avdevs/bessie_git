@@ -2799,6 +2799,7 @@ def view_company_results(request, id):
             "workplace_stress_form": workplace_stress_form,
             "presenteeism_form": presenteeism_form,
             "wider_risks_form": wider_risks_form,
+            "company": company,
         },
     )
 

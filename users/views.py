@@ -48,9 +48,8 @@ def inviteUsers(request, id):
                 )
                 return redirect("dashboard")
 
-            headers = csv_list[0]
             data_rows = csv_list[1:]
-            print(data_rows)
+
             existing_emails = set(User.objects.values_list("email", flat=True))
             MIN_COLUMNS = 3  # Adjust based on your CSV structure
             data_rows = [
@@ -84,10 +83,7 @@ def inviteUsers(request, id):
 
                     if team:
                         if team not in company_teams:
-                            company_teams.add(
-                                team
-                            )  # only one of these I think - will crash
-                            # company.teams.append(team)  # only one of these I think - will crash
+                            company_teams.add(team)
                         employees_to_create.append(
                             Employee(company=company, user=user, team=team)
                         )
@@ -116,8 +112,15 @@ def inviteUsers(request, id):
                 except IntegrityError:
                     continue
 
+            # Update company teams
+            existing_teams = set(company.teams if company.teams else [])
+            updated_teams = existing_teams.union(company_teams)
+            company.teams = list(updated_teams)
+
+            # Create accounts
             User.objects.bulk_create(users_to_create)
             Employee.objects.bulk_create(employees_to_create)
+
             company.slots -= len(users_to_create)
             company.save()
 
