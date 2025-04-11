@@ -1,4 +1,6 @@
 {% extends 'bessie/dashboard.html' %}
+{% load bessie_extras %}
+
 {% block content %}
 <!-- Metrics Section -->
 <div class="section">
@@ -61,9 +63,12 @@
   {% if company.results_visible %}
   {% if results_ready %}
   <div>
-    <a href="{% url 'company_results' company.id %}">View results</a>
+    <a href="{% url 'company_results' company.id %}">View Company results</a>
+    <br />
+    View result by team:
+    <br />
     {% for team in company.teams %}
-    <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team }}</a>
+    <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
     {% endfor %}
   </div>
   {% if company.results_video %}

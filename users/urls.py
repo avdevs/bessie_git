@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     # Below path is connected to currently disabled Company admin view hidded upload form
-    # path('upload-csv/', views.inviteUsers, name='upload_csv'),
+    path("upload-csv/", views.inviteUsers, name="upload_csv"),
     # This path is for super admins to upload employee csv
     path("upload-csv/<int:id>", views.inviteUsers, name="upload_csv"),
     path(
