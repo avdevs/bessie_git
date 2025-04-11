@@ -235,6 +235,7 @@ def companyDetail(request, id):
     results_ready = employees.count() == len(
         list(filter(lambda x: x.has_response == True, employees))
     )
+    form = BulkUserInviteForm()
 
     return render(
         request,
@@ -246,6 +247,7 @@ def companyDetail(request, id):
             "employees": employees,
             "available_slots": company.slots - company.used_slots,
             "results_ready": results_ready,
+            "form": form,
         },
     )
 
