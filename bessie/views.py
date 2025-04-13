@@ -2460,8 +2460,6 @@ def view_company_results(request, id):
     if request.method == "POST":
         form_type = request.POST.get("form_type")
 
-        print("FORM TYPE", form_type)
-
         if form_type == "stress_and_wellbeing_form":
             form = StressAndWellbeingRiskForm(request.POST)
             if form.is_valid():
@@ -2486,7 +2484,6 @@ def view_company_results(request, id):
             else:
                 print("FORM INVALID", form.errors)
                 stress_and_wellbeing_form = form
-
         elif form_type == "workplace_stress_form":
             form = WorkplaceStressRiskForm(request.POST)
             if form.is_valid():
@@ -2510,7 +2507,6 @@ def view_company_results(request, id):
                 return redirect("company_results", id=id)
             else:
                 workplace_stress_form = form
-
         elif form_type == "presenteeism_form":
             form = PresenteeismRiskForm(request.POST)
             if form.is_valid():
@@ -2532,7 +2528,6 @@ def view_company_results(request, id):
                 return redirect("company_results", id=id)
             else:
                 presenteeism_form = form
-
         elif form_type == "wider_risks_form":
             form = WiderRisksForm(request.POST)
             if form.is_valid():
@@ -2828,7 +2823,6 @@ def user_list(request, id):
 
 
 def read_result(res: BessieResult):
-
     stress_and_wellbeing = {}
     workplace_stress_factors = {}
     stress_risks_affecting_work = {}
@@ -2998,32 +2992,29 @@ def read_result(res: BessieResult):
     environment["workload"] = res["workload"]
     environment["manageable_workload"] = res["manageable_workload"]
 
-    presenteeism["control_and_autonomy_over_working_hours"] = res[
-        "control_and_autonomy_over_working_hours"
+    presenteeism["workload"] = res["workload"]
+    presenteeism["work_breaks"] = res["work_breaks"]
+    presenteeism["work_commitments_as_a_barrier_for_holidays"] = res[
+        "work_commitments_as_a_barrier_for_holidays"
+    ]
+    presenteeism["mental_health"] = res["mental_health"]
+    presenteeism["physical_health"] = res["physical_health"]
+    presenteeism["overtime"] = res["overtime"]
+    presenteeism["sick_leave_and_employer_support"] = res[
+        "sick_leave_and_employer_support"
+    ]
+    presenteeism["hours_and_flexibility"] = res["hours_and_flexibility"]
+    presenteeism["financial_position_as_a_barrier_for_holidays"] = res[
+        "financial_position_as_a_barrier_for_holidays"
+    ]
+    presenteeism["physical_health_factors_impacting_work"] = res[
+        "physical_health_factors_impacting_work"
     ]
     presenteeism["fertility_and_pregnancy_impacting_work"] = res[
         "fertility_and_pregnancy_impacting_work"
     ]
-    presenteeism["financial_position_as_a_barrier_for_holidays"] = res[
-        "financial_position_as_a_barrier_for_holidays"
-    ]
-    presenteeism["manageable_workload"] = res["manageable_workload"]
-    presenteeism["management_support"] = res["management_support"]
-    presenteeism["mental_health"] = res["mental_health"]
     presenteeism["mental_health_factors_impacting_work"] = res[
         "mental_health_factors_impacting_work"
-    ]
-    presenteeism["overtime"] = res["overtime"]
-    presenteeism["physical_health"] = res["physical_health"]
-    presenteeism["physical_health_factors_impacting_work"] = res[
-        "physical_health_factors_impacting_work"
-    ]
-    presenteeism["sick_leave_and_employer_support"] = res[
-        "sick_leave_and_employer_support"
-    ]
-    presenteeism["work_breaks"] = res["work_breaks"]
-    presenteeism["work_commitments_as_a_barrier_for_holidays"] = res[
-        "work_commitments_as_a_barrier_for_holidays"
     ]
 
     family["childcare"] = res["childcare"]
