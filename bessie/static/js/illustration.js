@@ -361,6 +361,7 @@
   stressAndWbText.push({
     id: "ph",
     name: "Physical Health",
+    tabButtonTitle: "",
     content: reportText.physical_health.content,
     cat: reportText.physical_health.category,
     overview: reportText.physical_health_overview,
@@ -368,6 +369,7 @@
   stressAndWbText.push({
     id: "mh",
     name: "Mental Health",
+    tabButtonTitle: "",
     content: reportText.mental_health.content,
     cat: reportText.mental_health.category,
     overview: reportText.mental_health_overview,
@@ -375,6 +377,7 @@
   stressAndWbText.push({
     id: "ed",
     name: "Emotional Distress",
+    tabButtonTitle: "",
     content: reportText.emotional_distress.content,
     cat: reportText.emotional_distress.category,
     overview: reportText.emotional_distress_overview,
@@ -382,6 +385,7 @@
   stressAndWbText.push({
     id: "sc",
     name: "Self Care",
+    tabButtonTitle: "",
     content: reportText.self_care.content,
     cat: reportText.self_care.category,
     overview: reportText.self_care_overview,
@@ -389,6 +393,7 @@
   stressAndWbText.push({
     id: "eh",
     name: "Emotional Health",
+    tabButtonTitle: "",
     content: reportText.emotional_health.content,
     cat: reportText.emotional_health.category,
     overview: reportText.emotional_health_overview,
@@ -398,6 +403,7 @@
   workplaceStressText.push({
     id: "wl",
     name: "Workload",
+    tabButtonTitle: "",
     content: reportText.manageable_workload.content,
     cat: reportText.manageable_workload.category,
     overview: reportText.manageable_workload_overview,
@@ -405,6 +411,7 @@
   workplaceStressText.push({
     id: "com",
     name: "Complexity",
+    tabButtonTitle: "",
     content: reportText.complexity.content,
     cat: reportText.complexity.category,
     overview: reportText.complexity_overview,
@@ -412,6 +419,7 @@
   workplaceStressText.push({
     id: "hf",
     name: "Hours and flexibility",
+    tabButtonTitle: "",
     content: reportText.hours_and_flexibility.content,
     cat: reportText.hours_and_flexibility.category,
     overview: reportText.hours_and_flexibility_overview,
@@ -419,6 +427,7 @@
   workplaceStressText.push({
     id: "pay",
     name: "Pay",
+    tabButtonTitle: "",
     content: reportText.pay.content,
     cat: reportText.pay.category,
     overview: reportText.pay_overview,
@@ -426,6 +435,7 @@
   workplaceStressText.push({
     id: "pf",
     name: "Personal finances",
+    tabButtonTitle: "",
     content: reportText.personal_finances.content,
     cat: reportText.personal_finances.category,
     overview: reportText.personal_finances_overview,
@@ -433,6 +443,7 @@
   workplaceStressText.push({
     id: "cov",
     name: "COVID",
+    tabButtonTitle: "",
     content: reportText.covid.content,
     cat: reportText.covid.category,
     overview: reportText.covid_overview,
@@ -440,6 +451,7 @@
   workplaceStressText.push({
     id: "abs",
     name: "Absence",
+    tabButtonTitle: "",
     content: reportText.absence.content,
     cat: reportText.absence.category,
     overview: reportText.absence_overview,
@@ -447,6 +459,7 @@
   workplaceStressText.push({
     id: "ca",
     name: "Carer",
+    tabButtonTitle: "",
     content: reportText.carer.content,
     cat: reportText.carer.category,
     overview: reportText.carer_overview,
@@ -454,6 +467,7 @@
   workplaceStressText.push({
     id: "cul",
     name: "Culture",
+    tabButtonTitle: "",
     content: reportText.culture.content,
     cat: reportText.culture.category,
     overview: reportText.culture_overview,
@@ -461,6 +475,7 @@
   workplaceStressText.push({
     id: "tn",
     name: "Training",
+    tabButtonTitle: "",
     content: reportText.training.content,
     cat: reportText.training.category,
     overview: reportText.training_overview,
@@ -468,6 +483,7 @@
   workplaceStressText.push({
     id: "hl",
     name: "Health and Safety",
+    tabButtonTitle: "",
     content: reportText.health_and_safety.content,
     cat: reportText.health_and_safety.category,
     overview: reportText.health_and_safety_overview,
@@ -475,6 +491,7 @@
   workplaceStressText.push({
     id: "ms",
     name: "Management Support",
+    tabButtonTitle: "",
     content: reportText.management_support.content,
     cat: reportText.management_support.category,
     overview: reportText.management_support_overview,
@@ -482,6 +499,7 @@
   workplaceStressText.push({
     id: "disc",
     name: "Discrimination",
+    tabButtonTitle: "",
     content: reportText.discrimination.content,
     cat: reportText.discrimination.category,
     overview: reportText.discrimination_overview,
@@ -489,6 +507,7 @@
   workplaceStressText.push({
     id: "cc",
     name: "Childcare",
+    tabButtonTitle: "",
     content: reportText.childcare.content,
     cat: reportText.childcare.category,
     overview: reportText.childcare_overview,
@@ -497,7 +516,8 @@
   let presenteeismText = [];
   presenteeismText.push({
     id: "wl",
-    name: "Workload",
+    name: "Managable Workload",
+    tabButtonTitle: "Managable Workload",
     content: reportText.manageable_workload.content,
     cat: reportText.manageable_workload.category,
     overview: reportText.manageable_workload_overview,
@@ -505,13 +525,15 @@
   presenteeismText.push({
     id: "wb",
     name: "Work Breaks",
+    tabButtonTitle: "",
     content: reportText.work_breaks.content,
     cat: reportText.work_breaks.category,
     overview: reportText.work_breaks_overview,
   });
   presenteeismText.push({
     id: "com",
-    name: "Commitment",
+    name: "Work Commitments",
+    tabButtonTitle: "",
     content: reportText.work_commitments_as_a_barrier_for_holidays.content,
     cat: reportText.work_commitments_as_a_barrier_for_holidays.category,
     overview: reportText.work_commitments_as_a_barrier_for_holidays_overview,
@@ -519,6 +541,7 @@
   presenteeismText.push({
     id: "mh",
     name: "Mental Health",
+    tabButtonTitle: "",
     content: reportText.mental_health.content,
     cat: reportText.mental_health.category,
     overview: reportText.mental_health_overview,
@@ -526,6 +549,7 @@
   presenteeismText.push({
     id: "ph",
     name: "Physical Health",
+    tabButtonTitle: "",
     content: reportText.physical_health.content,
     cat: reportText.physical_health.category,
     overview: reportText.physical_health_overview,
@@ -533,51 +557,66 @@
   presenteeismText.push({
     id: "ot",
     name: "Overtime",
+    tabButtonTitle: "",
     content: reportText.overtime.content,
     cat: reportText.overtime.category,
     overview: reportText.overtime_overview,
   });
   presenteeismText.push({
     id: "sl",
-    name: "Sick Leave",
+    name: "Sick Leave And Employer Support",
+    tabButtonTitle: "Sick Leave",
     content: reportText.sick_leave_and_employer_support.content,
     cat: reportText.sick_leave_and_employer_support.category,
     overview: reportText.sick_leave_and_employer_support_overview,
   });
   presenteeismText.push({
     id: "wh",
-    name: "Wokring Hours",
-    content: reportText.hours_and_flexibility.content,
-    cat: reportText.hours_and_flexibility.category,
-    overview: reportText.hours_and_flexibility_overview,
+    name: "Control and Autonomy over Working Hours",
+    tabButtonTitle: "Control and Autonomy",
+    content: reportText.control_and_autonomy_over_working_hours.content,
+    cat: reportText.control_and_autonomy_over_working_hours.category,
+    overview: reportText.control_and_autonomy_over_working_hours_overview,
   });
   presenteeismText.push({
     id: "fp",
-    name: "Financial Position",
+    name: "Financial Position as a Barrier for Holidays",
+    tabButtonTitle: "Barrier for Holidays",
     content: reportText.financial_position_as_a_barrier_for_holidays.content,
     cat: reportText.financial_position_as_a_barrier_for_holidays.category,
     overview: reportText.financial_position_as_a_barrier_for_holidays_overview,
   });
   presenteeismText.push({
     id: "pf",
-    name: "Physical Factors",
+    name: "Physical Health Factors Impacting Work",
+    tabButtonTitle: "Physical Health Factors",
     content: reportText.physical_health_factors_impacting_work.content,
     cat: reportText.physical_health_factors_impacting_work.category,
     overview: reportText.physical_health_factors_impacting_work_overview,
   });
   presenteeismText.push({
     id: "fep",
-    name: "Fertility/Pregnancy",
+    name: "Fertility and Pregnancy Impacting Work",
+    tabButtonTitle: "Fertility and Pregnancy",
     content: reportText.fertility_and_pregnancy_impacting_work.content,
     cat: reportText.fertility_and_pregnancy_impacting_work.category,
     overview: reportText.fertility_and_pregnancy_impacting_work_overview,
   });
   presenteeismText.push({
     id: "mhf",
-    name: "Mental Health Factors",
+    name: "Mental Health Factors Impacting Work",
+    tabButtonTitle: "Mental Health Factors",
     content: reportText.mental_health_factors_impacting_work.content,
     cat: reportText.mental_health_factors_impacting_work.category,
     overview: reportText.mental_health_factors_impacting_work_overview,
+  });
+  presenteeismText.push({
+    id: "ms",
+    name: "Management Support",
+    tabButtonTitle: "",
+    content: reportText.management_support.content,
+    cat: reportText.management_support.category,
+    overview: reportText.management_support_overview,
   });
 
   document.addEventListener("alpine:init", () => {
