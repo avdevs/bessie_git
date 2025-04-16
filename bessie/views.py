@@ -2992,7 +2992,7 @@ def read_result(res: BessieResult):
     environment["workload"] = res["workload"]
     environment["manageable_workload"] = res["manageable_workload"]
 
-    presenteeism["workload"] = res["workload"]
+    presenteeism["manageable_workload"] = res["manageable_workload"]
     presenteeism["work_breaks"] = res["work_breaks"]
     presenteeism["work_commitments_as_a_barrier_for_holidays"] = res[
         "work_commitments_as_a_barrier_for_holidays"
@@ -3003,7 +3003,9 @@ def read_result(res: BessieResult):
     presenteeism["sick_leave_and_employer_support"] = res[
         "sick_leave_and_employer_support"
     ]
-    presenteeism["hours_and_flexibility"] = res["hours_and_flexibility"]
+    presenteeism["control_and_autonomy_over_working_hours"] = res[
+        "control_and_autonomy_over_working_hours"
+    ]
     presenteeism["financial_position_as_a_barrier_for_holidays"] = res[
         "financial_position_as_a_barrier_for_holidays"
     ]
@@ -3016,6 +3018,7 @@ def read_result(res: BessieResult):
     presenteeism["mental_health_factors_impacting_work"] = res[
         "mental_health_factors_impacting_work"
     ]
+    presenteeism["management_support"] = res["management_support"]
 
     family["childcare"] = res["childcare"]
     family["childcare_multiplier"] = res["childcare_multiplier"]
