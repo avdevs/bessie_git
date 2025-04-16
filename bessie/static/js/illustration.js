@@ -517,7 +517,7 @@
   presenteeismText.push({
     id: "wl",
     name: "Managable Workload",
-    tabButtonTitle: "Managable Workload",
+    tabButtonTitle: "",
     content: reportText.manageable_workload.content,
     cat: reportText.manageable_workload.category,
     overview: reportText.manageable_workload_overview,
@@ -532,8 +532,8 @@
   });
   presenteeismText.push({
     id: "com",
-    name: "Work Commitments",
-    tabButtonTitle: "",
+    name: "Work Commitments as a Barrier for Holidays",
+    tabButtonTitle: "Work Commitments",
     content: reportText.work_commitments_as_a_barrier_for_holidays.content,
     cat: reportText.work_commitments_as_a_barrier_for_holidays.category,
     overview: reportText.work_commitments_as_a_barrier_for_holidays_overview,
