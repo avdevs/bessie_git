@@ -68,7 +68,6 @@ def inviteUsers(request, id):
             for data in data_rows:
                 try:
                     password = User.objects.make_random_password()
-                    print(f"Generated password: {password}")
                     user = User(
                         first_name=data[0],
                         last_name=data[1],
