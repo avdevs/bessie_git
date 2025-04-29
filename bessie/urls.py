@@ -1,17 +1,16 @@
 from django.urls import path
+
 from .views import (
-    index,
-    view_results,
-    export_data,
-    BessieQuizWizard,
-    user_results,
+    BessieQuestionaireWizard,
     user_list,
     view_company_results,
-    toggle_company_results_visible,
+    export_data,
     CompanyFormView,
-    companyDetail,
-    inviteAdmin,
+    company_detail,
+    toggle_company_results_visible,
 )
+
+
 from .forms import *
 
 
@@ -19,7 +18,7 @@ urlpatterns = [
     # path('dashboard/', dashboard, name='dashboard'),
     path(
         "take-quiz/",
-        BessieQuizWizard.as_view(
+        BessieQuestionaireWizard.as_view(
             [
                 Form1,
                 Form2,
@@ -52,9 +51,8 @@ urlpatterns = [
         ),
         name="take_quiz",
     ),
-    path("view-results/<int:id>", view_results, name="view_results"),  # View results
     path("export-data/<int:id>", export_data, name="export_data"),  # Export CSV data
-    path("my-result/", user_results, name="user_results"),
+    # path("my-result/", user_results, name="user_results"),
     path("company/<int:id>/users/", user_list, name="user_list"),
     path("company-result/<int:id>", view_company_results, name="company_results"),
     path(
@@ -63,6 +61,5 @@ urlpatterns = [
         name="toggle-company-results-visible",
     ),
     path("create-company/", CompanyFormView.as_view(), name="create_company"),
-    path("company/<int:id>", companyDetail, name="company"),
-    path("invite-admin", inviteAdmin, name="invite_admin"),
+    path("company/<int:id>", company_detail, name="company"),
 ]

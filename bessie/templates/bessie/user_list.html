@@ -30,7 +30,7 @@
         {% else %}
         <td><span class="badge badge-warning">Pending</span></td>
         {% endif %}
-        <td><a href="{% url 'view_results' item.id %}" style="margin-bottom: 0;">View Results</a></td>
+        <td><a href="#" style="margin-bottom: 0;">View Results</a></td>
         {% if item.has_response > 0 %}
         <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
         {% endif %}

@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth.models import Group
-from bessie.views import index
 from django.conf import settings
 from django.conf.urls.static import static
+
+from bessie.views import index
 
 admin.site.site_title = "Bessie site admin"
 admin.site.site_header = "Bessie administration"
@@ -12,7 +13,7 @@ admin.site.unregister(Group)
 
 urlpatterns = [
     path("", include("pages.urls")),
-    path('dashboard/', index, name='dashboard'),
+    path("dashboard/", index, name="dashboard"),
     path("admin/", admin.site.urls),
     path("take-bessie/", include("bessie.urls")),
     path("mini-bessie/", include("mini_bessie.urls")),
