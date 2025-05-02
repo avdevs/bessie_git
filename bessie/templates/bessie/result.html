@@ -379,85 +379,9 @@
       </div>
     </div>
   </div>
-  <div class="">
-    {% if staff_comment %}
-    <h3>Staff Comment</h3>
-    <p>{{staff_comment}}</p>
-    <br />
-    {% endif %}
-  </div>
   {% else %}
   <br /><br /><br />
   Thank you for taking the quiz. We will let you know when the results are available.
-  {% endif %}
-
-
-
-  {% if request.user.is_staff %}
-  <div class="section">
-    User text responses:
-    {% if responses.q1 != '' %}
-    <p>1. Please tell us the first part of your postcode (e.g., ST1): <strong>{{ responses.q1 }}</strong></p>
-    {% endif %}
-    {% if responses.q14 != '' %}
-    <p>14. What is your job title?: <strong>{{ responses.q14 }}</strong></p>
-    {% endif %}
-    {% if responses.q45 != '' %}
-    <p>45. Please suggest any potential barriers stopping others from consulting you? (Please indicate if unsure):
-      <strong>{{ responses.q45 }}</strong>
-    </p>
-    {% endif %}
-    {% if responses.q66 != '' %}
-    <p>66. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-      <strong>{{ responses.q66 }}</strong>
-    </p>
-    {% endif %}
-    {% if responses.q74 != '' %}
-    <p>74. If other, please explain your living situation: <strong>{{ responses.q74 }}</strong> </p>
-    {% endif %}
-    {% if responses.q100 != '' %}
-    <p>100. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-      <strong>{{ responses.q100 }}</strong>
-    </p>
-    {% endif %}
-    {% if responses.q154 != '' %}
-    <p>154. If other, please tell us what neurodivergent characteristics apply to you: <strong>{{ responses.q154
-        }}</strong></p>
-    {% endif %}
-    {% if responses.q159 != '' %}
-    <p>159. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-      <strong>{{ responses.q159 }}</strong>
-    </p>
-    {% endif %}
-    {% if responses.q167 != '' %}
-    <p>167. Please state what your nationality is: <strong>{{ responses.q167 }}</strong></p>
-    {% endif %}
-    {% if responses.q168 != '' %}
-    <p>168. Please state your ethnicity: <strong>{{ responses.q168 }}</strong></p>
-    {% endif %}
-    {% if responses.q176 != '' %}
-    <p>176. If other, please state the type(s) of discrimination you face: <strong>{{ responses.q176 }}</strong></p>
-    {% endif %}
-    {% if responses.q228 != '' %}
-    <p>228. Please tell me if and how these factors impact other areas of your life that haven't been mentioned:
-      <strong>{{ responses.q228 }}</strong>
-    </p>
-  </div>
-  {% endif %}
-
-
-  <div class="section">
-    <h3>Add comments form</h3>
-    <form method="post">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="comment">Comment:</label>
-        <textarea id="comment" name="comment" rows="4" cols="100" class="form-control"
-          placeholder="Enter your comment here"></textarea>
-      </div>
-      <button class="btn btn-primary">Submit</button>
-    </form>
-  </div>
   {% endif %}
 
 </div>
@@ -470,6 +394,7 @@
   let workplaceStressFactors = {{ workplace_stress_factors| safe }}
   let stressAndWellbeing = {{ stress_and_wellbeing| safe }}
   let reportText = {{ report_text| safe }}
+  let widerRisksFactors = {{ wider_risks_factors| safe }}
 </script>
 {% load static %}
 <script type="module" src="{% static 'js/illustration.js' %}"></script>

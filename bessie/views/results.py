@@ -1,6 +1,7 @@
 import json
 from functools import lru_cache
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import (
     Avg,
     Case,
@@ -13,6 +14,7 @@ from django.db.models import (
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from bessie.models import (
     BessieResult,
@@ -423,27 +425,36 @@ def view_company_results(request, id):
 
 
 @login_required
-def user_results(request):
-    """
-    View previously calculated results (mocked here).
-    """
-    employee = Employee.objects.get(user=request.user)
+def user_results(request, employee_id=None):
+    if employee_id is None:
+        employee = Employee.objects.get(user=request.user)
+    else:
+        User = get_user_model()
+        user = User.objects.get(email=employee_id)
+        employee = Employee.objects.get(user=user)
+
     response = BessieResponse.objects.get(employee=employee)
     results = BessieResult.objects.filter(response=response).values().first()
-    staff_comment = results["staff_comment"]
     texts = {}
-    for key, value in results.items():
-        if isinstance(value, str):
-            continue
-        cat = get_category(value)
-        pres = report_text.get(key)
-        if pres:
-            texts[key] = {
-                "content": report_text[key][cat]["individual"],
-                "category": cat,
-            }
-            texts[f"{key}_overview"] = report_text[key]["overview"]
+
+    if results is not None:
+        for key, value in results.items():
+            if isinstance(value, str):
+                continue
+            cat = get_category(value)
+            pres = report_text.get(key)
+            if pres:
+                texts[key] = {
+                    "content": report_text[key][cat]["individual"],
+                    "category": cat,
+                }
+                texts[f"{key}_overview"] = report_text[key]["overview"]
+
     res = process_results(results)
+
+    can_see_result = (
+        employee.company.results_visible if not request.user.is_staff else True
+    )
 
     return render(
         request,
@@ -459,10 +470,10 @@ def user_results(request):
             "family_factors": json.dumps(res["family"]),
             "health_factors": json.dumps(res["health"]),
             "personal_factors": json.dumps(res["personal"]),
+            "wider_risks_factors": json.dumps(res["wider_risks"]),
             "report_text": json.dumps(texts),
-            "potential_cost": round(results["potential_cost"]),
-            "staff_comment": staff_comment,
-            "can_see_result": employee.company.results_visible,
+            "potential_cost": round(results["potential_cost"]) if results else 0,
+            "can_see_result": can_see_result,
         },
     )
 

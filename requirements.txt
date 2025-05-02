@@ -32,3 +32,4 @@ typing_extensions==4.12.2
 tzdata==2024.2
 uvicorn==0.34.0
 whitenoise==6.9.0
+django-types

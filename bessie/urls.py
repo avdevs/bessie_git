@@ -54,6 +54,7 @@ urlpatterns = [
     ),
     path("export-data/<int:id>", export_data, name="export_data"),  # Export CSV data
     path("user-result/", user_results, name="user_results"),
+    path("user-result/<str:employee_id>", user_results, name="user_results"),
     path("company/<int:id>/users/", user_list, name="user_list"),
     path("company-result/<int:id>", view_company_results, name="company_results"),
     path(
