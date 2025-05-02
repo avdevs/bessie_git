@@ -22,11 +22,27 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 import csv
 from django.http import HttpResponse
-
-import os
-from pathlib import Path
-from os.path import join, dirname
-from dotenv import load_dotenv
+from django.urls import reverse_lazy
+from users.models import User
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.urls import reverse
+from django.db.models import Exists, OuterRef
+from .models import WizardState
+from .utils import calc_potential_cost
+from django.db.models import Avg, Sum
+from .report_text import report_text
+from django.db.models import Q
+from .forms import (
+    StressAndWellbeingRiskForm,
+    WorkplaceStressRiskForm,
+    PresenteeismRiskForm,
+    WiderRisksForm,
+)
+from django.db.models import Case, When, Value, IntegerField, Count, CharField
+from django.db.models.functions import Concat
+from django.forms.models import model_to_dict
 
 
 def index(request):
@@ -84,14 +100,6 @@ def index(request):
                     "results_ready": results_ready,
                 },
             )
-
-
-from django.urls import reverse_lazy
-from users.models import User
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.urls import reverse
 
 
 class CompanyFormView(FormView):
@@ -222,9 +230,6 @@ def inviteAdmin(request):
     return redirect("dashboard")
 
 
-from django.db.models import Exists, OuterRef, BooleanField
-
-
 def companyDetail(request, id):
     company = get_object_or_404(Company, pk=id)
     company_admins = CompanyAdmin.objects.filter(company=company)
@@ -262,10 +267,6 @@ def toggle_company_results_visible(request, id):
         messages.success(request, "Results enabled successfully.")
 
     return redirect("company", id=company.id)
-
-
-from .models import WizardState
-from .utils import calc_potential_cost
 
 
 class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
@@ -2222,75 +2223,6 @@ class BessieQuizWizard(LoginRequiredMixin, SessionWizardView):
         return redirect("user_results")
 
 
-# @login_required
-# def dashboard(request):
-#     """
-#     Perform calculations on the quiz responses and display results.
-#     """
-#     # Mockup calculation logic
-#     results = {
-#         "physical_health": 75,
-#         "mental_health": 85,
-#     }
-#     return render(request, "bessie/result.html", {"results": results})
-
-
-@login_required
-def user_results(request):
-    """
-    View previously calculated results (mocked here).
-    """
-    employee = Employee.objects.get(user=request.user)
-    response = BessieResponse.objects.get(employee=employee)
-    results = BessieResult.objects.filter(response=response).values().first()
-
-    staff_comment = results["staff_comment"]
-
-    texts = {}
-
-    for key, value in results.items():
-        if isinstance(value, str):
-            continue
-        cat = get_category(value)
-        pres = report_text.get(key)
-        if pres:
-            texts[key] = {
-                "content": report_text[key][cat]["individual"],
-                "category": cat,
-            }
-            texts[f"{key}_overview"] = report_text[key]["overview"]
-
-    res = read_result(results)
-
-    return render(
-        request,
-        "bessie/result.html",
-        {
-            "stress_and_wellbeing": json.dumps(res["stress_and_wellbeing"]),
-            "stress_risks_affecting_work": json.dumps(
-                res["stress_risks_affecting_work"]
-            ),
-            "workplace_stress_factors": json.dumps(res["workplace_stress_factors"]),
-            "presenteeism_factors": json.dumps(res["presenteeism"]),
-            "environment_factors": json.dumps(res["environment"]),
-            "family_factors": json.dumps(res["family"]),
-            "health_factors": json.dumps(res["health"]),
-            "personal_factors": json.dumps(res["personal"]),
-            "report_text": json.dumps(texts),
-            "potential_cost": round(results["potential_cost"]),
-            "staff_comment": staff_comment,
-            "can_see_result": employee.company.results_visible,
-        },
-    )
-
-
-from django.core.exceptions import ObjectDoesNotExist
-
-from django.db.models import Avg, Sum
-from .report_text import report_text
-from django.db.models import Q
-
-
 def calculate_stress_load(factors):
     """
     Calculate stress load percentage based on given factors.
@@ -2326,14 +2258,6 @@ def calculate_stress_load(factors):
 
     stress_load = ((medium + high + very_high) / total) * 100
     return round(stress_load, 2)  # Return rounded percentage
-
-
-from .forms import (
-    StressAndWellbeingRiskForm,
-    WorkplaceStressRiskForm,
-    PresenteeismRiskForm,
-    WiderRisksForm,
-)
 
 
 def view_company_results(request, id):
@@ -3146,11 +3070,6 @@ def read_result(res: BessieResult):
             {"attr": key, "val": value} for key, value in wider_risks.items()
         ],
     }
-
-
-from django.db.models import Case, When, Value, IntegerField, Count, CharField
-from django.db.models.functions import Concat
-from django.forms.models import model_to_dict
 
 
 def get_field_statistics(companyId, team=None):
