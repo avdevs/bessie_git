@@ -5112,6 +5112,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
                                 id="rcp_login_form"
                                 class="rcp_form"
                                 method="POST"
+                                onSubmit="lowercaseEmail()"
                               >
                               {% csrf_token %}
                                 <fieldset class="rcp_login_data">
@@ -5166,6 +5167,15 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       type="text/css"
       media="all"
     />
+
+    <script>
+      function lowercaseEmail() {
+        const emailField = document.querySelector('input[name="username"]');
+        if (emailField) {
+          emailField.value = emailField.value.toLowerCase();
+        }
+      }
+    </script>
     <script
       type="text/javascript"
       defer=""
