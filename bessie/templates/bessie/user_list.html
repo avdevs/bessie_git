@@ -27,12 +27,12 @@
         {% if request.user.is_staff %}
         {% if item.has_response > 0 %}
         <td><span class="badge badge-success">Completed</span></td>
+        <td><a href="{% url "user_results" item.user.email %}" style="margin-bottom: 0;">View Results</a></td>
+        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
         {% else %}
         <td><span class="badge badge-warning">Pending</span></td>
-        {% endif %}
-                <td><a href="{% url "user_results" item.user.email %}" style="margin-bottom: 0;">View Results</a></td>
-        {% if item.has_response > 0 %}
-        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
+        <td></td>
+        <td></td>
         {% endif %}
         {% endif %}
       </tr>
