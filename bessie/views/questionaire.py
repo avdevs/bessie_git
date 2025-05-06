@@ -317,6 +317,15 @@ class BessieQuestionaireWizard(LoginRequiredMixin, SessionWizardView):
             max_complexity_training_hours_flexibility_score,
         )
 
+        training_multiplier_score = total_training_score * q63_response		
+        max_training_multiplier_score = 72		
+        training_multiplier_percentage = (		
+            (training_multiplier_score / max_training_multiplier_score) * 100		
+            if max_training_multiplier_score		
+            else 0		
+        )		
+        results.training_multiplier = round(training_multiplier_percentage, 2)
+
         # ===== WORK PATTERNS CALCULATIONS =====
         # Work Breaks
         work_breaks_score = int(form_data.get("q28", 0))
@@ -627,6 +636,24 @@ class BessieQuestionaireWizard(LoginRequiredMixin, SessionWizardView):
         max_physical_absence_multiplier_score = 160
         results.physical_health_and_absence_multiplier = self._calculate_percentage(
             physical_absence_multiplier_score, max_physical_absence_multiplier_score
+        )
+
+        # Physical health and management support multiplier		
+        physical_health_and_management_support_multiplier_score = (		
+            total_physical_health_score + total_management_support_score		
+        ) * q63_response		
+        max_physical_health_and_management_support_multiplier_score = 256		
+        physical_health_and_management_support_multiplier_percentage = (		
+            (		
+                physical_health_and_management_support_multiplier_score		
+                / max_physical_health_and_management_support_multiplier_score		
+            )		
+            * 100		
+            if max_physical_health_and_management_support_multiplier_score		
+            else 0		
+        )		
+        results.physical_health_and_management_support_multiplier = round(		
+            physical_health_and_management_support_multiplier_percentage, 2		
         )
 
         # ===== MENTAL AND PHYSICAL HEALTH COMBINED CALCULATIONS =====
@@ -1029,6 +1056,61 @@ class BessieQuestionaireWizard(LoginRequiredMixin, SessionWizardView):
             fertility_pregnancy_work_score, max_fertility_pregnancy_work_score
         )
 
+        # Pregnancy and mental health		
+        if total_fertility_score > 0:		
+            pregnancy_mental_health_score = (		
+                total_fertility_score + total_mental_health_score		
+            )		
+        else:		
+            pregnancy_mental_health_score = 0		
+        max_pregnancy_mental_health_score = 60		
+        pregnancy_mental_health_percentage = (		
+            (pregnancy_mental_health_score / max_pregnancy_mental_health_score) * 100		
+            if max_pregnancy_mental_health_score		
+            else 0		
+        )		
+        results.pregnancy_and_mental_health = round(		
+            pregnancy_mental_health_percentage, 2		
+        )
+
+        if total_fertility_score > 0:		
+            pregnancy_physical_health_score = (		
+                total_fertility_score + total_physical_health_score		
+            )		
+        else:		
+            pregnancy_physical_health_score = 0		
+        max_pregnancy_physical_health_score = 58		
+        pregnancy_physical_health_percentage = (		
+            (pregnancy_physical_health_score / max_pregnancy_physical_health_score)		
+            * 100		
+            if max_pregnancy_physical_health_score		
+            else 0		
+        )		
+        results.pregnancy_and_physical_health = round(		
+            pregnancy_physical_health_percentage, 2		
+        )
+
+        # Pregnancy and management support		
+        if total_fertility_score > 0:		
+            pregnancy_management_support_score = (		
+                total_fertility_score + total_management_support_score		
+            )		
+        else:		
+            pregnancy_management_support_score = 0		
+        max_pregnancy_management_support_score = 66		
+        pregnancy_management_support_percentage = (		
+            (		
+                pregnancy_management_support_score		
+                / max_pregnancy_management_support_score		
+            )		
+            * 100		
+            if max_pregnancy_management_support_score		
+            else 0		
+        )		
+        results.pregnancy_and_management_support = round(		
+            pregnancy_management_support_percentage, 2		
+        )
+
         # ===== ABUSE AND TRAUMA CALCULATIONS =====
         abuse_trauma_questions = [
             "q134",
@@ -1319,7 +1401,28 @@ class BessieQuestionaireWizard(LoginRequiredMixin, SessionWizardView):
             )
         )
 
+        # Support network		
+        support_network = ["q84", "q85", "q86", "q87"]		
+        max_support_network_score = 19		
+        total_support_network_score = sum(		
+            int(form_data.get(question_key, 0)) for question_key in support_network		
+        )		
+        support_network_percentage = (		
+            total_support_network_score / max_support_network_score		
+        ) * 100		
+        results.support_network = round(support_network_percentage, 2)		
+
+        # Support Network Multiplier calculation		
+        support_network_multiplier_score = total_support_network_score * q97_response		
+        max_support_network_multiplier_score = 76		
+        support_network_multiplier_percentage = (		
+            support_network_multiplier_score / max_support_network_multiplier_score		
+        ) * 100		
+        results.support_network_multiplier = round(		
+            support_network_multiplier_percentage, 2		
+        )
+
         # Save all results
         results.save()
 
-        return redirect("bessie:results")
+        return redirect("user_results")
