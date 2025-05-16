@@ -33,23 +33,23 @@ EMAILPASSWORD = os.getenv("EMAILPASSWORD")
 
 # Database... If postgresql envs are not set, use sqlite3
 if DBHOST and DBPORT and DBNAME and DBUSER and DBPASS:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": DBNAME,
-            "USER": DBUSER,
-            "PASSWORD": DBPASS,
-            "HOST": DBHOST,
-            "PORT": DBPORT,
-        }
-    }
+  DATABASES = {
+      "default": {
+          "ENGINE": "django.db.backends.postgresql",
+          "NAME": DBNAME,
+          "USER": DBUSER,
+          "PASSWORD": DBPASS,
+          "HOST": DBHOST,
+          "PORT": DBPORT,
+      }
+  }
 else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
-        }
-    }
+  DATABASES = {
+      "default": {
+          "ENGINE": "django.db.backends.sqlite3",
+          "NAME": BASE_DIR / "db.sqlite3",
+      }
+  }
 
 # Email settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "background_task",
     "users",
     "mini_bessie",
     "bessie",
