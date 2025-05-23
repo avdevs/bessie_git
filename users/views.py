@@ -71,7 +71,7 @@ def inviteUsers(request, id):
                     user = User(
                         first_name=data[0],
                         last_name=data[1],
-                        email=data[2],
+                        email=data[2].lower(),
                         user_type=User.UserTypes.EMPLOYEE,
                     )
                     user.set_password(password)
