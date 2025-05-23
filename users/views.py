@@ -56,19 +56,19 @@ def inviteUsers(request, id):
       os.remove(file_path)
 
       job = EmployeeProcessTask.objects.create(
-        job_id=timezone.now().timestamp(),
-        company=company,
-        chunks_number=len(chunk_paths),
-        chunks_completed=0,
-        notification_email=request.user.email,
-        completed=False
+          job_id=timezone.now().timestamp(),
+          company=company,
+          chunks_number=len(chunk_paths),
+          chunks_completed=0,
+          notification_email=request.user.email,
+          completed=False
       )
 
       for chunk_path in chunk_paths:
         process_csv_chunk(chunk_path, job.pk)
 
   messages.success(
-    request, f"File uploaded successfully for processing. You will receive an email when it's done."
+      request, f"File uploaded successfully for processing. You will receive an email when it's done."
   )
   return redirect("dashboard")
 

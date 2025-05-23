@@ -9,6 +9,7 @@ from .views import (
     CompanyFormView,
     company_detail,
     toggle_company_results_visible,
+    employee_login
 )
 
 
@@ -52,7 +53,8 @@ urlpatterns = [
         ),
         name="take_quiz",
     ),
-    path("export-data/<int:id>", export_data, name="export_data"),  # Export CSV data
+    path("export-data/<int:id>", export_data,
+         name="export_data"),  # Export CSV data
     path("user-result/", user_results, name="user_results"),
     path("user-result/<str:employee_id>", user_results, name="user_results"),
     path("company/<int:id>/users/", user_list, name="user_list"),
@@ -64,4 +66,6 @@ urlpatterns = [
     ),
     path("create-company/", CompanyFormView.as_view(), name="create_company"),
     path("company/<int:id>", company_detail, name="company"),
+
+    path("employee/login", employee_login, name="employee_login"),
 ]

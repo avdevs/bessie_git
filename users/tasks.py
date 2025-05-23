@@ -1,6 +1,7 @@
 from background_task import background
 from django.core.mail import EmailMultiAlternatives, send_mail, get_connection
 from django.conf import settings
+from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.text import slugify
 from django.utils.html import strip_tags
@@ -17,6 +18,11 @@ from users.models import User
 def process_csv_chunk(chunk_path, job_id):
   job = EmployeeProcessTask.objects.get(id=job_id)
   company = job.company
+
+  # Build the login URL without request context
+  login_path = reverse("employee_login")
+  domain = getattr(settings, 'SITE_DOMAIN', 'http://localhost:8000')
+  url = f"{domain}{login_path}"
 
   existing_emails = set(User.objects.values_list("email", flat=True))
   users_to_create = []
@@ -75,6 +81,7 @@ def process_csv_chunk(chunk_path, job_id):
                 "user": user,
                 "unique_id": unique_id,
                 "company": company,
+                "url": url
             },
         )
         plain_message = strip_tags(html_message)

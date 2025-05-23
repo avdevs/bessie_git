@@ -31,6 +31,9 @@ EMAILPORT = os.getenv("EMAILPORT")
 EMAILUSER = os.getenv("EMAILUSER")
 EMAILPASSWORD = os.getenv("EMAILPASSWORD")
 
+# Site domain settings for email URLs
+SITE_DOMAIN = os.getenv("SITE_DOMAIN", "http://localhost:8000")
+
 # Database... If postgresql envs are not set, use sqlite3
 if DBHOST and DBPORT and DBNAME and DBUSER and DBPASS:
   DATABASES = {
