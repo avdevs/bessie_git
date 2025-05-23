@@ -5,6 +5,8 @@ from django.template.loader import render_to_string
 from django.utils.text import slugify
 from django.utils.html import strip_tags
 from bessie.models import Employee, EmployeeProcessTask
+import time
+import random
 import csv
 import os
 
@@ -23,7 +25,7 @@ def process_csv_chunk(chunk_path, job_id):
   company_teams = set(company.teams)
   failed = []
 
-  with open(chunk_path, 'r') as file:
+  with open(chunk_path, "r") as file:
     reader = csv.reader(file)
     next(reader)
 
@@ -45,17 +47,25 @@ def process_csv_chunk(chunk_path, job_id):
             email=email,
             user_type=User.UserTypes.EMPLOYEE,
         )
+
         user.set_password(password)
         users_to_create.append(user)
 
-        team = slugify(row[3].strip()) if len(
-          row) == 4 and row[3].strip() else ""
+        team = (
+            slugify(row[3].strip()) if len(
+                row) == 4 and row[3].strip() else ""
+        )
 
         if team:
           company_teams.add(team)
 
+        unique_id = f"{int(time.time())}{random.randint(10, 100)}"
+
         employees_to_create.append(
-          Employee(company=company, user=user, team=team or None)
+            Employee(company=company, user=user,
+                     team=team or None,
+                     unique_id=unique_id,
+                     )
         )
 
         subject = "Your Account Details"
@@ -63,22 +73,20 @@ def process_csv_chunk(chunk_path, job_id):
             "emails/employee_invitation_email.html",
             {
                 "user": user,
-                "password": password,
-                "login_url": "login_url",
+                "unique_id": unique_id,
                 "company": company,
             },
         )
         plain_message = strip_tags(html_message)
-        email = EmailMultiAlternatives(
+        user_email = EmailMultiAlternatives(
             subject=subject,
             body=plain_message,
             from_email=None,
-            to=email,
+            to=[email],
         )
-        email.attach_alternative(html_message, "text/html")
-        emails.append(email)
+        user_email.attach_alternative(html_message, "text/html")
+        emails.append(user_email)
       except Exception as e:
-        print(f"Error creating password: {e}")
         failed.append(row)
         continue
 
@@ -102,18 +110,20 @@ def process_csv_chunk(chunk_path, job_id):
 
   if job.chunks_completed >= job.chunks_number:
     folder_name = company.name.replace(" ", "_").lower()
-    upload_dir = os.path.join(settings.MEDIA_ROOT, 'csv_chunks', folder_name)
+    upload_dir = os.path.join(
+        settings.MEDIA_ROOT, "csv_chunks", folder_name)
     os.rmdir(upload_dir)
 
     send_completion_email(job.notification_email, company.name)
 
 
+# TODO: Update the copy of this email
 @background(schedule=5)
 def send_completion_email(email, company_name):
   send_mail(
-    'CSV Processing Complete',
-    f'Your CSV file for company: {company_name} has been processed successfully.',
-    'no_reply@bessiestressriskassessment.com',
-    [email],
-    fail_silently=False,
+      "CSV Processing Complete",
+      f"Your CSV file for company: {company_name} has been processed successfully.",
+      "no_reply@bessiestressriskassessment.com",
+      [email],
+      fail_silently=False,
   )

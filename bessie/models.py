@@ -3,10 +3,10 @@ from users.models import User
 from django.core.exceptions import ValidationError
 
 RISK_LEVELS = [
-  ("low", "Low"),
-  ("medium", "Medium"),
-  ("high", "High"),
-  ("veryhigh", "Very High"),
+    ("low", "Low"),
+    ("medium", "Medium"),
+    ("high", "High"),
+    ("veryhigh", "Very High"),
 ]
 
 
@@ -20,7 +20,7 @@ class Company(models.Model):
   strategy_meeting_date = models.DateField()
   results_visible = models.BooleanField(default=False)
   induction_video = models.FileField(
-    upload_to="videos/", null=True, blank=True)
+      upload_to="videos/", null=True, blank=True)
   results_video = models.FileField(upload_to="videos/", null=True, blank=True)
 
   class Meta:
@@ -32,33 +32,33 @@ class Company(models.Model):
 
     # Only perform validation if all date fields have values
     if (
-      self.survey_start_date
-      and self.survey_completion_date
-      and self.strategy_meeting_date
+        self.survey_start_date
+        and self.survey_completion_date
+        and self.strategy_meeting_date
     ):
       # Validate that survey_start_date is not after survey_completion_date
       if self.survey_start_date > self.survey_completion_date:
         raise ValidationError(
-          {
-            "survey_start_date": "Survey start date cannot be after survey completion date.",
-            "survey_completion_date": "Survey completion date cannot be before survey start date.",
-          }
+            {
+                "survey_start_date": "Survey start date cannot be after survey completion date.",
+                "survey_completion_date": "Survey completion date cannot be before survey start date.",
+            }
         )
 
       # Validate that strategy_meeting_date is not before survey_completion_date
       if self.strategy_meeting_date < self.survey_completion_date:
         raise ValidationError(
-          {
-            "strategy_meeting_date": "Strategy meeting date must be after survey completion date."
-          }
+            {
+                "strategy_meeting_date": "Strategy meeting date must be after survey completion date."
+            }
         )
 
       # Validate that strategy_meeting_date is not before survey_start_date
       if self.strategy_meeting_date < self.survey_start_date:
         raise ValidationError(
-          {
-            "strategy_meeting_date": "Strategy meeting date must be after survey start date."
-          }
+            {
+                "strategy_meeting_date": "Strategy meeting date must be after survey start date."
+            }
         )
 
   def save(self, *args, **kwargs):
@@ -73,57 +73,57 @@ class Company(models.Model):
 class CompanyRiskSummary(models.Model):
   company = models.OneToOneField(Company, on_delete=models.CASCADE)
   stress_and_wellbeing_risk_level = models.CharField(
-    max_length=10,
-    choices=RISK_LEVELS,
-    blank=True,
-    null=True,
+      max_length=10,
+      choices=RISK_LEVELS,
+      blank=True,
+      null=True,
   )
   stress_and_wellbeing_in_place = models.TextField()
   stress_and_wellbeing_recommendations = models.TextField(
-    blank=True,
-    null=True,
+      blank=True,
+      null=True,
   )
   stress_and_wellbeing_risk_date = models.DateField(null=True, blank=True)
 
   workplace_stress_risk_level = models.CharField(
-    max_length=10,
-    choices=RISK_LEVELS,
-    default="low",
-    blank=True,
-    null=True,
+      max_length=10,
+      choices=RISK_LEVELS,
+      default="low",
+      blank=True,
+      null=True,
   )
   workplace_stress_in_place = models.TextField()
   workplace_stress_recommendations = models.TextField(
-    blank=True,
-    null=True,
+      blank=True,
+      null=True,
   )
   workplace_stress_risk_date = models.DateField(null=True, blank=True)
 
   presenteeism_risk_level = models.CharField(
-    max_length=10,
-    choices=RISK_LEVELS,
-    default="low",
-    blank=True,
-    null=True,
+      max_length=10,
+      choices=RISK_LEVELS,
+      default="low",
+      blank=True,
+      null=True,
   )
   presenteeism_in_place = models.TextField()
   presenteeism_recommendations = models.TextField(
-    blank=True,
-    null=True,
+      blank=True,
+      null=True,
   )
   presenteeism_risk_date = models.DateField(null=True, blank=True)
 
   wider_risks_risk_level = models.CharField(
-    max_length=10,
-    choices=RISK_LEVELS,
-    default="low",
-    blank=True,
-    null=True,
+      max_length=10,
+      choices=RISK_LEVELS,
+      default="low",
+      blank=True,
+      null=True,
   )
   wider_risks_in_place = models.TextField()
   wider_risks_recommendations = models.TextField(
-    blank=True,
-    null=True,
+      blank=True,
+      null=True,
   )
   wider_risks_risk_date = models.DateField(null=True, blank=True)
 
@@ -165,7 +165,7 @@ class WizardState(models.Model):
 
 class BessieResponse(models.Model):
   employee = models.OneToOneField(
-    Employee, on_delete=models.CASCADE, related_name="owner"
+      Employee, on_delete=models.CASCADE, related_name="owner"
   )
   timestamp = models.DateTimeField(auto_now_add=True)
   multichoice = models.JSONField()
@@ -193,14 +193,14 @@ class BessieResponse(models.Model):
 
     # Filter and sort the questions by their keys
     sorted_questions = dict(
-      sorted(
-        (
-          item
-          for item in questions.items()
-          if item[0].startswith("q") and item[0][1:].isdigit()
-        ),
-        key=lambda item: int(item[0][1:]),
-      )
+        sorted(
+            (
+                item
+                for item in questions.items()
+                if item[0].startswith("q") and item[0][1:].isdigit()
+            ),
+            key=lambda item: int(item[0][1:]),
+        )
     )
 
     return sorted_questions
@@ -211,7 +211,7 @@ class BessieResponse(models.Model):
 
 class BessieResult(models.Model):
   response = models.OneToOneField(
-    BessieResponse, on_delete=models.CASCADE, related_name="response"
+      BessieResponse, on_delete=models.CASCADE, related_name="response"
   )
   company = models.ForeignKey(Company, on_delete=models.CASCADE)
   environment = models.FloatField()
