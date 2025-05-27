@@ -5,23 +5,25 @@ from django.contrib.auth import get_user_model
 
 
 def lowercase_emails(apps, schema_editor):
-    User = get_user_model()
+  User = get_user_model()
 
-    for user in User.objects.all():
-        if user.email != user.email.lower():
-            user.email = user.email.lower()
-            user.save(update_fields=["email"])
+  for user in User.objects.all():
+    if user.email != user.email.lower():
+      user.email = user.email.lower()
+      user.save(update_fields=["email"])
 
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        (
-            "bessie",
-            "0014_alter_companyrisksummary_presenteeism_recommendations_and_more",
-        ),
-    ]
+  dependencies = [
+      (
+          "bessie",
+          "0014_alter_companyrisksummary_presenteeism_recommendations_and_more",
+      ),
+      ("users", "0002_user_user_type_alter_user_groups"),
+  ]
 
-    operations = [
-        migrations.RunPython(lowercase_emails, reverse_code=migrations.RunPython.noop),
-    ]
+  operations = [
+      migrations.RunPython(
+        lowercase_emails, reverse_code=migrations.RunPython.noop),
+  ]
