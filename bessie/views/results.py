@@ -175,11 +175,6 @@ def view_company_results(request, id):
   res = read_result(result)
   stats = read_result(stats)
 
-  environment_stressload = calculate_stress_load(stats.get("environment", []))
-  health_stressload = calculate_stress_load(stats.get("health", []))
-  family_stressload = calculate_stress_load(stats.get("family", []))
-  personal_stressload = calculate_stress_load(stats.get("personal", []))
-
   return render(
     request,
     "bessie/company_results.html",
@@ -198,10 +193,6 @@ def view_company_results(request, id):
       "personal_factors_stats": json.dumps(stats["personal"]),
       "wider_risks_factors": json.dumps(res["wider_risks"]),
       "report_text": json.dumps(texts),
-      "environment_stressload": environment_stressload,
-      "health_stressload": health_stressload,
-      "family_stressload": family_stressload,
-      "personal_stressload": personal_stressload,
       "potential_cost": round(result["potential_cost"]),
       "stress_and_wellbeing_form": stress_and_wellbeing_form,
       "workplace_stress_form": workplace_stress_form,
@@ -238,11 +229,19 @@ def user_results(request, employee_id=None):
         }
         texts[f"{key}_overview"] = report_text[key]["overview"]
 
+  stats = get_field_statistics(employee.company.pk, employee_id=employee.pk)
+
   res = read_result(results)
+  stats = read_result(stats)
 
   can_see_result = (
     employee.company.results_visible if not request.user.is_staff else True
   )
+
+  environment_stressload = calculate_stress_load(stats.get("environment", []))
+  health_stressload = calculate_stress_load(stats.get("health", []))
+  family_stressload = calculate_stress_load(stats.get("family", []))
+  personal_stressload = calculate_stress_load(stats.get("personal", []))
 
   return render(
     request,
@@ -256,9 +255,17 @@ def user_results(request, employee_id=None):
       "family_factors": json.dumps(res["family"]),
       "health_factors": json.dumps(res["health"]),
       "personal_factors": json.dumps(res["personal"]),
+      "environment_factors_stats": json.dumps(stats["environment"]),
+      "health_factors_stats": json.dumps(stats["health"]),
+      "family_factors_stats": json.dumps(stats["family"]),
+      "personal_factors_stats": json.dumps(stats["personal"]),
       "wider_risks_factors": json.dumps(res["wider_risks"]),
       "report_text": json.dumps(texts),
-      "potential_cost": round(results["potential_cost"]) if results else 0,
+      "environment_stressload": environment_stressload,
+      "health_stressload": health_stressload,
+      "family_stressload": family_stressload,
+      "personal_stressload": personal_stressload,
+      "company": employee.company,
       "can_see_result": can_see_result,
     },
   )
@@ -453,11 +460,13 @@ def get_aggregated_results(query):
   )
 
 
-def get_field_statistics(companyId, team=None):
+def get_field_statistics(companyId, team=None, employee_id=None):
   """Get field statistics for all fields in a single optimized query."""
   query = Q(company_id=companyId)
   if team:
     query &= Q(response__employee__team=team)
+  if employee_id:
+    query &= Q(response__employee_id=employee_id)
 
   fields = [
     "environment",
