@@ -10,32 +10,7 @@
     if (value > 75) return "#ff0000";
   };
 
-  let data = new Set();
-
-  personalFactors.forEach((element) => {
-    data.add(element);
-  });
-  healthFactors.forEach((element) => {
-    data.add(element);
-  });
-  presenteeismFactors.forEach((element) => {
-    data.add(element);
-  });
-  workplaceStressFactors.forEach((element) => {
-    data.add(element);
-  });
-  familyFactors.forEach((element) => {
-    data.add(element);
-  });
-  environmentFactors.forEach((element) => {
-    data.add(element);
-  });
-
-  // sort data alphabetically
-  // data = [...data].sort((a, b) => a.attr.localeCompare(b.attr));
-
-  // console.log(data);
-
+  // Sort all factor arrays
   workplaceStressFactors = workplaceStressFactors.sort((a, b) => b.val - a.val);
   presenteeismFactors = presenteeismFactors.sort((a, b) => b.val - a.val);
   stressAndWellbeing = stressAndWellbeing.sort((a, b) => b.val - a.val);
@@ -44,44 +19,59 @@
   familyFactors = familyFactors.sort((a, b) => b.val - a.val);
   widerRisksFactors = widerRisksFactors.sort((a, b) => b.val - a.val);
 
-  let external = new Set();
+  // Combine all factors for external filtering
+  const allFactors = [
+    ...personalFactors,
+    ...healthFactors,
+    ...presenteeismFactors,
+    ...workplaceStressFactors,
+    ...familyFactors,
+    ...environmentFactors,
+  ];
+
+  let external = [];
+  let externalAttrsSeen = new Set();
 
   const externalFactors = [
     "emotional_distress",
-    "work_commitments_as_a_barrier_for_holidays",
-    "carer",
-    "emotional_distress_multiplier",
     "pay",
-    "responsibility_for_family",
-    "emotional_health",
-    "holidays_and_pay",
-    "travel_to_work",
-    "emotional_health_multiplier",
-    "holidays",
-    "responsibility_of_children",
-    "complexity",
-    "family",
-    "complexity_plus_training",
-    "covid",
-    "personal_finances_and_responsibility_for_children",
-    "responsibility_for_children_multiplier",
-    "family_multiplier",
-    "personal",
-    "consultation",
-    "fertility_and_pregnancy_impacting_work",
-    "financial_position_as_a_barrier_for_holidays",
-    "personal_finances",
-    "personal_satisfaction",
-    "team_morale",
-    "training",
-    "wider_team_support",
-    "willingness_to_progress",
+    "overtime",
     "work_breaks",
+    "complexity",
+    "responsibility_for_family",
+    "family_support_companion",
+    "manageable_workload",
+    "complexity_plus_training",
+    "complexity_training_hours_and_flexibility",
+    "emotional_wellbeing",
+    "travel_to_work",
+    "control_and_autonomy_over_working_hours",
+    "emotional_health",
+    "hours_and_flexibility",
+    "workload",
+    "responsibility_of_children",
+    "financial_position_as_a_barrier_for_holidays",
+    "personal_satisfaction",
+    "hobbies",
+    "holidays_and_pay",
+    "personal_satisfaction_improvement",
+    "emotional_health_and_culture_at_work",
+    "self_care",
+    "personal_finances",
+    "environment",
+    "residence",
+    "lone_working",
+    "carer",
+    "emotional_wellbeing_and_management_support",
   ];
 
-  data.forEach((row) => {
-    if (externalFactors.includes(row.attr)) {
-      external.add(row);
+  allFactors.forEach((row) => {
+    if (
+      externalFactors.includes(row.attr) &&
+      !externalAttrsSeen.has(row.attr)
+    ) {
+      external.push(row);
+      externalAttrsSeen.add(row.attr);
     }
   });
 
@@ -329,8 +319,6 @@
     },
   });
 
-  external = [...external];
-
   new Chart(document.getElementById("extFactors"), {
     type: "bar",
     options: {
@@ -354,8 +342,6 @@
       ],
     },
   });
-
-  data = [...data];
 
   let stressAndWbText = [];
   stressAndWbText.push({

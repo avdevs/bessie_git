@@ -1,35 +1,25 @@
 def calculate_stress_load(factors):
-    """
-    Calculate stress load percentage based on given factors.
+  if not factors or not isinstance(factors, list):
+    return 0
 
-    Args:
-        factors (list): A list of dictionaries, each containing a 'val' key with counts.
+  medium = high = very_high = total = 0
 
-    Returns:
-        float: Stress load percentage.
-    """
-    if not factors or not isinstance(factors, list):  # Ensure valid data
-        return 0
+  for factor in factors:
+    if isinstance(factor, dict) and "val" in factor:
+      val = factor["val"]
 
-    medium = high = very_high = total = 0
+      medium += int(val.get("medium_count", 0) or 0)
+      high += int(val.get("high_count", 0) or 0)
+      very_high += int(val.get("very_high", 0) or 0)
 
-    for factor in factors:
-        if isinstance(factor, dict) and "val" in factor:
-            val = factor["val"]  # Extract 'val' dictionary
+      total += sum(
+        int(value)
+        for value in val.values()
+        if isinstance(value, int) or str(value).isdigit()
+      )
 
-            # Convert values to integers safely
-            medium += int(val.get("medium_count", 0) or 0)
-            high += int(val.get("high_count", 0) or 0)
-            very_high += int(val.get("very_high", 0) or 0)
+  if total == 0:
+    return 0
 
-            total += sum(
-                int(value)
-                for value in val.values()
-                if isinstance(value, int) or str(value).isdigit()
-            )
-
-    if total == 0:  # Avoid division by zero
-        return 0
-
-    stress_load = ((medium + high + very_high) / total) * 100
-    return round(stress_load, 2)  # Return rounded percentage
+  stress_load = ((medium + high + very_high) / total) * 100
+  return round(stress_load, 2)
