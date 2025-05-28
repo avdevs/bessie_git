@@ -1,0 +1,7 @@
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+line-ending = "auto"
+
+[tool.ruff]
+indent-width = 2
