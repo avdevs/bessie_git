@@ -127,7 +127,7 @@ def process_csv_chunk(chunk_path, job_id):
 def send_completion_email(email, company_name):
 	send_mail(
 		"CSV Processing Complete",
-		f"Your CSV file for company: {company_name} has been processed successfully.",
+		f"All employees for {company_name} have been created and have received welcome emails.",
 		"no_reply@bessiestressriskassessment.com",
 		[email],
 		fail_silently=False,

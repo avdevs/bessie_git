@@ -4832,6 +4832,10 @@
                                     {{ form.as_p }}
                                     <button type="submit">Submit</button>
                                 </form>
+
+																{% if success %}
+																	<p style="color: green; margin-top: 20px;">Please check your email to continue logging in!</p>
+																{% endif %}
                             </div>
                           </div>
                         </div>
