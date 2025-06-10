@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- TODO: replace all this css once refactored -->
 <html lang="en-US">
   {% load static %}
   <head>
@@ -4808,7 +4809,7 @@
                             class="et_pb_module et_pb_text et_pb_text_1 et_pb_text_align_left et_pb_bg_layout_light"
                           >
                             <div class="et_pb_text_inner">
-                              <h1>Employer / Admin <br /> Log In</h1>
+                              <h1>Employee Log In</h1>
                             </div>
                           </div>
                         </div>
@@ -4826,42 +4827,15 @@
                             class="et_pb_module et_pb_text et_pb_text_4 et_pb_text_align_left et_pb_bg_layout_light"
                           >
                             <div class="et_pb_text_inner">
-                              <form
-                                id="rcp_login_form"
-                                class="rcp_form"
-                                method="POST"
-                                onSubmit="lowercaseEmail()"
-                              >
-                              {% csrf_token %}
-                                <fieldset class="rcp_login_data">
-                                  {{ form.as_p }}
-                                  <p>
-                                    <input
-                                      type="checkbox"
-                                      name="rcp_user_remember"
-                                      id="rcp_user_remember"
-                                      value="1"
-                                    />
-                                    <label for="rcp_user_remember"
-                                      >Remember me</label
-                                    >
-                                  </p>
-                                  <p class="rcp_lost_password">
-                                    <a
-                                      href="{% url 'password_reset' %}"
-                                      >Lost your password?</a
-                                    >
-                                  </p>
-                                  <p>
-                                    <input
-                                      id="rcp_login_submit"
-                                      class="rcp-button"
-                                      type="submit"
-                                      value="Login"
-                                    />
-                                  </p>
-                                </fieldset>
-                              </form>
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit">Submit</button>
+                                </form>
+
+																{% if success %}
+																	<p style="color: green; margin-top: 20px;">Please check your email to continue logging in!</p>
+																{% endif %}
                             </div>
                           </div>
                         </div>
@@ -4878,13 +4852,5 @@
       </div>
     </div>
 
-    <script>
-      function lowercaseEmail() {
-        const emailField = document.querySelector('input[name="username"]');
-        if (emailField) {
-          emailField.value = emailField.value.toLowerCase();
-        }
-      }
-    </script>
   </body>
 </html>

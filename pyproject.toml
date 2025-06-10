@@ -1,5 +1,5 @@
 [tool.ruff.format]
-indent-style = "space"
+indent-style = "tab"
 quote-style = "double"
 line-ending = "auto"
 
