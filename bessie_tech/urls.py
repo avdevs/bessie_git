@@ -12,14 +12,15 @@ admin.site.index_title = "Site administration"
 admin.site.unregister(Group)
 
 urlpatterns = [
-    path("", include("pages.urls")),
-    path("dashboard/", index, name="dashboard"),
-    path("admin/", admin.site.urls),
-    path("take-bessie/", include("bessie.urls")),
-    path("mini-bessie/", include("mini_bessie.urls")),
-    path("accounts/", include("users.urls")),
-    path("accounts/", include("django.contrib.auth.urls")),
+	path("", include("pages.urls")),
+	path("dashboard/", index, name="dashboard"),
+	path("admin/", admin.site.urls),
+	path("take-bessie/", include("bessie.urls")),
+	path("mini-bessie/", include("mini_bessie.urls")),
+	path("accounts/", include("users.urls")),
+	path("accounts/", include("django.contrib.auth.urls")),
+	path("bessie/", include("bessie.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
