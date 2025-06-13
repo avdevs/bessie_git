@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+
+    .footer {
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .button:hover {
+      background-color: #e65c00;
+    }
+
+    .divider {
+      border-top: 2px solid #ff6b00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Bessie Login Change</h1>
+    </div>
+
+    <div class="content">
+      <p>Hi,</p>
+
+			<p>We have recently changed the way you access your account to enhance security and further ensure your privacy. This means that your email address and password will no longer be used to login.</p>
+
+			<p>Instead, copy the code below, click the link to take you to your login page, paste your unique number into the field and click the button. <br />
+				You will then be sent a further email with a login button. <br />
+				Click on the button to be taken to your Bessie portal and to review your results.</p>
+
+			<p>Please note that the login link will expire within 15 minutes and so you will need to re-enter your unique ID if you do not login within that time.</p>
+
+      <center>
+        <a href="{{ url }}" class="button">Login</a>
+      </center>
+      <div class="divider"></div>
+      <p>Warmest wishes.</p>
+    </div>
+  </div>
+</body>
+
+</html>
