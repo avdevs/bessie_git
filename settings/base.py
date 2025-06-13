@@ -16,7 +16,7 @@ ALLOWED_HOSTS = [
 	"127.0.0.1",
 	"localhost",
 	"bessiestressriskassessment.com",
-	"https://bessie-staging.com/",
+	"bessie-staging.com",
 ]
 
 AUTH_USER_MODEL = "users.User"
