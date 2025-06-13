@@ -1,3 +1,4 @@
+from time import sleep
 from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
@@ -132,10 +133,9 @@ def toggle_company_results_visible(request, id):
   company = get_object_or_404(Company, pk=id)
 
   if request.method == "POST":
-    # company.results_visible = not company.results_visible
-    # company.save()
+    company.results_visible = not company.results_visible
+    company.save()
 
-    # send emails to employees if results are enabled
     employees = (
       Employee.objects.filter(company=company)
       .select_related("owner")
@@ -144,12 +144,14 @@ def toggle_company_results_visible(request, id):
       )[:5]
     )
 
+    link = request.build_absolute_uri("/bessie/employee/login")
+
     for employee in employees:
       if employee.has_response is True:
         subject = "Bessie Results Enabled"
         html_message = render_to_string(
           "emails/results_enabled_email.html",
-          {"employee": employee, "company": company},
+          {"login_url": link},
         )
         plain_message = strip_tags(html_message)
 
@@ -160,6 +162,8 @@ def toggle_company_results_visible(request, id):
           recipient_list=[employee.user.email],
           html_message=html_message,
         )
+
+        sleep(1)
 
     messages.success(request, "Results enabled successfully.")
 
