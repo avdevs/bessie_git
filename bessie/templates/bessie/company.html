@@ -52,31 +52,30 @@
 <div class="section">
   <h2 class="section-title">Company results</h2>
   {% if company.results_visible and user.is_staff %}
-  <a href="{% url 'company_results' company.id %}">View results as super admin</a>
+  	<a href="{% url 'company_results' company.id %}">View results as super admin</a>
   {% endif %}
-  {% if company.results_visible %}
-  {% if results_ready %}
-  <a href="{% url 'company_results' company.id %}">View Company results</a>
-  <br />
-  View result by team:
-  <br />
-  {% for team in company.teams %}
-  <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
-  {% endfor %}
-
+  
+	{% if company.results_visible %}
+	  {% if results_ready %}
+		  <a href="{% url 'company_results' company.id %}">View Company results</a>
+		  <br />
+		  View result by team:
+		  <br />
+		  {% for team in company.teams %}
+		  	<a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
+		  {% endfor %}
+	  {% else %}
+	  	<p>Cummulative results not ready. Some employees have not submitted their responses</p>
+	  {% endif %}
   {% else %}
-  <p>Cummulative results not ready. Some employees have not submitted their responses</p>
-  {% endif %}
-  {% else %}
-  <form action="{% url 'toggle-company-results-visible' company.id %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Release results</button>
-  </form>
-  <br />
+	  <form action="{% url 'toggle-company-results-visible' company.id %}" method="post" style="display: inline;">
+	    {% csrf_token %}
+	    <button type="submit" class="btn btn-primary">Release results</button>
+	  </form>
+	  <br />
 
-  <small><br />This will enable users that have completed the survey to view their results even if there are users that
-    have
-    not completed it yet.</small>
+	  <small><br />This will enable users that have completed the survey to view their results even if there are users that
+	    have not completed it yet.</small>
   {% endif %}
 </div>
 
