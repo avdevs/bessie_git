@@ -34,9 +34,7 @@ def generate_unique_ids(apps, schema_editor):
 
 		html_message = render_to_string(
 			"emails/login_change.html",
-			{
-				"url": link,
-			},
+			{"url": link, "unique_id": unique_id},
 		)
 
 		plain_message = strip_tags(html_message)
