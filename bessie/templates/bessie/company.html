@@ -51,7 +51,7 @@
 
 <div class="section">
   <h2 class="section-title">Company results</h2>
-  {% if not company.results_visible and user.is_staff %}
+  {% if company.results_visible and user.is_staff %}
   <a href="{% url 'company_results' company.id %}">View results as super admin</a>
   {% endif %}
   {% if company.results_visible %}
