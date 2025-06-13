@@ -6,7 +6,13 @@
   </div>
   <div>
     {% if response %}
-    <a href="{% url 'user_results' %}" class="btn btn-warning">View Results</a>
+			{% if company.results_visible %}
+	    	<a href="{% url 'user_results' %}" class="btn btn-warning">View Results</a>
+			{% else %}
+				<p><strong>Your results are not yet available.<br /></strong>
+					You will be notified via email when they are ready.</p>
+				</p>
+			{% endif %}
     {% else %}
     {% if employee %}
     <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
