@@ -1173,8 +1173,7 @@ class Form15(forms.Form):
 
 	q111 = forms.ChoiceField(
 		label="111. To what extent does your physical health condition affect the extent to which you can cope with demands at home?",
-		help_text='<p>To what extent do you agree with the following statements:</p>\
-      <div class="frm_likert__heading form-field" id="q111Heading"><div class="frm_primary_label"></div>\
+		help_text='<div class="frm_likert__heading form-field" id="q111Heading"><div class="frm_primary_label"></div>\
 			    <div class="opt-group" style="--col-count: 5;"><div class="frm_likert__column">None</div><div class="frm_likert__column">A small extent</div><div class="frm_likert__column">A moderate extent</div><div class="frm_likert__column">\
 				A significant extent</div><div class="frm_likert__column">Completely</div></div></div>',
 		choices=ZERO_TO_FOUR,
