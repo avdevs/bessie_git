@@ -312,7 +312,7 @@
                 <div class="header">
                   <img src="{% static 'images/WRIcon.png' %}" alt="wider_risks">
                   <div class="header-text">
-                    <span style="font-weight: 600; display: block; text-align: center;">Wider Risks</span>
+                    <span style="font-weight: 600; display: block; text-align: center;">Stress risks likely to impact work</span>
                     <span style="display: block; text-align: center;">Top 3 Risks</span>
                   </div>
                 </div>
@@ -880,14 +880,14 @@
           <div class="">
             <div style="display: flex; align-items: center;">
               <img src="{% static 'images/WRIcon.png' %}" alt="widerRisksFactors">
-              <h3>Wider Risks</h3>
+              <h3>Stress risks likely to impact work</h3>
             </div>
             <div style="width: 100%; margin: auto;">
               <canvas id="widerRisksFactors" height="250px"></canvas>
             </div>
           </div>
           <div>
-            <h3>Wider Risks summary</h3>
+            <h3>Stress risks likely to impact work summary</h3>
             <form method="post" id="wider_risks_form" class="summary-report-wrapper">
               {% csrf_token %}
               <input type="hidden" name="form_type" value="wider_risks_form">
