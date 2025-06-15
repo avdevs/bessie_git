@@ -122,7 +122,7 @@ def view_company_results(request, id):
 			},
 			"wider_risks_form": {
 				"form_class": WiderRisksForm,
-				"success_message": "Wider risks summary updated successfully.",
+				"success_message": "Stress risks likely to impact work summary updated successfully.",
 				"fields": {
 					"wider_risks_risk_level": "wider_risks_risk_level",
 					"wider_risks_in_place": "wider_risks_in_place",
