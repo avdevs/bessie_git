@@ -912,7 +912,7 @@ class Form11(forms.Form):
 
 	q81 = forms.ChoiceField(
 		label="81. Do you have regular contact with your children?",
-		choices=YES_SCORED,
+		choices=NO_SCORED,
 		widget=forms.RadioSelect,
 		required=False,
 	)
