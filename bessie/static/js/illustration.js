@@ -178,11 +178,11 @@
 			},
 		},
 		data: {
-			labels: environmentFactors.slice(0, 3).map((row) => formatText(row.attr)),
+			labels: widerRisksFactors.slice(0, 3).map((row) => formatText(row.attr)),
 			datasets: [
 				{
-					data: environmentFactors.slice(0, 3).map((row) => row.val),
-					backgroundColor: environmentFactors
+					data: widerRisksFactors.slice(0, 3).map((row) => row.val),
+					backgroundColor: widerRisksFactors
 						.slice(0, 3)
 						.map((row) => row.val)
 						.map((value) => getBarColor(value)),
