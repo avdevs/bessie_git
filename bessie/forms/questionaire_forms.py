@@ -819,7 +819,7 @@ class Form10(forms.Form):
 
 	q69 = forms.ChoiceField(
 		label="69. Do you live with a partner?",
-		choices=YES_SCORED,
+		choices=NO_SCORED,
 		widget=forms.RadioSelect,
 		required=False,
 	)
