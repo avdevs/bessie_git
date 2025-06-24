@@ -4883,6 +4883,52 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
           padding-left: 0px !important;
         }
       }
+      @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        .charts,
+        .charts * { 
+            visibility: visible;
+        }
+
+        .charts {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100% !important; 
+            margin: 0 !important; 
+            padding: 20px !important; 
+            display: block !important; 
+            box-sizing: border-box; 
+            gap: 0 !important; 
+        }
+
+        .charts > div { 
+            width: 100% !important;
+            margin-bottom: 20px !important;
+            display: block !important;
+        }
+
+        
+        .charts canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-width: 100% !important;
+            display: block !important;
+        }
+
+        
+        button[onclick="window.print()"] {
+            display: none !important;
+        }
+
+        .charts .heading h3,
+        .charts .heading p {
+            color: black !important;
+        }
+      }
     </style>
   </head>
   <body
@@ -4970,8 +5016,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
                                 <p>The line chart shows your progress across all categories alongside ideal benchmarks.</p>
                             </div>
                             <div style="width: 100%; margin: auto;"><canvas id="progressOverview"></canvas></div>
+                            <button onclick="window.print()">Print</button>
+                          </div>
                         </div>
-                      </div>
                     </div>
                 </div>
               </div>
