@@ -8,4 +8,4 @@ class CaseStudyAdmin(admin.ModelAdmin):
 
 @admin.register(OrgQuizTakers)
 class OrgQuizTakersAdmin(admin.ModelAdmin):
-    list_display = ["first_name", "last_name", "email", "consent"]
+    list_display = ["first_name", "last_name", "org", "position", "email", "consent", "proceed"]
