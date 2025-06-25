@@ -1505,6 +1505,7 @@ a.et_pb_more_button:after {
 .et_builder_inner_content {
   position: relative;
   z-index: 1;
+  border-top: 2px solid #c82c5c;
 }
 header .et_builder_inner_content {
   z-index: 2;

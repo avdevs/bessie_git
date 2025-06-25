@@ -56,6 +56,7 @@ img {
 .et_builder_inner_content {
   position: relative;
   z-index: 1;
+  border-top: 2px solid #c82c5c;
 }
 .et_pb_css_mix_blend_mode_passthrough {
   mix-blend-mode: unset !important;
