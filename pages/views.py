@@ -55,7 +55,7 @@ class QuizPageView(SessionWizardView):
         for form in form_list:
             form_data = {**form_data, **form.cleaned_data}
 
-        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"), last_name=form_data.get("last_name"), org=form_data.get("org"), position=form_data.get("position"), email=form_data.get("email"), consent=form_data.get("consent", False), proceed=form_data.get("proceed", False))
+        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"), last_name=form_data.get("last_name"), email=form_data.get("email"), consent=form_data.get("consent", False))
         quiz_taker.save()
 
         workplace_env = int(form_data.get('q1')) + int(form_data.get('q2')) + int(form_data.get('q3'))
