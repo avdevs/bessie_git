@@ -29,6 +29,9 @@ class OurServicesPageView(TemplateView):
 class TermsAndConditionsPageView(TemplateView):
     template_name = "pages/terms_and_conditions.html"
 
+class FAQsPageView(TemplateView):
+    template_name = "pages/faqs.html"
+
 class CaseStudiesPageView(ListView):
     model = CaseStudy
     paginate_by = 6
