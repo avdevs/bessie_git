@@ -25,6 +25,14 @@ class OrgQuizTakers(models.Model):
     email = models.EmailField()      
     consent = models.BooleanField(default=False)
     proceed = models.BooleanField(default=False)
+    workplace_env = models.IntegerField(default=0)
+    org_polices = models.IntegerField(default=0)
+    leadership_app = models.IntegerField(default=0)
+    training_and_dev = models.IntegerField(default=0)
+    performance_management = models.IntegerField(default=0)
+    workplace_culture = models.IntegerField(default=0)
+    impact_assessment = models.IntegerField(default=0)
+    future_planning = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = "Quiz Taker"

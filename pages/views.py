@@ -58,9 +58,6 @@ class QuizPageView(SessionWizardView):
         for form in form_list:
             form_data = {**form_data, **form.cleaned_data}
 
-        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"), last_name=form_data.get("last_name"), org=form_data.get("org"), position=form_data.get("position"), email=form_data.get("email"), consent=form_data.get("consent", False), proceed=form_data.get("proceed", False))
-        quiz_taker.save()
-
         workplace_env = int(form_data.get('q1')) + int(form_data.get('q2')) + int(form_data.get('q3'))
         org_polices = int(form_data.get('q4')) + int(form_data.get('q5'))
         leadership_app = int(form_data.get('q6')) + int(form_data.get('q7')) + int(form_data.get('q8')) + int(form_data.get('q9'))
@@ -69,6 +66,25 @@ class QuizPageView(SessionWizardView):
         workplace_culture = int(form_data.get('q13')) + int(form_data.get('q14'))
         impact_assessment = int(form_data.get('q15')) + int(form_data.get('q16'))
         future_planning = int(form_data.get('q17')) + int(form_data.get('q18')) + int(form_data.get('q19'))
+
+        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"),
+            last_name=form_data.get("last_name"),
+            org=form_data.get("org"),
+            position=form_data.get("position"),
+            email=form_data.get("email"),
+            consent=form_data.get("consent", False),
+            proceed=form_data.get("proceed", False),
+            workplace_env=workplace_env,
+            org_polices=org_polices,
+            leadership_app=leadership_app,
+            training_and_dev=training_and_dev,
+            performance_management=performance_management,
+            workplace_culture=workplace_culture,
+            impact_assessment=impact_assessment,
+            future_planning=future_planning
+        )
+        quiz_taker.save()
+
 
         results = list()
         results.append(workplace_env)
