@@ -213,6 +213,8 @@ input[type=radio] {
     -webkit-appearance: none; /* For older WebKit browsers like Safari */
     -moz-appearance: none;    /* For Firefox */
     display: none;
+    width: 100%;
+    height: 100%;
 }
 
 input[type="checkbox"] {
@@ -266,8 +268,8 @@ input[type=radio]:not([disabled]):checked, input[type=checkbox]:not([disabled]):
     justify-content: center;
     width: 100%; 
     height: 100%;  
-    padding: 0;    
     margin: 0;   
+    padding: 12px 0;
     cursor: inherit; 
     color: inherit; 
 }
@@ -290,10 +292,10 @@ input[type=radio]:not([disabled]):checked, input[type=checkbox]:not([disabled]):
     border: solid 2px white;
     background-color: #000000;
     color: white;
-    padding: 12px;
     height: auto;
     min-width: 250px;
     border-radius: 50px;
+    cursor: pointer;
 }
 
 textarea {
