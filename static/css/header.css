@@ -384,12 +384,12 @@ nav#top-menu-nav,
 }
 /*! CSS Used from: Embedded */
 a {
-  color: #c82c5c;
+  color: #fb6512;
 }
 #main-header,
 #main-header .nav li ul,
 #main-header .et_mobile_menu {
-  background-color: #000000;
+  background-color: #231f20;
 }
 .nav li ul {
   border-color: #fb6512;
@@ -406,7 +406,7 @@ a {
 }
 #top-menu li.current-menu-item > a,
 #top-menu li.current_page_item > a {
-  color: #c82c5c;
+  color: #fb6512;
 }
 /*! CSS Used fontfaces */
 @font-face {
