@@ -1265,12 +1265,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       .wp-block-group.has-background {
         padding: 1.5em 1.5em 0.5em;
       }
-      .flex {
-        display: flex;
-        gap: 10px;
-        margin: 10px;
-        justify-content: center;
-      }
       @media (min-width: 981px) {
         #left-area {
           width: 79.125%;
@@ -2421,13 +2415,13 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       .nav li ul,
       .et_mobile_menu {
-        border-color: #c82c5c;
+        border-color: #2ea3f2;
       }
       .mobile_menu_bar:before,
       .mobile_menu_bar:after,
       #top-menu li.current-menu-ancestor > a,
       #top-menu li.current-menu-item > a {
-        color: #c82c5c;
+        color: #2ea3f2;
       }
       #main-header {
         -webkit-transition: background-color 0.4s, color 0.4s,
@@ -3422,7 +3416,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         background: #fff;
         visibility: hidden;
         opacity: 0;
-        border-top: 3px solid #c82c5c;
+        border-top: 3px solid #2ea3f2;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -4526,7 +4520,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         background-color: #000000;
       }
       .nav li ul {
-        border-color: #c82c5c;
+        border-color: #fb6512;
       }
       .et_header_style_centered .mobile_nav .select_page,
       .et_header_style_split .mobile_nav .select_page,
@@ -4604,7 +4598,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         .et-fixed-header #top-menu li.current-menu-ancestor > a,
         .et-fixed-header #top-menu li.current-menu-item > a,
         .et-fixed-header #top-menu li.current_page_item > a {
-          color: #c82c5c !important;
+          color: #fb6512 !important;
         }
       }
       @media only screen and (min-width: 1350px) {
@@ -4713,7 +4707,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         font-weight: 600;
         text-transform: uppercase;
         font-size: 26px;
-        color: #c82c5c !important;
+        color: #fb6512 !important;
         letter-spacing: 1px;
         line-height: 1.5em;
         text-align: center;
@@ -4755,6 +4749,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       .et_pb_section_2.et_pb_section {
         padding-top: 20px;
+        padding-bottom: 112px;
       }
       .et_pb_row_2.et_pb_row {
         padding-right: 250px !important;
@@ -4921,16 +4916,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
                                     {{ custom_form }}
                                 {% endif %}
                                 </table>
-                                <div class="flex">
-                                  {% if wizard.steps.prev %}
-                                  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "Previous" %}</button>
-                                  {% endif %}
-                                  {% if wizard.steps.next %}
-                                  <input type="submit" value="{% translate "Next" %}">
-                                  {% else %}
-                                  <input type="submit" id="submitBtn" value="{% translate "Submit" %}">
-                                  {% endif %}
-                                </div>
+                                {% if wizard.steps.prev %}
+                                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "Previous" %}</button>
+                                {% endif %}
+                                {% if wizard.steps.next %}
+                                <input type="submit" value="{% translate "Next" %}">
+                                {% else %}
+                                <input type="submit" id="submitBtn" value="{% translate "Submit" %}">
+                                {% endif %}
                                 </form>
                               </div>
                             </div>

@@ -272,11 +272,18 @@ input[type=radio]:not([disabled]):checked, input[type=checkbox]:not([disabled]):
     color: inherit; 
 }
 
+@keyframes mymove {
+    from {top: 0px; background-color: #fff;} 
+    to {top: 20px; background-color: rgba(255, 255, 255, 0.8);} 
+                                                        
+}
+
 .form-group > div > div:not(:has(input[type="radio"]:checked)):not(:has(input[type="checkbox"]:checked)):hover {
     color: #c82c5c; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     background-color: white;
     cursor: pointer;
-    border-color: #b0264d;
+    animation: mymove 0.5s forwards;
 }
 
 
