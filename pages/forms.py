@@ -24,7 +24,7 @@ class Form2(forms.Form):
         widget=forms.RadioSelect
     )
     q5 = forms.ChoiceField(
-        label="What type of stress management and wellbeing resources does your company provide?",
+        label=". What type of stress management and wellbeing resources does your company provide?",
         choices=[(2, "Employee Assistance Program"), (2, "Wellbeing Workshops/Training"), (2, "Flexible work arrangements"), (3, "Stress Risk Assessments"), (1, "None of the above"), (4, "All of the above")],
         widget=forms.RadioSelect
     )
