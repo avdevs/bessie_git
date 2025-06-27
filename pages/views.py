@@ -7,6 +7,9 @@ from formtools.wizard.views import SessionWizardView
 from django.utils.safestring import mark_safe
 from .models import CaseStudy, OrgQuizTakers
 from django.shortcuts import render
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
 
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
@@ -31,6 +34,12 @@ class TermsAndConditionsPageView(TemplateView):
 
 class FAQsPageView(TemplateView):
     template_name = "pages/faqs.html"
+    # send_mail(
+    #     subject=form_data.get("subject"),
+    #     message=message,
+    #     from_email=None,
+    #     recipient_list=["liam@bitjam.org.uk"],
+    # )
 
 class CaseStudiesPageView(ListView):
     model = CaseStudy
@@ -95,6 +104,39 @@ class QuizPageView(SessionWizardView):
         results.append(workplace_culture)
         results.append(impact_assessment)
         results.append(future_planning)
+
+        html_message = render_to_string(
+            "emails/results_email.html",
+            {
+                "workplace_env": workplace_env,
+                "org_polices": org_polices,
+                "leadership_app": leadership_app,
+                "training_and_dev": training_and_dev,
+                "performance_management": performance_management,
+                "workplace_culture": workplace_culture,
+                "impact_assessment": impact_assessment,
+                "future_planning": future_planning
+            },
+        )
+
+        plain_message = strip_tags(html_message)
+
+        if form_data.get("proceed", False) == True:
+            send_mail(
+                subject="Results",
+                message=plain_message,
+                from_email=None,
+                recipient_list=["liam@bitjam.org.uk"],
+                html_message=html_message,
+            )
+
+        send_mail(
+            subject="Results",
+            message=plain_message,
+            from_email=None,
+            recipient_list=[form_data.get("email")],
+            html_message=html_message,
+        )
 
         return render(self.request, 'pages/done.html', {
             'results': json.dumps(results),
