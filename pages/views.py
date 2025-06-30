@@ -10,6 +10,10 @@ from django.shortcuts import render
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
+from django.shortcuts import render
+from .forms import ContactForm
+from django.views.generic import FormView
+from django.shortcuts import reverse
 
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
@@ -32,14 +36,24 @@ class OurServicesPageView(TemplateView):
 class TermsAndConditionsPageView(TemplateView):
     template_name = "pages/terms_and_conditions.html"
 
-class FAQsPageView(TemplateView):
+
+class FAQsPageView(FormView):
+    form_class = ContactForm
     template_name = "pages/faqs.html"
-    # send_mail(
-    #     subject=form_data.get("subject"),
-    #     message=message,
-    #     from_email=None,
-    #     recipient_list=["liam@bitjam.org.uk"],
-    # )
+    
+
+    def form_valid(self, form):
+        subject = form.cleaned_data.get("subject")
+        message = form.cleaned_data.get("message")
+
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=None,
+            recipient_list=["liam@bitjam.org.uk"],
+        )
+        return super(FAQsPageView, self).form_valid(form)
+
 
 class CaseStudiesPageView(ListView):
     model = CaseStudy
@@ -121,6 +135,7 @@ class QuizPageView(SessionWizardView):
 
         plain_message = strip_tags(html_message)
 
+        #send email to recipient when proceed
         if form_data.get("proceed", False) == True:
             send_mail(
                 subject="Results",
@@ -129,7 +144,7 @@ class QuizPageView(SessionWizardView):
                 recipient_list=["liam@bitjam.org.uk"],
                 html_message=html_message,
             )
-
+        #send email of results
         send_mail(
             subject="Results",
             message=plain_message,
