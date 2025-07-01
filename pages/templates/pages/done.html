@@ -1078,12 +1078,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       #main-content {
         background-color: #fff;
       }
-      .container {
-        width: 80%;
-        max-width: 1080px;
-        margin: auto;
-        position: relative;
-      }
       body:not(.et-tb) #main-content .container,
       body:not(.et-tb-has-header) #main-content .container {
         padding-top: 58px;
@@ -2539,10 +2533,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         -webkit-transition-duration: 0s !important;
         transition-duration: 0s !important;
       }
-      .container {
-        text-align: left;
-        position: relative;
-      }
       .et_fixed_nav.et_show_nav #page-container {
         padding-top: 80px;
       }
@@ -2560,9 +2550,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       .et_fixed_nav.et_show_nav.et_header_style_centered #page-container {
         padding-top: 147px;
       }
-      .et_fixed_nav #main-header {
-        position: fixed;
-      }
       .et-cloud-item-editor #page-container {
         padding-top: 0 !important;
       }
@@ -2571,11 +2558,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       .et_header_style_left #et-top-navigation nav > ul > li > a {
         padding-bottom: 33px;
-      }
-      .et_header_style_left .logo_container {
-        position: absolute;
-        height: 100%;
-        width: 100%;
       }
       .et_header_style_left #et-top-navigation .mobile_menu_bar {
         padding-bottom: 24px;
@@ -4621,12 +4603,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       a {
         color: #c82c5c;
       }
-      #main-header,
-      #main-header .nav li ul,
-      .et-search-form,
-      #main-header .et_mobile_menu {
-        background-color: #000000;
-      }
       .nav li ul {
         border-color: #c82c5c;
       }
@@ -5044,86 +5020,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         </div>
       </div>
     </div>
-
-    <script
-      type="text/javascript"
-      defer=""
-      src="./Quiz _ BESSIE_files/script.js.download"
-      id="koko-analytics-js"
-    ></script>
-    <script type="text/javascript" id="divi-custom-script-js-extra">
-      /* <![CDATA[ */
-      var DIVI = { item_count: "%d Item", items_count: "%d Items" };
-      var et_builder_utils_params = {
-        condition: { diviTheme: true, extraTheme: false },
-        scrollLocations: ["app", "top"],
-        builderScrollLocations: { desktop: "app", tablet: "app", phone: "app" },
-        onloadScrollLocation: "app",
-        builderType: "fe",
-      };
-      var et_frontend_scripts = {
-        builderCssContainerPrefix: "#et-boc",
-        builderCssLayoutPrefix: "#et-boc .et-l",
-      };
-      var et_pb_custom = {
-        ajaxurl: "https:\/\/bessietech.com\/wp-admin\/admin-ajax.php",
-        images_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/images",
-        builder_images_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/includes\/builder\/images",
-        et_frontend_nonce: "325c7ec32e",
-        subscription_failed:
-          "Please, check the fields below to make sure you entered the correct information.",
-        et_ab_log_nonce: "9e16c3804e",
-        fill_message: "Please, fill in the following fields:",
-        contact_error_message: "Please, fix the following errors:",
-        invalid: "Invalid email",
-        captcha: "Captcha",
-        prev: "Prev",
-        previous: "Previous",
-        next: "Next",
-        wrong_captcha: "You entered the wrong number in captcha.",
-        wrong_checkbox: "Checkbox",
-        ignore_waypoints: "no",
-        is_divi_theme_used: "1",
-        widget_search_selector: ".widget_search",
-        ab_tests: [],
-        is_ab_testing_active: "",
-        page_id: "194",
-        unique_test_id: "",
-        ab_bounce_rate: "5",
-        is_cache_plugin_active: "yes",
-        is_shortcode_tracking: "",
-        tinymce_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/includes\/builder\/frontend-builder\/assets\/vendors",
-        accent_color: "#7EBEC5",
-        waypoints_options: [],
-      };
-      var et_pb_box_shadow_elements = [];
-      /* ]]> */
-    </script>
-    <script
-      type="text/javascript"
-      src="./Quiz _ BESSIE_files/scripts.min.js.download"
-      id="divi-custom-script-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./Quiz _ BESSIE_files/common.js.download"
-      id="et-core-common-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./Quiz _ BESSIE_files/frm.min.js.download"
-      id="formidable-js"
-    ></script>
-    <script type="text/javascript" id="formidable-js-after">
-      /* <![CDATA[ */
-      window.frm_js.repeaterRowDeleteConfirmation =
-        "Are you sure you want to delete this row?";
-      /* ]]> */
-    </script>
-    
     <script>
       let res = {{ results|safe }}
     </script>

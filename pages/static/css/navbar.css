@@ -16,12 +16,16 @@
 #main-header .nav li ul,
 .et-search-form,
 #main-header .et_mobile_menu {
-  background-color: #000000;
+  background-color: #000000 !important;
   border-bottom: solid 2px #c82c5c;
   border-radius: 0 0 50px 50px;
 }
 .container {
     text-align: left;
+    position: relative;
+    width: 80%;
+    max-width: 1080px;
+    margin: auto;
     position: relative;
 }
 .nav li ul {
