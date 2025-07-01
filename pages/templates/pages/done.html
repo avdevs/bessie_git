@@ -3,10 +3,6 @@
 {% load i18n %}
 {% load static %}
 <html lang="en-US" class="js js">
-  <div
-    id="in-page-channel-node-id"
-    data-channel-name="in_page_channel_l5XVzP"
-  ></div>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
@@ -20,15 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js" integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <title>Quiz | BESSIE</title>
-    <script>
-      window.koko_analytics = {
-        url: "https:\/\/bessietech.com\/wp-admin\/admin-ajax.php?action=koko_analytics_collect",
-        site_url: "https:\/\/bessietech.com",
-        post_id: 194,
-        use_cookie: 1,
-        cookie_path: "\/",
-      };
-    </script>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}"/>
     <meta name="robots" content="max-image-preview:large" />
     <style>
       img:is([sizes="auto" i], [sizes^="auto," i]) {
@@ -4590,7 +4578,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <link
+    <!-- <link
       rel="shortcut icon"
       href="{% static 'images/bessie_favicon-7-150x150.png' %}"
       sizes="32x32"
@@ -4607,7 +4595,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
     <meta
       name="msapplication-TileImage"
       content="{% static 'images/bessie_favicon.png' %}"
-    />
+    /> -->
     <style id="et-critical-inline-css">
       body,
       .et_pb_column_1_2 .et_quote_content blockquote cite,
