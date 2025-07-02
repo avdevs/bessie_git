@@ -90,6 +90,8 @@ class QuizPageView(SessionWizardView):
         impact_assessment = int(form_data.get('q15')) + int(form_data.get('q16'))
         future_planning = int(form_data.get('q17')) + int(form_data.get('q18')) + int(form_data.get('q19'))
 
+        total = workplace_env + org_polices + leadership_app + training_and_dev + performance_management + workplace_culture + impact_assessment + future_planning
+
         quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"),
             last_name=form_data.get("last_name"),
             org=form_data.get("org"),
@@ -108,6 +110,23 @@ class QuizPageView(SessionWizardView):
         )
         quiz_taker.save()
 
+        results_with_names = []
+        results_with_names.append((workplace_env, "Workplace Environment"))
+        results_with_names.append((org_polices, "Organizational Policies"))
+        results_with_names.append((leadership_app, "Leadership Approach"))
+        results_with_names.append((training_and_dev, "Training and Development"))
+        results_with_names.append((performance_management, "Performance Management"))
+        results_with_names.append((workplace_culture, "Workplace Culture"))
+        results_with_names.append((impact_assessment, "Impact Assessment"))
+        results_with_names.append((future_planning, "Future Planning"))
+
+        results_with_names.sort(key=lambda x: x[0])
+
+        highest_risk = results_with_names[0][0] if results_with_names else None
+
+        highest_risk_category = results_with_names[0][1] if results_with_names else "N/A"
+
+        results = [score for score, name in results_with_names]
 
         results = list()
         results.append(workplace_env)
@@ -122,6 +141,9 @@ class QuizPageView(SessionWizardView):
         html_message = render_to_string(
             "emails/results_email.html",
             {
+                "total": total,
+                "highest_risk": highest_risk,
+                "highest_risk_category": highest_risk_category,
                 "workplace_env": workplace_env,
                 "org_polices": org_polices,
                 "leadership_app": leadership_app,

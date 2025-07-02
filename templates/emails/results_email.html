@@ -45,150 +45,184 @@
     </div>
 
     <div class="content">
-      <h2>Overall Score (Max = 80)</h2>
-      <h2>Your Overall Score: {{ total }}</h2>
-      <h3>High Risk (0-49)</h3>
+      <h2 style="color: #000000;">Overall Score (Max = 80)</h2>
+      <h2 style="color: #000000;">Your Overall Score: {{ total }}</h2>
       {% if total <= 49 %}
-      <p>🚨 Wellbeing is at Breaking Point.
-          Stress, low support, and major gaps in strategy or culture suggest wellbeing is not prioritised. Urgent action is required to avoid burnout and disengagement.
-          Opportunity: Reset your foundations with expert help.
-          <br><br>
-          🧱 Workplace Environment
+        <h3 style="color: #000000;">High Risk (0-49)</h3>
+          <p style="color: #000000;">
+            🚨 Wellbeing is at Breaking Point.
+            Stress, low support, and major gaps in strategy or culture suggest wellbeing is not prioritised. Urgent action is required to avoid burnout and disengagement.
+            Opportunity: Reset your foundations with expert help.
+          </p>
+          <p style="color: #000000;">🧱 {{ highest_risk_category }}</p>
+          {% if highest_risk <= 5 and highest_risk_category == 'Workplace Environment' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 10 and highest_risk_category == 'Workplace Environment'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 3 and highest_risk_category == 'Organizational Policies' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 6 and highest_risk_category == 'Organizational Policies'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 4 and highest_risk_category == 'Leadership Approach' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 7 and highest_risk_category == 'Leadership Approach'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 1 and highest_risk_category == 'Training and Development' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 3 and highest_risk_category == 'Training and Development'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 3 and highest_risk_category == 'Performance Management' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 5 and highest_risk_category == 'Performance Management'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 3 and highest_risk_category == 'Workplace Culture' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 6 and highest_risk_category == 'Workplace Culture'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 3 and highest_risk_category == 'Impact Assessment' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 6 and highest_risk_category == 'Impact Assessment'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% if highest_risk <= 5 and highest_risk_category == 'Future Planning' %}
+          <em style="color: #000000;">🔴 High Risk</em>
+          {% elif highest_risk <= 9 and highest_risk_category == 'Future Planning'%}
+          <em style="color: #000000;"> Moderate Risk</em>
+          {% else %}
+          <em style="color: #000000;"> Low Risk</em>
+          {% endif %}
           <br>
-          <em>🔴 High Risk</em>
-          <br><br>
-          <strong>Email Subject:</strong> Stress is running high, here's what it could be costing you
-          <strong>Body:</strong>
-          <br><br>
-          Your score in the Workplace Environment category suggests that stress and burnout may be widespread. This isn't just a wellbeing issue — it could be affecting performance, retention, and compliance.
-          Bessie can help you identify where the pressure is building and guide you toward measurable, culture-focused change.
-          <br><br>
-          <strong>CTA:</strong>
-          👉 [Book a Bessie Demo <a href="https://calendly.com/nicky-thriveandshine/bessie-demo">here</a>] - Let's pinpoint the risk before it grows.
-      </p>
+          <strong style="color: #000000;">Email Subject:</strong>
+          <p style="color: #000000;">Stress is running high, here's what it could be costing you</p>
+          <strong style="color: #000000;">Body:</strong>
+          <p style="color: #000000;">
+            Your score in the {{ highest_risk_category }} category suggests that stress and burnout may be widespread. This isn't just a wellbeing issue — it could be affecting performance, retention, and compliance.
+            Bessie can help you identify where the pressure is building and guide you toward measurable, culture-focused change.
+          </p>
+          <strong style="color: #000000;">CTA:</strong>
+          <p style="color: #000000;">👉 [Book a Bessie Demo <a href="https://calendly.com/nicky-thriveandshine/bessie-demo">here</a>] - Let's pinpoint the risk before it grows.</p>
       {% elif total >= 50 and total <= 69 %}
-      <h3>Moderate Risk (50-69)</h3>
-      <p>⚠️ You're on the Cusp of Something Better.
+      <h3 style="color: #000000;">Moderate Risk (50-69)</h3>
+      <p style="color: #000000;">⚠️ You're on the Cusp of Something Better.
           Mixed results. Some areas are strong, others weak. With focused effort, wellbeing and performance could rapidly improve.
           Opportunity: Target the cracks, optimise what's working.
       </p>
-      {% else %} {# total >= 70 and total <= 80 #}
-      <h3>Low Risk (70-80)</h3>
-      <p>🌟 You're Creating a Culture Where People Can Thrive.
+      {% else %}
+      <h3 style="color: #000000;">Low Risk (70-80)</h3>
+      <p style="color: #000000;">🌟 You're Creating a Culture Where People Can Thrive.
           Strong leadership, policy, and culture alignment. You're not just managing stress, you're building resilience.
           Opportunity: Lead by example. Refine and scale your success.
       </p>
       {% endif %}
       <div class="divider"></div>
-        <h2>Workplace Environment (Max = 15)</h2>
-        <h2>Your Score: {{workplace_env}}</h2>
+        <h2 style="color: #000000;">Workplace Environment (Max = 15)</h2>
+        <h2 style="color: #000000;">Your Score: {{workplace_env}}</h2>
         {% if workplace_env <= 5 %}
-          <h3>High Risk (0-5)</h3>
-          <p>Stress is Widespread and It's Showing.</p>
+          <h3 style="color: #000000;">High Risk (0-5)</h3>
+          <p style="color: #000000;">Stress is Widespread and It's Showing.</p>
         {% elif workplace_env >= 6 and workplace_env <= 10 %}
-          <h3>Moderate Risk (6-10)</h3>
-          <p>Stress Signals Are Emerging.</p>
+          <h3 style="color: #000000;">Moderate Risk (6-10)</h3>
+          <p style="color: #000000;">Stress Signals Are Emerging.</p>
         {% else %} {# workplace_env >= 11 and workplace_env <= 15 #}
-          <h3>Low Risk (11-15)</h3>
-          <p>A Resilient Workplace Environment.</p>
+          <h3 style="color: #000000;">Low Risk (11-15)</h3>
+          <p style="color: #000000;">A Resilient Workplace Environment.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Organisational Policies (Max = 8)</h2>
-      <h2>Your Score: {{org_polices}}</h2>
+      <h2 style="color: #000000;">Organisational Policies (Max = 8)</h2>
+      <h2 style="color: #000000;">Your Score: {{org_polices}}</h2>
         {% if org_polices <= 3 %}
-          <h3>High Risk (0-3)</h3>
-          <p>No Policy, No Protection.</p>
+          <h3 style="color: #000000;">High Risk (0-3)</h3>
+          <p style="color: #000000;">No Policy, No Protection.</p>
         {% elif org_polices >= 4 and org_polices <= 6 %}
-          <h3>Moderate Risk (4-6)</h3>
-          <p>Some Support Exists, But It's Not Yet Strong Enough.</p>
-        {% else %} {# org_polices >= 7 and org_polices <= 8 #}
-          <h3>Low Risk (7-8)</h3>
-          <p>Your Policies Are Setting the Standard.</p>
+          <h3 style="color: #000000;">Moderate Risk (4-6)</h3>
+          <p style="color: #000000;">Some Support Exists, But It's Not Yet Strong Enough.</p>
+        {% else %}
+          <h3 style="color: #000000;">Low Risk (7-8)</h3>
+          <p style="color: #000000;">Your Policies Are Setting the Standard.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Leadership Approach (Max = 10)</h2>
-      <h2>Your Score: {{leadership_app}}</h2>
+      <h2 style="color: #000000;">Leadership Approach (Max = 10)</h2>
+      <h2 style="color: #000000;">Your Score: {{leadership_app}}</h2>
         {% if leadership_app <= 4 %}
-          <h3>High Risk (0-4)</h3>
-          <p>Leadership Gaps Are Holding Back Wellbeing.</p>
+          <h3 style="color: #000000;">High Risk (0-4)</h3>
+          <p style="color: #000000;">Leadership Gaps Are Holding Back Wellbeing.</p>
         {% elif leadership_app >= 5 and leadership_app <= 7 %}
-          <h3>Moderate Risk (5-7)</h3>
-          <p>Good Intentions, Patchy Delivery.</p>
-        {% else %} {# leadership_app >= 8 and leadership_app <= 10 #}
-          <h3>Low Risk (8-10)</h3>
-          <p>Leadership is Setting the Tone for Wellbeing.</p>
+          <h3 style="color: #000000;">Moderate Risk (5-7)</h3>
+          <p style="color: #000000;">Good Intentions, Patchy Delivery.</p>
+        {% else %} 
+          <h3 >Low Risk (8-10)</h3>
+          <p style="color: #000000;">Leadership is Setting the Tone for Wellbeing.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Training & Development (Max = 4)</h2>
-      <h2>Your Score: {{training_and_dev}}</h2>
+      <h2 style="color: #000000;">Training & Development (Max = 4)</h2>
+      <h2 style="color: #000000;">Your Score: {{training_and_dev}}</h2>
         {% if training_and_dev == 1 %}
-          <h3>High Risk (1)</h3>
-          <p>Your Wellbeing Lead Is Under-Resourced.</p>
+          <h3 style="color: #000000;">High Risk (1)</h3>
+          <p style="color: #000000;">Your Wellbeing Lead Is Under-Resourced.</p>
         {% elif training_and_dev >= 2 and training_and_dev <= 3 %}
-          <h3>Moderate Risk (2-3)</h3>
-          <p>There's Some Support, But It's Not Yet Enough.</p>
-        {% else %} {# training_and_dev == 4 #}
-          <h3>Low Risk (4)</h3>
-          <p>Your Wellbeing Lead Has the Tools to Thrive.</p>
+          <h3 style="color: #000000;">Moderate Risk (2-3)</h3>
+          <p style="color: #000000;">There's Some Support, But It's Not Yet Enough.</p>
+        {% else %}
+          <h3 style="color: #000000;">Low Risk (4)</h3>
+          <p style="color: #000000;">Your Wellbeing Lead Has the Tools to Thrive.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Performance Management (Max = 7)</h2>
-      <h2>Your Score: {{performance_management}}</h2>
+      <h2 style="color: #000000;">Performance Management (Max = 7)</h2>
+      <h2 style="color: #000000;">Your Score: {{performance_management}}</h2>
         {% if performance_management >= 1 and performance_management <= 3 %}
-          <h3>High Risk (1-3)</h3>
-          <p>Stress Is Being Overlooked in Performance Conversations.</p>
+          <h3 style="color: #000000;">High Risk (1-3)</h3>
+          <p style="color: #000000;">Stress Is Being Overlooked in Performance Conversations.</p>
         {% elif performance_management >= 4 and performance_management <= 5 %}
-          <h3>Moderate Risk (4-5)</h3>
-          <p>Some Consideration, But It's Not Systemic.</p>
-        {% else %} {# performance_management >= 6 and performance_management <= 7 #}
-          <h3>Low Risk (6-7)</h3>
-          <p>Performance Is Viewed Through a Human Lens.</p>
+          <h3 style="color: #000000;">Moderate Risk (4-5)</h3>
+          <p style="color: #000000;">Some Consideration, But It's Not Systemic.</p>
+        {% else %} 
+          <h3 style="color: #000000;">Low Risk (6-7)</h3>
+          <p style="color: #000000;">Performance Is Viewed Through a Human Lens.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Workplace Culture (Max = 9)</h2>
-      <h2>Your Score: {{workplace_culture}}</h2>
+      <h2 style="color: #000000;">Workplace Culture (Max = 9)</h2>
+      <h2 style="color: #000000;">Your Score: {{workplace_culture}}</h2>
         {% if workplace_culture >= 1 and workplace_culture <= 3 %}
-          <h3>High Risk (1-3)</h3>
-          <p>Wellbeing Isn't Embedded in Your Culture Yet.</p>
+          <h3 style="color: #000000;">High Risk (1-3)</h3>
+          <p style="color: #000000;">Wellbeing Isn't Embedded in Your Culture Yet.</p>
         {% elif workplace_culture >= 4 and workplace_culture <= 6 %}
-          <h3>Moderate Risk (4-6)</h3>
-          <p>Wellbeing Matters, But It's Not Yet Cultural.</p>
-        {% else %} {# workplace_culture >= 7 and workplace_culture <= 9 #}
-          <h3>Low Risk (7-9)</h3>
-          <p>Wellbeing Is a Cultural Strength.</p>
+          <h3 style="color: #000000;">Moderate Risk (4-6)</h3>
+          <p style="color: #000000;">Wellbeing Matters, But It's Not Yet Cultural.</p>
+        {% else %}
+          <h3 style="color: #000000;">Low Risk (7-9)</h3>
+          <p style="color: #000000;">Wellbeing Is a Cultural Strength.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Impact Assessment (Max = 8)</h2>
-      <h2>Your Score: {{impact_assessment}}</h2>
+      <h2 style="color: #000000;">Impact Assessment (Max = 8)</h2>
+      <h2 style="color: #000000;">Your Score: {{impact_assessment}}</h2>
         {% if impact_assessment >= 1 and impact_assessment <= 3 %}
-          <h3>High Risk (1-3)</h3>
-          <p>Stress Is Harming Performance and Going Unmeasured.</p>
+          <h3 style="color: #000000;">High Risk (1-3)</h3>
+          <p style="color: #000000;">Stress Is Harming Performance and Going Unmeasured.</p>
         {% elif impact_assessment >= 4 and impact_assessment <= 6 %}
-          <h3>Moderate Risk (4-6)</h3>
-          <p>Some Insight Exists, But It's Not Complete.</p>
-        {% else %} {# impact_assessment >= 7 and impact_assessment <= 8 #}
-          <h3>Low Risk (7-8)</h3>
-          <p>You're Tracking What Matters and It's Paying Off.</p>
+          <h3 style="color: #000000;">Moderate Risk (4-6)</h3>
+          <p style="color: #000000;">Some Insight Exists, But It's Not Complete.</p>
+        {% else %}
+          <h3 style="color: #000000;">Low Risk (7-8)</h3>
+          <p style="color: #000000;">You're Tracking What Matters and It's Paying Off.</p>
         {% endif %}
       <div class="divider"></div>
 
-      <h2>Future Planning (Max = 13)</h2>
-      <h2>Your Score: {{future_planning}}</h2>
+      <h2 style="color: #000000;">Future Planning (Max = 13)</h2>
+      <h2 style="color: #000000;">Your Score: {{future_planning}}</h2>
         {% if future_planning >= 1 and future_planning <= 5 %}
-          <h3>High Risk (1-5)</h3>
-          <p>No Clear Path Forward.</p>
+          <h3 style="color: #000000;">High Risk (1-5)</h3>
+          <p style="color: #000000;">No Clear Path Forward.</p>
         {% elif future_planning >= 6 and future_planning <= 9 %}
-          <h3>Moderate Risk (6-9)</h3>
-          <p>There's Momentum, But It Needs Direction.</p>
-        {% else %} {# future_planning >= 10 and future_planning <= 13 #}
-          <h3>Low Risk (10-13)</h3>
-          <p>You're Planning to Lead, Not Just Respond.</p>
+          <h3 style="color: #000000;">Moderate Risk (6-9)</h3>
+          <p style="color: #000000;">There's Momentum, But It Needs Direction.</p>
+        {% else %}
+          <h3 style="color: #000000;">Low Risk (10-13)</h3>
+          <p style="color: #000000;">You're Planning to Lead, Not Just Respond.</p>
         {% endif %}
       <div class="divider"></div>
       <p>Warmest wishes.</p>
