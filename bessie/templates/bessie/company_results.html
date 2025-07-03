@@ -8,6 +8,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bessie.css' %}">
     <link rel="stylesheet" href="{% static 'css/result.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"
             integrity="sha512-ZwR1/gSZM3ai6vCdI+LVF1zSq/5HznD3ZSTk7kajkaj4D292NLuduDCO1c/NT8Id+jE58KYLKT7hXnbtryGmMg=="
             crossorigin="anonymous"
@@ -17,6 +18,62 @@
     p {
       line-height: 30px;
     }
+		.btn {
+			display: inline-block;
+			padding: 10px 16px;
+			font-size: 0.875rem;
+			font-weight: 500;
+			border-radius: 6px;
+			border: none;
+			cursor: pointer;
+			transition: all 0.2s;
+		}
+		.btn-primary {
+			background-color: #c82c5c;
+			border-color: #c82c5c;
+			color: white;
+		}
+		.navbar {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			background-color: #4caf50; /* Green Background */
+			padding: 10px 20px;
+			color: white;
+		}
+		
+		.navbar .brand {
+			font-size: 1.5rem;
+			font-weight: bold;
+			text-decoration: none;
+			color: white;
+		}
+		
+		.navbar .user-info {
+			display: flex;
+			align-items: center;
+			gap: 15px;
+		}
+		
+		.navbar .user-info .username {
+			font-size: 1rem;
+		}
+		
+		.navbar .user-info .logout {
+			text-decoration: none;
+			color: white;
+			background-color: transparent;
+			border: 1px solid white;
+			padding: 5px 10px;
+			border-radius: 5px;
+			font-size: 0.9rem;
+			transition: background-color 0.3s, color 0.3s;
+		}
+		
+		.navbar .user-info .logout:hover {
+			background-color: white;
+			color: #99eb9c;
+		}
 
     .messages-container {
       position: fixed;
@@ -173,6 +230,16 @@
   {% endif %}
   <div class="container">
     <div class="fixed-menu">
+			<nav class="navbar">
+				<a href="{% url 'dashboard' %}" class="brand">Bessie</a>
+				<div class="user-info">
+						<span class="username">Hello, {{ request.user.email }}!</span>
+						<form action="{% url 'logout' %}" method="post">
+								{% csrf_token %}
+								<button class="btn btn-primary">Log Out</button>
+						</form>
+				</div>
+			</nav>
       <div class="team-selection">
         <label for="team-filter" style="margin-right: 10px; font-weight: 600;">Filter by Team:</label>
         <select id="team-filter"
@@ -188,7 +255,7 @@
         <button class="tab-btn" data-tab="tab2">Stress and wellbeing</button>
         <button class="tab-btn" data-tab="tab3">Workplace stress</button>
         <button class="tab-btn" data-tab="tab4">Presenteeism</button>
-        <button class="tab-btn" data-tab="tab5">Wider Risks</button>
+        <button class="tab-btn" data-tab="tab5">Stress risks likely to impact work</button>
       </div>
     </div>
     <div class="tabs">
@@ -246,7 +313,7 @@
                 <div class="header">
                   <img src="{% static 'images/WRIcon.png' %}" alt="wider_risks">
                   <div class="header-text">
-                    <span style="font-weight: 600; display: block; text-align: center;">Wider Risks</span>
+                    <span style="font-weight: 600; display: block; text-align: center;">Stress risks likely to impact work</span>
                     <span style="display: block; text-align: center;">Top 3 Risks</span>
                   </div>
                 </div>
@@ -814,14 +881,14 @@
           <div class="">
             <div style="display: flex; align-items: center;">
               <img src="{% static 'images/WRIcon.png' %}" alt="widerRisksFactors">
-              <h3>Wider Risks</h3>
+              <h3>Stress risks likely to impact work</h3>
             </div>
             <div style="width: 100%; margin: auto;">
               <canvas id="widerRisksFactors" height="250px"></canvas>
             </div>
           </div>
           <div>
-            <h3>Wider Risks summary</h3>
+            <h3>Stress risks likely to impact work summary</h3>
             <form method="post" id="wider_risks_form" class="summary-report-wrapper">
               {% csrf_token %}
               <input type="hidden" name="form_type" value="wider_risks_form">

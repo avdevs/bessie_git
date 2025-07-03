@@ -2,12 +2,12 @@
 {% load bessie_extras %}
 
 {% block content %}
-<!-- Metrics Section -->
-<div class="section">
-  <h2 class="section-title">Company Metrics</h2>
-  <div class="metrics-grid">
-    <!-- TODO: check the comment to this section in comp_admin_home.html -->
-    <!-- <div class="metric-card">
+	<!-- Metrics Section -->
+	<div class="section">
+		<h2 class="section-title">Company Metrics</h2>
+		<div class="metrics-grid">
+			<!-- TODO: check the comment to this section in comp_admin_home.html -->
+			<!-- <div class="metric-card">
       <div class="metric-title">Slots Available</div>
       <div class="metric-value">{{ available_slots }}</div>
     </div>
@@ -15,132 +15,132 @@
       <div class="metric-title">Slots Used</div>
       <div class="metric-value">{{ company.used_slots }}</div>
     </div> -->
-    <div class="metric-card">
-      <div class="metric-title">Quizzes Taken</div>
-      <div class="metric-value">{{ quizzes }}</div>
-    </div>
-  </div>
-</div>
+			<div class="metric-card">
+				<div class="metric-title">Quizzes Taken</div>
+				<div class="metric-value">{{ quizzes }}</div>
+			</div>
+		</div>
+	</div>
 
-<div class="section">
-  <h2 class="section-title">Invite Employees</h2>
-  <p>Download the csv file sample below, enter employee details and reupload it.</p>
-  <p>employees will automatically be sent an ivite email with a login password</p>
-  <a href="{% url 'csv_sample' %}">Click here to download csv file sample</a>
-  <br>
-  <h4>Upload filled csv file below</h4>
-  <form method="post" action="{% url 'upload_csv' company.id %}" enctype="multipart/form-data">
-    {% csrf_token %}
+	<div class="section">
+		<h2 class="section-title">Invite Employees</h2>
+		<p>Download the csv file sample below, enter employee details and reupload it.</p>
+		<p>employees will automatically be sent an ivite email with a login password</p>
+		<a href="{% url 'csv_sample' %}">Click here to download csv file sample</a>
+		<br>
+		<h4>Upload filled csv file below</h4>
+		<form method="post" action="{% url 'upload_csv' company.id %}" enctype="multipart/form-data">
+			{% csrf_token %}
 
-    <div class="form-group">
-      {{ form.csv_file.label_tag }}
-      {{ form.csv_file }}
+			<div class="form-group">
+				{{ form.csv_file.label_tag }}
+				{{ form.csv_file }}
 
-      {% if form.csv_file.errors %}
-      <div class="alert alert-danger">
-        {% for error in form.csv_file.errors %}
-        {{ error }}
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
+				{% if form.csv_file.errors %}
+					<div class="alert alert-danger">
+						{% for error in form.csv_file.errors %}
+							{{ error }}
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
 
-    <button type="submit" class="btn btn-primary">Upload CSV</button>
-  </form>
-</div>
+			<button type="submit" class="btn btn-primary">Upload CSV</button>
+		</form>
+	</div>
 
-<div class="section">
-  <h2 class="section-title">Company results</h2>
-  {% if company.results_visible and user.is_staff %}
-  <a href="{% url 'company_results' company.id %}">View results as super admin</a>
-  {% endif %}
-  {% if company.results_visible %}
-  {% if results_ready %}
-  <a href="{% url 'company_results' company.id %}">View Company results</a>
-  <br />
-  View result by team:
-  <br />
-  {% for team in company.teams %}
-  <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
-  {% endfor %}
+	<div class="section">
+		<h2 class="section-title">Company results</h2>
+		{% if user.is_staff %}
+			<a href="{% url 'company_results' company.id %}">View results as super admin</a>
+		{% endif %}
 
-  {% else %}
-  <p>Cummulative results not ready. Some employees have not submitted their responses</p>
-  {% endif %}
-  {% else %}
-  <form action="{% url 'toggle-company-results-visible' company.id %}" method="post" style="display: inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Release results</button>
-  </form>
-  <br />
+		{% if company.results_visible %}
+			{% if results_ready %}
+				<a href="{% url 'company_results' company.id %}">View Company results</a>
+				<br/>
+				View result by team:
+				<br/>
+				{% for team in company.teams %}
+					<a href="{% url 'company_results' company.id %}?team={{ team }}">{{ team|format_team_name }}</a>
+				{% endfor %}
+			{% else %}
+				<p>Cummulative results not ready. Some employees have not submitted their responses</p>
+			{% endif %}
+		{% else %}
+			<form action="{% url 'toggle-company-results-visible' company.id %}" method="post" style="display: inline;">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-primary">Release results</button>
+			</form>
+			<br/>
 
-  <small><br />This will enable users that have completed the survey to view their results even if there are users that
-    have
-    not completed it yet.</small>
-  {% endif %}
-</div>
+			<small><br/>This will enable users that have completed the survey to view their results even if there are
+				users that
+				have not completed it yet.</small>
+		{% endif %}
+	</div>
 
-<!-- Employees Section -->
-<div class="section">
-  <div style="display: flex; width: 100%; justify-content: space-between;">
-    <h2 class="section-title">Company Employees</h2>
-    <a href="{% url 'user_list' company.id %}">See All</a>
-  </div>
-  <table>
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        {% if request.user.is_staff %}
-        <th>Quiz Status</th>
-        <th>Export Data</th>
-        {% endif %}
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in employees %}
-      <tr>
-        <td>{{ item.user.first_name }}</td>
-        <td>{{ item.user.last_name }}</td>
-        <td>{{ item.user.email }}</td>
-        {% if request.user.is_staff %}
-        {% if item.has_response > 0 %}
-        <td><span class="badge badge-success">Completed</span></td>
-        {% else %}
-        <td><span class="badge badge-warning">Pending</span></td>
-        {% endif %}
-        {% if item.has_response > 0 %}
-        <td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
-        {% endif %}
-        {% endif %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+	<!-- Employees Section -->
+	<div class="section">
+		<div style="display: flex; width: 100%; justify-content: space-between;">
+			<h2 class="section-title">Company Employees</h2>
+			<a href="{% url 'user_list' company.id %}">See All</a>
+		</div>
+		<table>
+			<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				{% if request.user.is_staff %}
+					<th>Quiz Status</th>
+					<th>Export Data</th>
+				{% endif %}
+			</tr>
+			</thead>
+			<tbody>
+			{% for item in employees %}
+				<tr>
+					<td>{{ item.user.first_name }}</td>
+					<td>{{ item.user.last_name }}</td>
+					<td>{{ item.user.email }}</td>
+					{% if request.user.is_staff %}
+						{% if item.has_response > 0 %}
+							<td><span class="badge badge-success">Completed</span></td>
+						{% else %}
+							<td><span class="badge badge-warning">Pending</span></td>
+						{% endif %}
+						{% if item.has_response > 0 %}
+							<td><a href="{% url 'export_data' item.id %}" style="margin-bottom: 0;">Export Data</a></td>
+						{% endif %}
+					{% endif %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
-<!-- Admins Section -->
-<div class="section">
-  <h2 class="section-title">Company Administrators</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in company_admins %}
-      <tr>
-        <td>{{ item.user.first_name }}</td>
-        <td>{{ item.user.last_name }}</td>
-        <td>{{ item.user.email }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
+	<!-- Admins Section -->
+	<div class="section">
+		<h2 class="section-title">Company Administrators</h2>
+		<table>
+			<thead>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for item in company_admins %}
+				<tr>
+					<td>{{ item.user.first_name }}</td>
+					<td>{{ item.user.last_name }}</td>
+					<td>{{ item.user.email }}</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
 {% endblock %}

@@ -40,13 +40,10 @@ Your python env needs to be enabled for this.
 Start the project
 
 ```
-./exec run
-```
-
-In another tab
-
-```
-./exec migrate
+python3 manage.py collectstatic
+python3 manage.py migrate
+python3 manage.py runserver
+python3 manage.py createsuperuser
 ```
 
 #### JS specific

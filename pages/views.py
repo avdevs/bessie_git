@@ -7,6 +7,13 @@ from formtools.wizard.views import SessionWizardView
 from django.utils.safestring import mark_safe
 from .models import CaseStudy, OrgQuizTakers
 from django.shortcuts import render
+from django.core.mail import send_mail
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+from django.shortcuts import render
+from .forms import ContactForm
+from django.views.generic import FormView
+from django.shortcuts import reverse
 
 class HomePageView(TemplateView):
     template_name = "pages/home.html"
@@ -28,6 +35,25 @@ class OurServicesPageView(TemplateView):
 
 class TermsAndConditionsPageView(TemplateView):
     template_name = "pages/terms_and_conditions.html"
+
+
+class FAQsPageView(FormView):
+    form_class = ContactForm
+    template_name = "pages/faqs.html"
+    
+
+    def form_valid(self, form):
+        subject = form.cleaned_data.get("subject")
+        message = form.cleaned_data.get("message")
+
+        send_mail(
+            subject=subject,
+            message=message,
+            from_email=None,
+            recipient_list=["liam@bitjam.org.uk"],
+        )
+        return super(FAQsPageView, self).form_valid(form)
+
 
 class CaseStudiesPageView(ListView):
     model = CaseStudy
@@ -55,9 +81,6 @@ class QuizPageView(SessionWizardView):
         for form in form_list:
             form_data = {**form_data, **form.cleaned_data}
 
-        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"), last_name=form_data.get("last_name"), email=form_data.get("email"), consent=form_data.get("consent", False))
-        quiz_taker.save()
-
         workplace_env = int(form_data.get('q1')) + int(form_data.get('q2')) + int(form_data.get('q3'))
         org_polices = int(form_data.get('q4')) + int(form_data.get('q5'))
         leadership_app = int(form_data.get('q6')) + int(form_data.get('q7')) + int(form_data.get('q8')) + int(form_data.get('q9'))
@@ -66,6 +89,44 @@ class QuizPageView(SessionWizardView):
         workplace_culture = int(form_data.get('q13')) + int(form_data.get('q14'))
         impact_assessment = int(form_data.get('q15')) + int(form_data.get('q16'))
         future_planning = int(form_data.get('q17')) + int(form_data.get('q18')) + int(form_data.get('q19'))
+
+        total = workplace_env + org_polices + leadership_app + training_and_dev + performance_management + workplace_culture + impact_assessment + future_planning
+
+        quiz_taker = OrgQuizTakers(first_name=form_data.get("first_name"),
+            last_name=form_data.get("last_name"),
+            org=form_data.get("org"),
+            position=form_data.get("position"),
+            email=form_data.get("email"),
+            consent=form_data.get("consent", False),
+            proceed=form_data.get("proceed", False),
+            workplace_env=workplace_env,
+            org_polices=org_polices,
+            leadership_app=leadership_app,
+            training_and_dev=training_and_dev,
+            performance_management=performance_management,
+            workplace_culture=workplace_culture,
+            impact_assessment=impact_assessment,
+            future_planning=future_planning
+        )
+        quiz_taker.save()
+
+        results_with_names = []
+        results_with_names.append((workplace_env, "Workplace Environment"))
+        results_with_names.append((org_polices, "Organizational Policies"))
+        results_with_names.append((leadership_app, "Leadership Approach"))
+        results_with_names.append((training_and_dev, "Training and Development"))
+        results_with_names.append((performance_management, "Performance Management"))
+        results_with_names.append((workplace_culture, "Workplace Culture"))
+        results_with_names.append((impact_assessment, "Impact Assessment"))
+        results_with_names.append((future_planning, "Future Planning"))
+
+        results_with_names.sort(key=lambda x: x[0])
+
+        highest_risk = results_with_names[0][0] if results_with_names else None
+
+        highest_risk_category = results_with_names[0][1] if results_with_names else "N/A"
+
+        results = [score for score, name in results_with_names]
 
         results = list()
         results.append(workplace_env)
@@ -76,6 +137,43 @@ class QuizPageView(SessionWizardView):
         results.append(workplace_culture)
         results.append(impact_assessment)
         results.append(future_planning)
+
+        html_message = render_to_string(
+            "emails/results_email.html",
+            {
+                "total": total,
+                "highest_risk": highest_risk,
+                "highest_risk_category": highest_risk_category,
+                "workplace_env": workplace_env,
+                "org_polices": org_polices,
+                "leadership_app": leadership_app,
+                "training_and_dev": training_and_dev,
+                "performance_management": performance_management,
+                "workplace_culture": workplace_culture,
+                "impact_assessment": impact_assessment,
+                "future_planning": future_planning
+            },
+        )
+
+        plain_message = strip_tags(html_message)
+
+        #send email to recipient when proceed
+        if form_data.get("proceed", False) == True:
+            send_mail(
+                subject="Results",
+                message=plain_message,
+                from_email=None,
+                recipient_list=["liam@bitjam.org.uk"],
+                html_message=html_message,
+            )
+        #send email of results
+        send_mail(
+            subject="Results",
+            message=plain_message,
+            from_email=None,
+            recipient_list=[form_data.get("email")],
+            html_message=html_message,
+        )
 
         return render(self.request, 'pages/done.html', {
             'results': json.dumps(results),
