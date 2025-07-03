@@ -20,7 +20,7 @@ body {
 .card-header {
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
-    background-color: #fb6512;
+    background-color: #c82c5c;
     color: #ffffff;
     text-align: center;
     padding: 15px;
@@ -59,7 +59,7 @@ input[type="radio"] {
 }
 
 input[type="radio"]:checked {
-    border-color: #fb6512;
+    border-color: #c82c5c;
 }
 
 textarea {
@@ -68,7 +68,7 @@ textarea {
 
 /* Buttons */
 button, input[type="submit"], .btn-success {
-    background-color: #fb6512;
+    background-color: #c82c5c;
     color: #ffffff;
     border: none;
     padding: 15px 30px;
@@ -130,9 +130,9 @@ button:hover, input[type="submit"]:hover, .btn-success:hover {
     }
 }
 
-/* Orange Button Style */
+/* Pink Button Style */
 .btn-orange {
-    background-color: #fb6512;
+    background-color: #c82c5c;
     color: #ffffff;
     border: none;
     border-radius: 4px;

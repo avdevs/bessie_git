@@ -15,4 +15,5 @@ urlpatterns = [
     # path("contact-us", ContactUsPageView.as_view(), name="contact_us"),
     path("mini-bessie", MiniBessiePageView.as_view(), name="mini_bessie"),
     path("terms-and-conditions", TermsAndConditionsPageView.as_view(), name="tAndC"),
+    path("faqs", FAQsPageView.as_view(), name="faqs"),
 ]

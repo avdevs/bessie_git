@@ -2,15 +2,13 @@
 <!-- saved from url=(0036)https://bessietech.com/our-services/ -->
 <html lang="en-US" class="js js">
     {% load static %}
-  <div
-    id="in-page-channel-node-id"
-    data-channel-name="in_page_channel_bpVb_W"
-  ></div>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="pingback" href="https://bessietech.com/xmlrpc.php" />
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <script
       async=""
@@ -21,15 +19,7 @@
     </script>
 
     <title>Our Services | BESSIE</title>
-    <script>
-      window.koko_analytics = {
-        url: "https:\/\/bessietech.com\/wp-admin\/admin-ajax.php?action=koko_analytics_collect",
-        site_url: "https:\/\/bessietech.com",
-        post_id: 725,
-        use_cookie: 1,
-        cookie_path: "\/",
-      };
-    </script>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}"/>
     <meta name="robots" content="max-image-preview:large" />
     <style>
       img:is([sizes="auto" i], [sizes^="auto," i]) {
@@ -1019,12 +1009,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       #main-content {
         background-color: #fff;
-      }
-      .container {
-        width: 80%;
-        max-width: 1080px;
-        margin: auto;
-        position: relative;
       }
       body:not(.et-tb) #main-content .container,
       body:not(.et-tb-has-header) #main-content .container {
@@ -2462,10 +2446,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         -webkit-transition-duration: 0s !important;
         transition-duration: 0s !important;
       }
-      .container {
-        text-align: left;
-        position: relative;
-      }
       .et_fixed_nav.et_show_nav #page-container {
         padding-top: 80px;
       }
@@ -2483,9 +2463,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       .et_fixed_nav.et_show_nav.et_header_style_centered #page-container {
         padding-top: 147px;
       }
-      .et_fixed_nav #main-header {
-        position: fixed;
-      }
       .et-cloud-item-editor #page-container {
         padding-top: 0 !important;
       }
@@ -2494,11 +2471,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       .et_header_style_left #et-top-navigation nav > ul > li > a {
         padding-bottom: 33px;
-      }
-      .et_header_style_left .logo_container {
-        position: absolute;
-        height: 100%;
-        width: 100%;
       }
       .et_header_style_left #et-top-navigation .mobile_menu_bar {
         padding-bottom: 24px;
@@ -4857,7 +4829,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <link
+    <!-- <link
       rel="shortcut icon"
       href="{% static 'images/bessie_favicon-7-150x150.png' %}"
       sizes="32x32"
@@ -4874,7 +4846,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
     <meta
       name="msapplication-TileImage"
       content="{% static 'images/bessie_favicon.png' %}"
-    />
+    /> -->
     <style id="et-critical-inline-css">
       body,
       .et_pb_column_1_2 .et_quote_content blockquote cite,
@@ -4897,12 +4869,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       }
       a {
         color: #fb6512;
-      }
-      #main-header,
-      #main-header .nav li ul,
-      .et-search-form,
-      #main-header .et_mobile_menu {
-        background-color: #231f20;
       }
       .nav li ul {
         border-color: #fb6512;
@@ -4983,7 +4949,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         .et-fixed-header #top-menu li.current-menu-ancestor > a,
         .et-fixed-header #top-menu li.current-menu-item > a,
         .et-fixed-header #top-menu li.current_page_item > a {
-          color: #fb6512 !important;
+          color: #c82c5c !important;
         }
       }
       @media only screen and (min-width: 1350px) {
@@ -5518,107 +5484,5 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
         </div>
       </div>
     </div>
-
-    <script type="application/javascript">
-      (function () {
-        var file = [
-          "https:\/\/bessietech.com\/wp-content\/et-cache\/725\/et-divi-dynamic-tb-52-725-late.css",
-        ];
-        var handle = document.getElementById("divi-style-inline-inline-css");
-        var location = handle.parentNode;
-
-        if (
-          0 === document.querySelectorAll('link[href="' + file + '"]').length
-        ) {
-          var link = document.createElement("link");
-          link.rel = "stylesheet";
-          link.id = "et-dynamic-late-css";
-          link.href = file;
-
-          location.insertBefore(link, handle.nextSibling);
-        }
-      })();
-    </script>
-    <script type="text/javascript">
-      var et_link_options_data = [
-        {
-          class: "et_pb_code_0",
-          url: "https:\/\/assets10.lottiefiles.com\/packages\/lf20_LbWGJhAMlx.json",
-          target: "_self",
-        },
-      ];
-    </script>
-    <script
-      type="text/javascript"
-      defer=""
-      src="./Our Services _ BESSIE_files/script.js.download"
-      id="koko-analytics-js"
-    ></script>
-    <script type="text/javascript" id="divi-custom-script-js-extra">
-      /* <![CDATA[ */
-      var DIVI = { item_count: "%d Item", items_count: "%d Items" };
-      var et_builder_utils_params = {
-        condition: { diviTheme: true, extraTheme: false },
-        scrollLocations: ["app", "top"],
-        builderScrollLocations: { desktop: "app", tablet: "app", phone: "app" },
-        onloadScrollLocation: "app",
-        builderType: "fe",
-      };
-      var et_frontend_scripts = {
-        builderCssContainerPrefix: "#et-boc",
-        builderCssLayoutPrefix: "#et-boc .et-l",
-      };
-      var et_pb_custom = {
-        ajaxurl: "https:\/\/bessietech.com\/wp-admin\/admin-ajax.php",
-        images_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/images",
-        builder_images_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/includes\/builder\/images",
-        et_frontend_nonce: "7a7b42b030",
-        subscription_failed:
-          "Please, check the fields below to make sure you entered the correct information.",
-        et_ab_log_nonce: "cd21087ce6",
-        fill_message: "Please, fill in the following fields:",
-        contact_error_message: "Please, fix the following errors:",
-        invalid: "Invalid email",
-        captcha: "Captcha",
-        prev: "Prev",
-        previous: "Previous",
-        next: "Next",
-        wrong_captcha: "You entered the wrong number in captcha.",
-        wrong_checkbox: "Checkbox",
-        ignore_waypoints: "no",
-        is_divi_theme_used: "1",
-        widget_search_selector: ".widget_search",
-        ab_tests: [],
-        is_ab_testing_active: "",
-        page_id: "725",
-        unique_test_id: "",
-        ab_bounce_rate: "5",
-        is_cache_plugin_active: "yes",
-        is_shortcode_tracking: "",
-        tinymce_uri:
-          "https:\/\/bessietech.com\/wp-content\/themes\/Divi\/includes\/builder\/frontend-builder\/assets\/vendors",
-        accent_color: "#7EBEC5",
-        waypoints_options: [],
-      };
-      var et_pb_box_shadow_elements = [];
-      /* ]]> */
-    </script>
-    <script
-      type="text/javascript"
-      src="./Our Services _ BESSIE_files/scripts.min.js.download"
-      id="divi-custom-script-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./Our Services _ BESSIE_files/jquery.fitvids.js.download"
-      id="fitvids-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./Our Services _ BESSIE_files/common.js.download"
-      id="et-core-common-js"
-    ></script>
   </body>
 </html>

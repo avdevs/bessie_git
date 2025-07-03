@@ -117,3 +117,10 @@ class Form9(forms.Form):
     last_name = forms.CharField(label="Enter your last name")
     email = forms.EmailField(label="Enter your contact email address")
     consent = forms.BooleanField(label="Do you consent to be contacted by the company after taking the quiz?")
+    proceed = forms.BooleanField(label="If a solution is available to your risks, is your organisation in a position to proceed in the next 3 months?",
+    required=False)
+
+class ContactForm(forms.Form):
+    subject = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Subject"}))
+    message = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Your message"})
+)

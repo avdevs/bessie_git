@@ -200,7 +200,7 @@ a {
 
 a:hover {
   background-color: #ffcc93;
-  color: #fb6512;
+  color: #c82c5c;
 }
 
 h4 {
@@ -265,8 +265,8 @@ input[type="file"]:hover {
 }
 
 .btn-primary {
-  background-color: #fb6512;
-  border-color: #fb6512;
+  background-color: #c82c5c;
+  border-color: #c82c5c;
   color: white;
 }
 
@@ -316,7 +316,7 @@ input {
 
 input:focus {
   outline: none;
-  border-color: #fb6512;
+  border-color: #c82c5c;
   box-shadow: 0 0 0 3px rgba(238, 131, 30, 0.1);
 }
 
@@ -346,9 +346,9 @@ input:focus {
   background: #ffceb4;
 }
 .pagination a.active {
-  background: #fb6512;
+  background: #c82c5c;
   color: white;
-  border-color: #fb6512;
+  border-color: #c82c5c;
 }
 .pagination a:disabled {
   background: #f5f5f5;
