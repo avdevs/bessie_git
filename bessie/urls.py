@@ -1,21 +1,19 @@
 from django.urls import path
 
+from .forms import *
 from .views import (
 	BessieQuestionaireWizard,
-	user_list,
-	view_company_results,
-	user_results,
-	export_data,
 	CompanyFormView,
 	company_detail,
-	toggle_company_results_visible,
+	employee_forgot_id,
 	employee_login,
 	employee_login_process,
+	export_data,
+	toggle_company_results_visible,
+	user_list,
+	user_results,
+	view_company_results,
 )
-
-
-from .forms import *
-
 
 urlpatterns = [
 	# path('dashboard/', dashboard, name='dashboard'),
@@ -70,4 +68,5 @@ urlpatterns = [
 	path(
 		"employee/login/<str:token>", employee_login_process, name="employee_login_process"
 	),
+	path("employee/forgot-id", employee_forgot_id, name="employee_forgot_id"),
 ]

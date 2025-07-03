@@ -1,15 +1,16 @@
 import uuid
 from datetime import timedelta
-from django.utils import timezone
-from django.shortcuts import redirect
+
 from django.contrib.auth import login
-from django.db.models import Exists, OuterRef
-from django.core.paginator import Paginator
 from django.core.mail import send_mail
-from django.shortcuts import render
+from django.core.paginator import Paginator
+from django.db.models import Exists, OuterRef
+from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.utils import timezone
 from django.utils.html import strip_tags
-from bessie.forms import EmployeeLoginForm
+
+from bessie.forms import EmployeeForgotIDForm, EmployeeLoginForm
 from bessie.models import BessieResponse, Company, CompanyAdmin, Employee
 from users.models import User
 
@@ -109,3 +110,51 @@ def employee_login_process(request, token):
 	login(request, employee.user)
 
 	return redirect("dashboard")
+
+
+def employee_forgot_id(request):
+	form = EmployeeForgotIDForm()
+
+	if request.method == "POST":
+		email = request.POST.get("email")
+		employee = Employee.objects.filter(user__email=email).first()
+
+		if employee:
+			html_message = render_to_string(
+				"emails/employee_login_forgot_id.html",
+				{
+					"employee_id": employee.unique_id,
+				},
+			)
+
+			plain_message = strip_tags(html_message)
+
+			send_mail(
+				subject="Bessie Employee ID Recovery",
+				message=plain_message,
+				from_email=None,
+				recipient_list=[email],
+				html_message=html_message,
+			)
+
+			return render(
+				request,
+				"bessie/employee_login_forgot_id.html",
+				{"success": "Your Employee ID has been sent to your email.", "form": form},
+			)
+
+		return render(
+			request,
+			"bessie/employee_login_forgot_id.html",
+			{"error": "No employee found with that email.", "form": form},
+		)
+
+	return render(
+		request,
+		"bessie/employee_login_forgot_id.html",
+		{
+			"form": form,
+			"error": None,
+			"success": None,
+		},
+	)
