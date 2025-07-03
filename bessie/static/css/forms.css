@@ -44,7 +44,7 @@
     --field-border-style: solid;
     --bg-color: #ffffff;
     --bg-color-active: #ffffff;
-    --border-color-active: #c82c5c;
+    --border-color-active: #fb6512;
     --text-color-error: #444444;
     --bg-color-error: #ffffff;
     --border-color-error: #B94A48;
@@ -171,41 +171,43 @@ div.inline-radios {
 
 .form-group {
     padding-block: 5px;
-    align-items: center;
-    text-align: center;
 }
 
 input[type=text], input[type=email] {
     color: var(--text-color);
     background-color: var(--bg-color);
-    border-color: #c82c5c;
+    border-color: var(--border-color);
     border-width: var(--field-border-width);
     border-style: var(--field-border-style);
     border-radius: var(--border-radius);
     width: var(--field-width);
     max-width: 100%;
-    height: 6vh;
     font-size: var(--field-font-size);
     padding: var(--field-pad);
     box-sizing: border-box;
-    outline: #c82c5c;
+    outline: none;
     font-weight: var(--field-weight);
 }
 
 .form-group > label {
-    display: inline-block;
-    margin: 20px;
-    line-height: 1.1;
-    font-size: 2rem;
-    text-align: center;
+    display: block;
+    margin-bottom: 10px;
 }
 
-.form-group > div {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
+input[type=radio], input[type=checkbox] {
+    background-color: var(--bg-color);
+    flex: none;
+    display: inline-block !important;
+    width: 16px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+    color: var(--border-color);
+    border: 1px solid currentColor;
+    border-color: var(--border-color);
+    vertical-align: middle;
+    position: initial;
+    padding: 0;
+    margin-bottom: 10px;
 }
 
 input[type=radio] {
@@ -320,9 +322,9 @@ button, input[type=submit] {
     height: auto;
     line-height: normal;
     text-align: center;
-    background: #c82c5c;
+    background: #fb6512;
     border-width: 1px;
-    border-color: #c82c5c;
+    border-color: #fb6512;
     border-style: solid;
     color: #ffffff;
     cursor: pointer;
