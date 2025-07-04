@@ -91,7 +91,8 @@
       <p><strong>User:</strong> <span id="modalUserName"></span></p>
       <p>Select the companies this user should admin:</p>
       
-      <form id="promoteForm">
+      <form id="promoteForm" method="POST" action="{% url 'promote_user_to_admin' %}">
+        {% csrf_token %}
         <div id="companiesList" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
           <!-- Companies will be loaded here -->
         </div>
@@ -118,7 +119,8 @@
       <p><strong>User:</strong> <span id="demoteModalUserName"></span></p>
       <p>Select the companies to remove admin access from (or select all to completely demote the user):</p>
       
-      <form id="demoteForm">
+      <form id="demoteForm" method="POST" action="{% url 'demote_user_from_admin' %}">
+        {% csrf_token %}
         <div id="demoteCompaniesList" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
           <!-- Companies will be loaded here -->
         </div>
@@ -217,7 +219,7 @@ function openPromoteModal(userId, userName) {
   document.getElementById('userId').value = userId;
   document.getElementById('promoteModal').style.display = 'flex';
   
-  // Load companies
+	// Load companies for promotion
   fetch('/bessie/get-companies-for-promotion/')
     .then(response => response.json())
     .then(data => {
@@ -231,7 +233,7 @@ function openPromoteModal(userId, userName) {
           const label = document.createElement('label');
           label.className = 'company-checkbox';
           label.innerHTML = `
-            <input type="checkbox" name="companies" value="${company.id}">
+            <input type="checkbox" name="company_ids" value="${company.id}">
             ${company.name}
           `;
           companiesList.appendChild(label);
@@ -264,7 +266,7 @@ function openDemoteModal(userId, userName) {
           const label = document.createElement('label');
           label.className = 'company-checkbox';
           label.innerHTML = `
-            <input type="checkbox" name="demote_companies" value="${company.id}" checked>
+            <input type="checkbox" name="company_ids" value="${company.id}" checked>
             ${company.name}
           `;
           companiesList.appendChild(label);
@@ -289,93 +291,26 @@ function closeDemoteModal() {
 
 // Handle promote form submission
 document.getElementById('promoteForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const formData = new FormData();
-  const userId = document.getElementById('userId').value;
-  const checkedBoxes = document.querySelectorAll('input[name="companies"]:checked');
+  const checkedBoxes = document.querySelectorAll('input[name="company_ids"]:checked');
   
   if (checkedBoxes.length === 0) {
+    e.preventDefault();
     alert('Please select at least one company.');
     return;
   }
-  
-  formData.append('user_id', userId);
-  checkedBoxes.forEach(checkbox => {
-    formData.append('company_ids', checkbox.value);
-  });
-  
-  // Get CSRF token
-  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  
-  fetch('/bessie/promote-user-to-admin/', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRFToken': csrfToken
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert('User promoted successfully!');
-      closePromoteModal();
-      location.reload();
-    } else {
-      alert('Error: ' + (data.error || 'Unknown error occurred'));
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred while promoting the user.');
-  });
 });
 
 // Handle demote form submission
 document.getElementById('demoteForm').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const formData = new FormData();
-  const userId = document.getElementById('demoteUserId').value;
-  const checkedBoxes = document.querySelectorAll('input[name="demote_companies"]:checked');
+  const checkedBoxes = document.querySelectorAll('input[name="company_ids"]:checked');
   
   if (checkedBoxes.length === 0) {
+    e.preventDefault();
     alert('Please select at least one company to remove admin access from.');
     return;
   }
-  
-  formData.append('user_id', userId);
-  checkedBoxes.forEach(checkbox => {
-    formData.append('company_ids', checkbox.value);
-  });
-  
-  // Get CSRF token
-  const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-  
-  fetch('/bessie/demote-user-from-admin/', {
-    method: 'POST',
-    body: formData,
-    headers: {
-      'X-CSRFToken': csrfToken
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      alert('User demoted successfully!');
-      closeDemoteModal();
-      location.reload();
-    } else {
-      alert('Error: ' + (data.error || 'Unknown error occurred'));
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred while demoting the user.');
-  });
 });
 
-// Close modals when clicking outside
 document.getElementById('promoteModal').addEventListener('click', function(e) {
   if (e.target === this) {
     closePromoteModal();

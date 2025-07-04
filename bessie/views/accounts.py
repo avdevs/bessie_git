@@ -1,6 +1,7 @@
 import uuid
 from datetime import timedelta
 
+from django.contrib import messages
 from django.contrib.auth import login
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
@@ -272,16 +273,19 @@ def get_companies_for_promotion(request):
 def promote_user_to_bessie_admin(request):
 	"""Promote a user to company admin for selected companies"""
 	if not request.user.is_authenticated:
-		return JsonResponse({"error": "Unauthorized"}, status=401)
+		messages.error(request, "You must be logged in to perform this action.")
+		return redirect("login")
 	if request.user.user_type != User.UserTypes.STAFF:
-		return JsonResponse({"error": "Unauthorized"}, status=403)
+		messages.error(request, "You don't have permission to perform this action.")
+		return redirect("dashboard")
 
 	try:
 		user_id = request.POST.get("user_id")
 		company_ids = request.POST.getlist("company_ids")
 
 		if not user_id or not company_ids:
-			return JsonResponse({"error": "Missing user ID or company IDs"}, status=400)
+			messages.error(request, "Missing user ID or company selection.")
+			return redirect("all_system_users")
 
 		user = User.objects.get(pk=user_id)
 
@@ -291,20 +295,30 @@ def promote_user_to_bessie_admin(request):
 		user.save()
 
 		# Create CompanyAdmin instances for each selected company
+		company_names = []
 		for company_id in company_ids:
 			company = Company.objects.get(pk=company_id)
 			CompanyAdmin.objects.get_or_create(
 				user=user, company=company, defaults={"admin_level": 1}
 			)
+			company_names.append(company.name)
 
-		return JsonResponse({"success": True})
+		companies_text = ", ".join(company_names)
+		messages.success(
+			request,
+			f"Successfully promoted {user.first_name} {user.last_name} to Bessie Admin for: {companies_text}",
+		)
+		return redirect("all_system_users")
 
 	except User.DoesNotExist:
-		return JsonResponse({"error": "User not found"}, status=404)
+		messages.error(request, "User not found.")
+		return redirect("all_system_users")
 	except Company.DoesNotExist:
-		return JsonResponse({"error": "Company not found"}, status=404)
+		messages.error(request, "One or more companies not found.")
+		return redirect("all_system_users")
 	except Exception as e:
-		return JsonResponse({"error": str(e)}, status=500)
+		messages.error(request, f"An error occurred: {str(e)}")
+		return redirect("all_system_users")
 
 
 @require_http_methods(["GET"])
@@ -342,24 +356,35 @@ def get_user_companies_for_demotion(request):
 def demote_user_from_admin(request):
 	"""Demote a user from company admin for selected companies or completely"""
 	if not request.user.is_authenticated:
-		return JsonResponse({"error": "Unauthorized"}, status=401)
+		messages.error(request, "You must be logged in to perform this action.")
+		return redirect("login")
 	if request.user.user_type != User.UserTypes.STAFF:
-		return JsonResponse({"error": "Unauthorized"}, status=403)
+		messages.error(request, "You don't have permission to perform this action.")
+		return redirect("dashboard")
 
 	try:
 		user_id = request.POST.get("user_id")
 		company_ids = request.POST.getlist("company_ids")
 
 		if not user_id:
-			return JsonResponse({"error": "Missing user ID"}, status=400)
+			messages.error(request, "Missing user ID.")
+			return redirect("all_system_users")
 
 		user = User.objects.get(pk=user_id)
 
 		if not user.bessie_admin:
-			return JsonResponse({"error": "User is not currently an admin"}, status=400)
+			messages.error(request, "User is not currently an admin.")
+			return redirect("all_system_users")
 
-		# Remove CompanyAdmin instances for selected companies
+		# Get company names before deletion for the message
+		company_names = []
 		if company_ids:
+			companies_to_remove = CompanyAdmin.objects.filter(
+				user=user, company_id__in=company_ids
+			).select_related("company")
+			company_names = [ca.company.name for ca in companies_to_remove]
+
+			# Remove CompanyAdmin instances for selected companies
 			CompanyAdmin.objects.filter(user=user, company_id__in=company_ids).delete()
 
 		# Check if user has any remaining company admin roles
@@ -370,10 +395,22 @@ def demote_user_from_admin(request):
 			user.user_type = User.UserTypes.EMPLOYEE
 			user.bessie_admin = False
 			user.save()
+			messages.success(
+				request,
+				f"Successfully demoted {user.first_name} {user.last_name} from all admin roles. User is now a regular employee.",
+			)
+		else:
+			companies_text = ", ".join(company_names)
+			messages.success(
+				request,
+				f"Successfully removed {user.first_name} {user.last_name}'s admin access from: {companies_text}",
+			)
 
-		return JsonResponse({"success": True})
+		return redirect("all_system_users")
 
 	except User.DoesNotExist:
-		return JsonResponse({"error": "User not found"}, status=404)
+		messages.error(request, "User not found.")
+		return redirect("all_system_users")
 	except Exception as e:
-		return JsonResponse({"error": str(e)}, status=500)
+		messages.error(request, f"An error occurred: {str(e)}")
+		return redirect("all_system_users")
