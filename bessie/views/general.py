@@ -1,12 +1,16 @@
 from django.core.paginator import Paginator
-from django.shortcuts import render
 from django.db.models import Exists, OuterRef
+from django.shortcuts import redirect, render
+
 from bessie.forms import AdminInviteForm
 from bessie.models import BessieResponse, BessieResult, Company, CompanyAdmin, Employee
 from users.forms import BulkUserInviteForm
 
 
 def index(request):
+	if not request.user.is_authenticated:
+		return redirect("login")
+
 	match request.user.user_type:
 		case "STAFF":
 			companies = Company.objects.all().order_by("name")
@@ -23,7 +27,8 @@ def index(request):
 			company = employee.company if employee else None
 
 			print("Employee:", employee)
-			print("Company:", company.results_visible)
+			if company:
+				print("Company:", company.results_visible)
 
 			return render(
 				request,
@@ -32,7 +37,44 @@ def index(request):
 			)
 
 		case "COMPANY_ADMIN":
-			comp_admin = CompanyAdmin.objects.get(user=request.user)
+			# Check if user has multiple companies to admin
+			company_admins = CompanyAdmin.objects.filter(user=request.user).select_related(
+				"company"
+			)
+			companies = [ca.company for ca in company_admins]
+
+			if len(companies) == 0:
+				# User is marked as COMPANY_ADMIN but has no companies assigned
+				return redirect("login")
+			elif len(companies) > 1:
+				# User administers multiple companies
+				# Check if they have already selected a company in this session
+				selected_company_id = request.session.get("selected_company_id")
+				if selected_company_id:
+					# Verify the selected company is one they can admin
+					selected_company = None
+					for company in companies:
+						if company.pk == selected_company_id:
+							selected_company = company
+							break
+					if selected_company:
+						comp_admin = CompanyAdmin.objects.filter(
+							user=request.user, company=selected_company
+						).first()
+					else:
+						# Invalid company selection, redirect to selection page
+						return redirect("company_selection")
+				else:
+					# No company selected, redirect to selection page
+					return redirect("company_selection")
+			else:
+				# User administers only one company
+				comp_admin = company_admins[0]
+
+			if not comp_admin:
+				# This shouldn't happen, but just in case
+				return redirect("login")
+
 			company_admins = CompanyAdmin.objects.filter(company=comp_admin.company)
 			employees = Employee.objects.filter(company=comp_admin.company).annotate(
 				has_response=Exists(BessieResponse.objects.filter(employee=OuterRef("pk")))

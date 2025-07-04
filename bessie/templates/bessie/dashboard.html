@@ -109,19 +109,35 @@
                 opacity: 1;
             }
         }
+
+				.nostyle {
+					display: inline-block;
+					color: white;
+					margin-bottom: 0;
+					padding: 0;
+					background-color: transparent;
+					border-radius: 0;
+				}
+
+				.nostyle:hover {
+					background-color: transparent !important;
+					color: white !important;
+				}
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <span class="brand">Bessie</span>
-        <div class="user-info">
-            <span class="username">Hello, {{ request.user.email }}!</span>
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-primary">Log Out</button>
-            </form>
-        </div>
-    </nav>
+<nav class="navbar">
+	<a class="nostyle" href="{% url 'dashboard' %}">
+		<span class="brand">Bessie</span>
+	</a>
+  <div class="user-info">
+    <span class="username">Hello, {{ request.user.email }}!</span>
+    <form action="{% url 'logout' %}" method="post">
+      {% csrf_token %}
+      <button class="btn btn-primary">Log Out</button>
+    </form>
+  </div>
+</nav>
 {% if messages %}
     <div class="messages-container" id="messages-container">
     {% for message in messages %}
