@@ -213,6 +213,7 @@ def user_results(request, employee_id=None):
 
 	response = BessieResponse.objects.get(employee=employee)
 	results = BessieResult.objects.filter(response=response).values().first()
+
 	texts = {}
 
 	if results is not None:
@@ -234,7 +235,9 @@ def user_results(request, employee_id=None):
 	stats = read_result(stats)
 
 	can_see_result = (
-		employee.company.results_visible if not request.user.is_staff else True
+		employee.company.results_visible
+		or request.user.is_staff
+		or request.user.bessie_admin
 	)
 
 	environment_stressload = calculate_stress_load(stats.get("environment", []))

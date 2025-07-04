@@ -24,10 +24,6 @@ def index(request):
 			response = BessieResponse.objects.filter(employee=employee).first()
 			company = employee.company if employee else None
 
-			print("Employee:", employee)
-			if company:
-				print("Company:", company.results_visible)
-
 			return render(
 				request,
 				"bessie/index.html",
@@ -78,16 +74,6 @@ def index(request):
 				has_response=Exists(BessieResponse.objects.filter(employee=OuterRef("pk")))
 			)[:5]
 
-			employees_with_responses_count = (
-				Employee.objects.filter(company=comp_admin.company, owner__isnull=False)
-				.distinct()
-				.count()
-			)
-
-			results_ready = (
-				employees.count() > 0 and employees.count() == employees_with_responses_count
-			)
-
 			# Get all companies that the user administers
 			company_admins_for_user = CompanyAdmin.objects.filter(
 				user=request.user
@@ -99,7 +85,7 @@ def index(request):
 				"bessie/comp_admin_home.html",
 				{
 					"company": comp_admin.company,
-					"results_ready": results_ready,
+					"employees": employees,
 					"available_companies": available_companies,
 				},
 			)

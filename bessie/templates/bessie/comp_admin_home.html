@@ -34,6 +34,35 @@
 				<a href="{% url 'company_results' company.id %}?team={{ team }}">{{ team|format_team_name }}</a>
 			{% endfor %}
 		{% endif %}
+
+		<table>
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>Status</th>
+					<th>View Results</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for employee in employees %}
+				<tr>
+					<td>{{ employee.user.first_name }}</td>
+					<td>{{ employee.user.last_name }}</td>
+					<td>{{ employee.user.email }}</td>
+	
+					{% if employee.has_response > 0 %}
+						<td><span class="badge badge-success">Completed</span></td>
+						<td><a href="{% url "user_results" employee.user.email %}" style="margin-bottom: 0;">View Results</a></td>
+					{% else %}
+						<td><span class="badge badge-warning">Pending</span></td>
+						<td></td>
+					{% endif %}
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	{% else %}
 		{% comment %} NORMAL COMPANY ADMIN {% endcomment %}
 	  {% if company.results_visible %}
