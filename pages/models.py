@@ -20,8 +20,6 @@ class CaseStudy(models.Model):
 class OrgQuizTakers(models.Model):
     first_name = models.CharField(max_length=256)
     last_name = models.CharField(max_length=256)
-    org = models.CharField(max_length=256)
-    position = models.CharField(max_length=256)
     email = models.EmailField()      
     consent = models.BooleanField(default=False)
     proceed = models.BooleanField(default=False)

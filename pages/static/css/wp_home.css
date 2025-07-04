@@ -3233,7 +3233,7 @@ body.admin-bar.et_fixed_nav.et_secondary_nav_enabled #main-header {
   background: #fff;
   visibility: hidden;
   opacity: 0;
-  border-top: 3px solid #c82c5c;
+  border-top: 3px solid #2ea3f2;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -4492,7 +4492,7 @@ body .et_pb_bg_layout_dark .et_pb_post p {
   font-size: 15px;
 }
 a {
-  color: #c82c5c;
+  color: #fb6512;
 }
 #main-header,
 #main-header .nav li ul,
@@ -4503,7 +4503,7 @@ a {
   border-radius: 0 0 50px 50px;
 }
 .nav li ul {
-  border-color: #c82c5c;
+  border-color: #fb6512;
 }
 .et_header_style_centered .mobile_nav .select_page,
 .et_header_style_split .mobile_nav .select_page,

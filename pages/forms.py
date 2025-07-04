@@ -24,7 +24,7 @@ class Form2(forms.Form):
         widget=forms.RadioSelect
     )
     q5 = forms.ChoiceField(
-        label="What type of stress management and wellbeing resources does your company provide?",
+        label=". What type of stress management and wellbeing resources does your company provide?",
         choices=[(2, "Employee Assistance Program"), (2, "Wellbeing Workshops/Training"), (2, "Flexible work arrangements"), (3, "Stress Risk Assessments"), (1, "None of the above"), (4, "All of the above")],
         widget=forms.RadioSelect
     )
@@ -115,8 +115,6 @@ class Form8(forms.Form):
 class Form9(forms.Form):
     first_name = forms.CharField(label="Enter your first name")
     last_name = forms.CharField(label="Enter your last name")
-    org = forms.CharField(label="Enter your organisations name")
-    position = forms.CharField(label="Enter your position in the organisation")
     email = forms.EmailField(label="Enter your contact email address")
     consent = forms.BooleanField(label="Do you consent to be contacted by the company after taking the quiz?")
     proceed = forms.BooleanField(label="If a solution is available to your risks, is your organisation in a position to proceed in the next 3 months?",
