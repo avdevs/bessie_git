@@ -1,21 +1,27 @@
 from django.urls import path
 
+from .forms import *
 from .views import (
 	BessieQuestionaireWizard,
-	user_list,
-	view_company_results,
-	user_results,
-	export_data,
 	CompanyFormView,
+	all_system_users,
+	clear_company_selection,
 	company_detail,
-	toggle_company_results_visible,
+	company_selection,
+	demote_user_from_admin,
+	employee_forgot_id,
 	employee_login,
 	employee_login_process,
+	export_data,
+	get_companies_for_promotion,
+	get_user_companies_for_demotion,
+	promote_user_to_bessie_admin,
+	select_company,
+	toggle_company_results_visible,
+	user_list,
+	user_results,
+	view_company_results,
 )
-
-
-from .forms import *
-
 
 urlpatterns = [
 	# path('dashboard/', dashboard, name='dashboard'),
@@ -69,5 +75,28 @@ urlpatterns = [
 	path("employee/login", employee_login, name="employee_login"),
 	path(
 		"employee/login/<str:token>", employee_login_process, name="employee_login_process"
+	),
+	path("employee/forgot-id", employee_forgot_id, name="employee_forgot_id"),
+	path("users", all_system_users, name="all_system_users"),
+	path("company-selection/", company_selection, name="company_selection"),
+	path("select-company/<int:company_id>/", select_company, name="select_company"),
+	path(
+		"clear-company-selection/", clear_company_selection, name="clear_company_selection"
+	),
+	path(
+		"get-companies-for-promotion/",
+		get_companies_for_promotion,
+		name="get_companies_for_promotion",
+	),
+	path(
+		"get-user-companies-for-demotion/",
+		get_user_companies_for_demotion,
+		name="get_user_companies_for_demotion",
+	),
+	path(
+		"promote-user-to-admin/", promote_user_to_bessie_admin, name="promote_user_to_admin"
+	),
+	path(
+		"demote-user-from-admin/", demote_user_from_admin, name="demote_user_from_admin"
 	),
 ]

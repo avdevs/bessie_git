@@ -1,0 +1,326 @@
+{% extends 'bessie/dashboard.html' %}
+{% block content %}
+{% csrf_token %}
+<div class="section">
+  <div style="display: flex; width: 100%; justify-content: space-between;">
+    <h2 class="section-title">System users</h2>
+  </div>
+
+  <!-- Search Box -->
+  <div style="margin-bottom: 20px;">
+    <form method="GET" style="display: flex; align-items: center; gap: 10px;">
+      <input 
+        type="text" 
+        name="search" 
+        placeholder="Search by name or email..." 
+        value="{{ request.GET.search }}"
+        style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 4px; min-width: 300px;"
+      >
+      <button 
+        type="submit" 
+        style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;"
+      >
+        Search
+      </button>
+      {% if request.GET.search %}
+        <a 
+          href="?" 
+          style="padding: 4px 16px; background-color: #7e8081; color: white; border: none; border-radius: 4px; cursor: pointer; margin-bottom: 0;"
+        >
+          Clear
+        </a>
+      {% endif %}
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in page_obj %}
+	      <tr>
+	        <td>{{ item.first_name }}</td>
+	        <td>{{ item.last_name }}</td>
+	        <td>{{ item.email }}</td>
+					<td>
+						{% if item.bessie_admin %}
+	            <button class="btn btn-primary" onclick="openDemoteModal({{ item.id }}, '{{ item.first_name }} {{ item.last_name }}')">
+								Demote user
+							</button>
+						{% else %}
+	            <button class="btn btn-secondary" onclick="openPromoteModal({{ item.id }}, '{{ item.first_name }} {{ item.last_name }}')">
+								Promote to Bessie Admin
+							</button>
+						{% endif %}
+	        </td>
+	      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination" id="pagination">
+    {% if page_obj.has_previous %}
+	    <a href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo; first</a>
+	    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">previous</a>
+	  {% endif %}
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+	    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">next</a>
+	    <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">last &raquo;</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Promote/Demote to Bessie Admin Modal -->
+<div id="promoteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">Promote User to Bessie Admin</h3>
+      <button class="close-button" onclick="closePromoteModal()">✕</button>
+    </div>
+    
+    <div class="modal-content">
+      <p><strong>User:</strong> <span id="modalUserName"></span></p>
+      <p>Select the companies this user should admin:</p>
+      
+      <form id="promoteForm" method="POST" action="{% url 'promote_user_to_admin' %}">
+        {% csrf_token %}
+        <div id="companiesList" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+          <!-- Companies will be loaded here -->
+        </div>
+        
+        <div style="margin-top: 15px;">
+          <input type="hidden" id="userId" name="user_id">
+          <button type="submit" class="btn btn-primary">Promote User</button>
+          <button type="button" class="btn btn-secondary" onclick="closePromoteModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Demote User Modal -->
+<div id="demoteModal" class="modal-overlay" style="display: none;">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h3 class="modal-title">Demote User from Bessie Admin</h3>
+      <button class="close-button" onclick="closeDemoteModal()">✕</button>
+    </div>
+    
+    <div class="modal-content">
+      <p><strong>User:</strong> <span id="demoteModalUserName"></span></p>
+      <p>Select the companies to remove admin access from (or select all to completely demote the user):</p>
+      
+      <form id="demoteForm" method="POST" action="{% url 'demote_user_from_admin' %}">
+        {% csrf_token %}
+        <div id="demoteCompaniesList" style="max-height: 500px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; border-radius: 4px;">
+          <!-- Companies will be loaded here -->
+        </div>
+        
+        <div style="margin-top: 15px;">
+          <input type="hidden" id="demoteUserId" name="user_id">
+          <button type="submit" class="btn btn-primary">Demote User</button>
+          <button type="button" class="btn btn-secondary" onclick="closeDemoteModal()">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<style>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-container {
+  background: white;
+  border-radius: 8px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.close-button {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  color: #6b7280;
+  border-radius: 6px;
+  transition: all 0.2s;
+  font-size: 18px;
+}
+
+.close-button:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.modal-content {
+  padding: 24px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.company-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  padding: 5px;
+  text-align: left;
+}
+
+.company-checkbox input {
+	width: 20px;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+</style>
+
+<script>
+let currentUserId = null;
+
+function openPromoteModal(userId, userName) {
+  currentUserId = userId;
+  document.getElementById('modalUserName').textContent = userName;
+  document.getElementById('userId').value = userId;
+  document.getElementById('promoteModal').style.display = 'flex';
+  
+	// Load companies for promotion
+  fetch('/bessie/get-companies-for-promotion/')
+    .then(response => response.json())
+    .then(data => {
+      const companiesList = document.getElementById('companiesList');
+      companiesList.innerHTML = '';
+      
+      if (data.companies.length === 0) {
+        companiesList.innerHTML = '<p>No companies available.</p>';
+      } else {
+        data.companies.forEach(company => {
+          const label = document.createElement('label');
+          label.className = 'company-checkbox';
+          label.innerHTML = `
+            <input type="checkbox" name="company_ids" value="${company.id}">
+            ${company.name}
+          `;
+          companiesList.appendChild(label);
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error loading companies:', error);
+      document.getElementById('companiesList').innerHTML = '<p>Error loading companies.</p>';
+    });
+}
+
+function openDemoteModal(userId, userName) {
+  currentUserId = userId;
+  document.getElementById('demoteModalUserName').textContent = userName;
+  document.getElementById('demoteUserId').value = userId;
+  document.getElementById('demoteModal').style.display = 'flex';
+  
+  // Load user's current companies
+  fetch(`/bessie/get-user-companies-for-demotion/?user_id=${userId}`)
+    .then(response => response.json())
+    .then(data => {
+      const companiesList = document.getElementById('demoteCompaniesList');
+      companiesList.innerHTML = '';
+      
+      if (data.companies.length === 0) {
+        companiesList.innerHTML = '<p>This user is not admin for any companies.</p>';
+      } else {
+        data.companies.forEach(company => {
+          const label = document.createElement('label');
+          label.className = 'company-checkbox';
+          label.innerHTML = `
+            <input type="checkbox" name="company_ids" value="${company.id}" checked>
+            ${company.name}
+          `;
+          companiesList.appendChild(label);
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error loading user companies:', error);
+      document.getElementById('demoteCompaniesList').innerHTML = '<p>Error loading companies.</p>';
+    });
+}
+
+function closePromoteModal() {
+  document.getElementById('promoteModal').style.display = 'none';
+  currentUserId = null;
+}
+
+function closeDemoteModal() {
+  document.getElementById('demoteModal').style.display = 'none';
+  currentUserId = null;
+}
+
+// Handle promote form submission
+document.getElementById('promoteForm').addEventListener('submit', function(e) {
+  const checkedBoxes = document.querySelectorAll('input[name="company_ids"]:checked');
+  
+  if (checkedBoxes.length === 0) {
+    e.preventDefault();
+    alert('Please select at least one company.');
+    return;
+  }
+});
+
+// Handle demote form submission
+document.getElementById('demoteForm').addEventListener('submit', function(e) {
+  const checkedBoxes = document.querySelectorAll('input[name="company_ids"]:checked');
+  
+  if (checkedBoxes.length === 0) {
+    e.preventDefault();
+    alert('Please select at least one company to remove admin access from.');
+    return;
+  }
+});
+
+document.getElementById('promoteModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closePromoteModal();
+  }
+});
+
+document.getElementById('demoteModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeDemoteModal();
+  }
+});
+</script>
+{% endblock %}

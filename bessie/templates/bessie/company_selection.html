@@ -1,0 +1,78 @@
+{% extends 'bessie/dashboard.html' %}
+{% block content %}
+<div class="section">
+  <div style="display: flex; width: 100%; justify-content: space-between;">
+    <h2 class="section-title">Select Company</h2>
+  </div>
+
+  <p>You are an administrator for multiple companies. Please select which company you would like to manage:</p>
+
+  <div style="margin-top: 20px;">
+    {% for company in companies %}
+      <div style="margin-bottom: 15px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
+        <h3 style="margin: 0 0 10px 0;">{{ company.name }}</h3>
+        <p style="margin: 0 0 10px 0; color: #666;">
+          Survey Period: {{ company.survey_start_date }} - {{ company.survey_completion_date }}
+        </p>
+        <a href="{% url 'select_company' company.pk %}" class="btn btn-primary">
+          Manage {{ company.name }}
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+
+  {% if companies|length == 0 %}
+    <p>You are not currently an administrator for any companies.</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+  {% endif %}
+</div>
+
+<style>
+.company-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.company-card:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+  color: white;
+  text-decoration: none;
+}
+</style>
+{% endblock %}

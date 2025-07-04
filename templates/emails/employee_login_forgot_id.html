@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+
+    .footer {
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .button:hover {
+      background-color: #e65c00;
+    }
+
+    .divider {
+      border-top: 2px solid #ff6b00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Bessie Employee Login</h1>
+    </div>
+
+    <div class="content">
+      <p>This email was sent to you because you requested your Employee ID.</p>
+
+			<p>If you are not trying to login, please ignore this email.</p>
+			
+			<p>This link is unique to you and will not be shared with anyone else.</p>
+
+			<p>Your Employee ID is: <strong>{{ employee_id }}</strong></p>
+
+			<p>To continue with your login, please click the button below:</p>
+
+      <center>
+        <a href="{{ url }}" class="button">Login</a>
+      </center>
+      <div class="divider"></div>
+      <p>Warmest wishes.</p>
+    </div>
+  </div>
+</body>
+
+</html>

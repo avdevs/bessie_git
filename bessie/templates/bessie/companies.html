@@ -7,7 +7,10 @@
             <input style="width: 100%;" type="text" id="filterInput" name="search" placeholder="Search companies...">
             <button class="btn btn-primary">search</button>
         </form>
-        <a href="{% url 'create_company' %}">Add Company</a>
+				<div>
+					<a href="{% url 'all_system_users' %}">Manage Users</a>
+					<a href="{% url 'create_company' %}">Add Company</a>
+				</div>
     </div>
     
     <table>
