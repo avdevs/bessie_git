@@ -2,9 +2,7 @@ from django.core.paginator import Paginator
 from django.db.models import Exists, OuterRef
 from django.shortcuts import redirect, render
 
-from bessie.forms import AdminInviteForm
-from bessie.models import BessieResponse, BessieResult, Company, CompanyAdmin, Employee
-from users.forms import BulkUserInviteForm
+from bessie.models import BessieResponse, Company, CompanyAdmin, Employee
 
 
 def index(request):
@@ -79,7 +77,6 @@ def index(request):
 			employees = Employee.objects.filter(company=comp_admin.company).annotate(
 				has_response=Exists(BessieResponse.objects.filter(employee=OuterRef("pk")))
 			)[:5]
-			quiz_count = BessieResult.objects.filter(company=comp_admin.company).count()
 
 			employees_with_responses_count = (
 				Employee.objects.filter(company=comp_admin.company, owner__isnull=False)
@@ -91,21 +88,19 @@ def index(request):
 				employees.count() > 0 and employees.count() == employees_with_responses_count
 			)
 
-			form = BulkUserInviteForm()
-			form1 = AdminInviteForm(initial={"company_id": comp_admin.company.pk})
+			# Get all companies that the user administers
+			company_admins_for_user = CompanyAdmin.objects.filter(
+				user=request.user
+			).select_related("company")
+			available_companies = [ca.company for ca in company_admins_for_user]
 
 			return render(
 				request,
 				"bessie/comp_admin_home.html",
 				{
 					"company": comp_admin.company,
-					"quizzes": quiz_count,
-					"company_admins": company_admins,
-					"employees": employees,
-					"available_slots": comp_admin.company.slots - comp_admin.company.used_slots,
-					"form": form,
-					"form1": form1,
 					"results_ready": results_ready,
+					"available_companies": available_companies,
 				},
 			)
 
