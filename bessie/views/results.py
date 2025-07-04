@@ -1,36 +1,35 @@
 import json
+
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.db.models import (
 	Avg,
 	Case,
-	When,
-	IntegerField,
 	Count,
-	Sum,
+	IntegerField,
 	Q,
+	Sum,
+	When,
 )
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth.decorators import login_required
-
-from bessie.models import (
-	BessieResult,
-	BessieResponse,
-	Employee,
-	Company,
-	CompanyRiskSummary,
-)
-from bessie.views import calculate_stress_load, get_category
 
 from bessie.forms import (
-	StressAndWellbeingRiskForm,
-	WorkplaceStressRiskForm,
 	PresenteeismRiskForm,
+	StressAndWellbeingRiskForm,
 	WiderRisksForm,
+	WorkplaceStressRiskForm,
 )
-
+from bessie.models import (
+	BessieResponse,
+	BessieResult,
+	Company,
+	CompanyRiskSummary,
+	Employee,
+)
 from bessie.report_text import report_text
+from bessie.views import calculate_stress_load, get_category
 
 
 @require_http_methods(["GET", "POST"])
@@ -43,7 +42,7 @@ def view_company_results(request, id):
 
 	user = request.user
 
-	if not company.results_visible and not user.is_staff:
+	if not company.results_visible and not user.is_staff and not user.bessie_admin:
 		return redirect("dashboard")
 
 	team = request.GET.get("team")

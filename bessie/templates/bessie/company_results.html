@@ -228,7 +228,7 @@
       {% endfor %}
     </div>
   {% endif %}
-  <div class="container">
+  <div class="container mt-20">
     <div class="fixed-menu">
 			<nav class="navbar">
 				<a href="{% url 'dashboard' %}" class="brand">Bessie</a>
@@ -241,14 +241,18 @@
 				</div>
 			</nav>
       <div class="team-selection">
-        <label for="team-filter" style="margin-right: 10px; font-weight: 600;">Filter by Team:</label>
-        <select id="team-filter"
-                style="padding: 8px;
-                       border-radius: 4px;
-                       border: 1px solid #ccc">
-          <option value="">All Teams</option>
-          {% for team in company.teams %}<option value="{{ team }}">{{ team|format_team_name }}</option>{% endfor %}
-        </select>
+				<div class="team-dropdown">
+					<div class="team-dropdown-selector">
+		        <label for="team-filter" style="margin-right: 10px; font-weight: 600;">Filter by Team:</label>
+		        <select id="team-filter"
+		                style="padding: 8px;
+		                       border-radius: 4px;
+		                       border: 1px solid #ccc">
+		          <option value="">All Teams</option>
+		          {% for team in company.teams %}<option value="{{ team }}">{{ team|format_team_name }}</option>{% endfor %}
+		        </select>
+					</div>
+				</div>
       </div>
       <div class="tab-buttons">
         <button class="tab-btn active" data-tab="tab1">Overview</button>
