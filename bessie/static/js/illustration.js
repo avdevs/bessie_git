@@ -1,5 +1,17 @@
 (async function () {
 	const formatText = (label) => {
+		if (!label) return "";
+		const customLabels = {
+			work_commitments_as_a_barrier_for_holidays: "Work Commitments",
+			sick_leave_and_employer_support: "Sick Leave",
+			control_and_autonomy_over_working_hours: "Control and Autonomy",
+			financial_position_as_a_barrier_for_holidays: "Barrier for Holidays",
+			physical_health_factors_impacting_work: "Physical Health Factors",
+			fertility_and_pregnancy_impacting_work: "Fertility and Pregnancy",
+			mental_health_factors_impacting_work: "Mental Health Factors",
+		};
+		if (customLabels[label]) return customLabels[label];
+
 		return label.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 	};
 
