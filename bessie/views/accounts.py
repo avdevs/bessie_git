@@ -125,12 +125,14 @@ def employee_forgot_id(request):
 	if request.method == "POST":
 		email = request.POST.get("email")
 		employee = Employee.objects.filter(user__email=email).first()
+		link = request.build_absolute_uri("/bessie/employee/login")
 
 		if employee:
 			html_message = render_to_string(
 				"emails/employee_login_forgot_id.html",
 				{
 					"employee_id": employee.unique_id,
+					"url": link,
 				},
 			)
 
