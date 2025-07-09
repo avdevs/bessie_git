@@ -10,84 +10,10 @@
     <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <script
-      async=""
-      src="./So Marketing _ BESSIE_files/universal.js.download"
-    ></script>
-    <script type="text/javascript">
-      document.documentElement.className = "js";
-    </script>
-
     <title>So Marketing | BESSIE</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}"/>
-    <meta name="robots" content="max-image-preview:large" />
-    <style>
-      img:is([sizes="auto" i], [sizes^="auto," i]) {
-        contain-intrinsic-size: 3000px 1500px;
-      }
-    </style>
-    <script type="text/javascript">
-      let jqueryParams = [],
-        jQuery = function (r) {
-          return (jqueryParams = [...jqueryParams, r]), jQuery;
-        },
-        $ = function (r) {
-          return (jqueryParams = [...jqueryParams, r]), $;
-        };
-      (window.jQuery = jQuery), (window.$ = jQuery);
-      let customHeadScripts = !1;
-      (jQuery.fn = jQuery.prototype = {}),
-        ($.fn = jQuery.prototype = {}),
-        (jQuery.noConflict = function (r) {
-          if (window.jQuery)
-            return (
-              (jQuery = window.jQuery),
-              ($ = window.jQuery),
-              (customHeadScripts = !0),
-              jQuery.noConflict
-            );
-        }),
-        (jQuery.ready = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        }),
-        ($.ready = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        }),
-        (jQuery.load = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        }),
-        ($.load = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        }),
-        (jQuery.fn.ready = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        }),
-        ($.fn.ready = function (r) {
-          jqueryParams = [...jqueryParams, r];
-        });
-    </script>
-    <link rel="dns-prefetch" href="https://js.stripe.com/" />
     <link rel="dns-prefetch" href="https://fonts.googleapis.com/" />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="BESSIE » Feed"
-      href="https://bessietech.com/feed/"
-    />
-    <link
-      rel="alternate"
-      type="application/rss+xml"
-      title="BESSIE » Comments Feed"
-      href="https://bessietech.com/comments/feed/"
-    />
-    <meta content="Divi v.4.27.2" name="generator" />
-    <link
-      rel="stylesheet"
-      id="formidable-css"
-      href="./So Marketing _ BESSIE_files/formidableforms.css"
-      type="text/css"
-      media="all"
-    />
+
     <style id="wp-block-library-theme-inline-css" type="text/css">
       .wp-block-audio :where(figcaption) {
         color: #555;
@@ -4395,113 +4321,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       type="text/css"
       media="all"
     />
-    <script
-      type="text/javascript"
-      src="./So Marketing _ BESSIE_files/jquery.min.js.download"
-      id="jquery-core-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./So Marketing _ BESSIE_files/jquery-migrate.min.js.download"
-      id="jquery-migrate-js"
-    ></script>
-    <script type="text/javascript" id="jquery-js-after">
-      /* <![CDATA[ */
-      jqueryParams.length &&
-        $.each(jqueryParams, function (e, r) {
-          if ("function" == typeof r) {
-            var n = String(r);
-            n.replace("$", "jQuery");
-            var a = new Function("return " + n)();
-            $(document).ready(a);
-          }
-        });
-      /* ]]> */
-    </script>
-    <script
-      type="text/javascript"
-      src="./So Marketing _ BESSIE_files/saved_resource"
-      id="stripe-js-v3-js"
-    ></script>
-    <script type="text/javascript" id="rcp-stripe-js-extra">
-      /* <![CDATA[ */
-      var rcpStripe = {
-        keys: {
-          publishable:
-            "pk_live_51MC35KDx8kat3SiitAMeFkFTWqV2uBUBqhYNqrGCsDdQtcxjqUE4LpLwnyTTf0qMh4DeJOKXZgKy6Eca4VXb0EPH00kND69qpj",
-        },
-        errors: {
-          api_key_expired: "Payment gateway connection error.",
-          card_declined: "The card has been declined.",
-          email_invalid:
-            "Invalid email address. Please enter a valid email address and try again.",
-          expired_card:
-            "This card has expired. Please try again with a different payment method.",
-          incorrect_address:
-            "The supplied billing address is incorrect. Please check the card's address or try again with a different card.",
-          incorrect_cvc:
-            "The card's security code is incorrect. Please check the security code or try again with a different card.",
-          incorrect_number:
-            "The card number is incorrect. Please check the card number or try again with a different card.",
-          invalid_number:
-            "The card number is incorrect. Please check the card number or try again with a different card.",
-          incorrect_zip:
-            "The card's postal code is incorrect. Please check the postal code or try again with a different card.",
-          postal_code_invalid:
-            "The card's postal code is incorrect. Please check the postal code or try again with a different card.",
-          invalid_cvc:
-            "The card's security code is invalid. Please check the security code or try again with a different card.",
-          invalid_expiry_month: "The card's expiration month is incorrect.",
-          invalid_expiry_year: "The card's expiration year is incorrect.",
-          payment_intent_authentication_failure: "Authentication failure.",
-          payment_intent_incompatible_payment_method:
-            "This payment method is invalid.",
-          payment_intent_payment_attempt_failed: "Payment attempt failed.",
-          setup_intent_authentication_failure: "Setup attempt failed.",
-        },
-        formatting: { currencyMultiplier: 100 },
-        elementsConfig: null,
-      };
-      /* ]]> */
-    </script>
-    <script
-      type="text/javascript"
-      src="./So Marketing _ BESSIE_files/stripe.min.js.download"
-      id="rcp-stripe-js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="./So Marketing _ BESSIE_files/register.min.js.download"
-      id="rcp-stripe-register-js"
-    ></script>
     <link rel="https://api.w.org/" href="https://bessietech.com/wp-json/" />
-    <link
-      rel="alternate"
-      title="JSON"
-      type="application/json"
-      href="https://bessietech.com/wp-json/wp/v2/pages/210"
-    />
-    <link
-      rel="EditURI"
-      type="application/rsd+xml"
-      title="RSD"
-      href="https://bessietech.com/xmlrpc.php?rsd"
-    />
 
     <link rel="canonical" href="https://bessietech.com/so-marketing/" />
     <link rel="shortlink" href="https://bessietech.com/?p=210" />
-    <link
-      rel="alternate"
-      title="oEmbed (JSON)"
-      type="application/json+oembed"
-      href="https://bessietech.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbessietech.com%2Fso-marketing%2F"
-    />
-    <link
-      rel="alternate"
-      title="oEmbed (XML)"
-      type="text/xml+oembed"
-      href="https://bessietech.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fbessietech.com%2Fso-marketing%2F&amp;format=xml"
-    />
     <!-- MailerLite Universal -->
     <script>
       (function (w, d, e, u, f, l, n) {
@@ -4526,31 +4349,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
       ml("enablePopups", false);
     </script>
     <!-- End MailerLite Universal -->
-    <script>
-      document.documentElement.className += " js";
-    </script>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <!-- <link
-      rel="shortcut icon"
-      href="{% static 'images/bessie_favicon-7-150x150.png' %}"
-      sizes="32x32"
-    />
-    <link
-      rel="shortcut icon"
-      href="{% static 'images/bessie_favicon.png' %}"
-      sizes="192x192"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="{% static 'images/bessie_favicon.png' %}"
-    />
-    <meta
-      name="msapplication-TileImage"
-      content="{% static 'images/bessie_favicon.png' %}"
-    /> -->
     <style id="et-critical-inline-css">
       body,
       .et_pb_column_1_2 .et_quote_content blockquote cite,
