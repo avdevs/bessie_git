@@ -206,28 +206,29 @@ def all_system_users(request):
 
 def company_selection(request):
 	"""Show company selection page for users who admin multiple companies"""
-	if not request.user.is_authenticated:
+	user = request.user
+
+	if not user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
-		return redirect("dashboard")
-
 	# Get all companies this user is admin for
-	company_admins = CompanyAdmin.objects.filter(user=request.user).select_related(
-		"company"
-	)
+	company_admins = CompanyAdmin.objects.filter(user=user).select_related("company")
 	companies = [ca.company for ca in company_admins]
 
 	if len(companies) == 0:
 		# User is not admin for any company, redirect to dashboard
 		return redirect("dashboard")
-	elif len(companies) == 1:
-		# User is admin for only one company, redirect directly to that company's dashboard
-		request.session["selected_company_id"] = companies[0].pk
-		return redirect("dashboard")
+	# elif len(companies) == 1:
+	# 	# User is admin for only one company, redirect directly to that company's dashboard
+	# 	request.session["selected_company_id"] = companies[0].pk
+	# 	return redirect("dashboard")
 
 	# User is admin for multiple companies, show selection page
-	return render(request, "bessie/company_selection.html", {"companies": companies})
+	return render(
+		request,
+		"bessie/company_selection.html",
+		{"companies": companies},
+	)
 
 
 def select_company(request, company_id):
@@ -235,7 +236,8 @@ def select_company(request, company_id):
 	if not request.user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# Check if user is a bessie admin (same logic as general.py)
+	if not request.user.bessie_admin:
 		return redirect("dashboard")
 
 	# Verify user is admin for this company
@@ -255,7 +257,8 @@ def clear_company_selection(request):
 	if not request.user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# Check if user is a bessie admin (same logic as general.py)
+	if not request.user.bessie_admin:
 		return redirect("dashboard")
 
 	# Clear the selected company from session

@@ -20,6 +20,7 @@ def index(request):
 		return redirect("login")
 
 	user = request.user
+	employee_account = Employee.objects.filter(user=user).exists()
 
 	if user.is_staff:
 		companies = Company.objects.all().order_by("name")
@@ -41,8 +42,11 @@ def index(request):
 			return redirect("login")
 		elif len(companies) > 1:
 			# User administers multiple companies
+			# This user is unlikely an employee, redirect to company selection
 			# Check if they have already selected a company in this session
 			selected_company_id = request.session.get("selected_company_id")
+
+			print(f"Selected company ID: {selected_company_id}")
 
 			if selected_company_id:
 				# Verify the selected company is one they can admin
@@ -61,6 +65,7 @@ def index(request):
 			else:
 				return redirect("company_selection")
 		else:
+			# User administers a single company, and can be an employee
 			comp_admin = company_admins[0]
 
 		# This shouldn't happen, but just in case
@@ -80,6 +85,8 @@ def index(request):
 				"company": comp_admin.company,
 				"employees": employees,
 				"available_companies": companies,
+				"companies_count": len(companies),
+				"employee_account": employee_account,
 			},
 		)
 
