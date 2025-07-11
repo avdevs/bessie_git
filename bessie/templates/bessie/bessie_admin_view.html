@@ -5,19 +5,21 @@
 <div class="section">
 	{% comment %} BESSIE COMPANY ADMIN / NOT SUPER USER {% endcomment %}
 	{% if user.bessie_admin %}
-		<h2 class="section-title">Change Company</h2>
 		{% if available_companies %}
-			<ul style="margin-bottom: 20px;">
-				{% for available_company in available_companies %}
-					<li>
-						{% if available_company.id == company.id %}
-							<strong style="color:#747474; font-weight: bold;">{{ available_company.name }} (Selected)</strong>
-						{% else %}
-							<a href="{% url 'select_company' available_company.id %}" style="color: #3b82f6; text-decoration: none; background: transparent; padding: 0; margin: 0;">{{ available_company.name }}</a>
-						{% endif %}
-					</li>
-				{% endfor %}
-			</ul>
+			{% if available_companies|length > 1 %}
+				<h2 class="section-title">Change Company</h2>
+				<ul style="margin-bottom: 20px;">
+					{% for available_company in available_companies %}
+						<li>
+							{% if available_company.id == company.id %}
+								<strong style="color:#747474; font-weight: bold;">{{ available_company.name }} (Selected)</strong>
+							{% else %}
+								<a href="{% url 'select_company' available_company.id %}" style="color: #3b82f6; text-decoration: none; background: transparent; padding: 0; margin: 0;">{{ available_company.name }}</a>
+							{% endif %}
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
 		{% else %}
 			<p>No companies available.</p>
 		{% endif %}

@@ -62,17 +62,19 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Bessie Employee Login</h1>
+      <h1>Bessie Account Login</h1>
     </div>
 
     <div class="content">
-      <p>This email was sent to you because you are trying to log in to Bessie. To continue with your login, please click the button below:</p>
+      <p>This email was sent to you because you requested your Employee ID.</p>
 
 			<p>If you are not trying to login, please ignore this email.</p>
 			
 			<p>This link is unique to you and will not be shared with anyone else.</p>
-			
-			<p>The link will expire in 15 minutes.</p>
+
+			<p>Your Employee ID is: <strong>{{ employee_id }}</strong></p>
+
+			<p>To continue with your login, please click the button below:</p>
 
       <center>
         <a href="{{ url }}" class="button">Login</a>

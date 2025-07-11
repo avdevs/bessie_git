@@ -139,10 +139,10 @@ class CompanyAdmin(models.Model):
 	class Meta:
 		unique_together = ("user", "company")  # Prevent duplicate user-company combinations
 
-	def save(self, *args, **kwargs):
-		if self.user.user_type != User.UserTypes.COMPANY_ADMIN:
-			raise ValidationError("User must be a company admin")
-		super().save(*args, **kwargs)
+	# def save(self, *args, **kwargs):
+	# 	if self.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# 		raise ValidationError("User must be a company admin")
+	# 	super().save(*args, **kwargs)
 
 	def __str__(self):
 		return f"{self.user.first_name} - {self.company}"
@@ -152,9 +152,6 @@ class Employee(models.Model):
 	company = models.ForeignKey(Company, on_delete=models.CASCADE)
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	team = models.CharField(max_length=256, null=True, blank=True)
-	unique_id = models.CharField(max_length=255, null=True, blank=True)
-	magic_link_token = models.CharField(max_length=255, null=True, blank=True)
-	magic_link_expiry = models.DateTimeField(null=True, blank=True)
 
 	def __str__(self):
 		return f"{self.user.email} ({self.company.name})"

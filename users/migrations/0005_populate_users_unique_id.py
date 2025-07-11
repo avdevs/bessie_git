@@ -1,34 +1,35 @@
-from django.db import migrations
-from django.utils import timezone
-from time import sleep
 import os
-from os.path import join, dirname
-from dotenv import load_dotenv
 import random
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
+from os.path import dirname, join
+from time import sleep
+
 from django.core.mail import send_mail
+from django.db import migrations
+from django.template.loader import render_to_string
+from django.utils import timezone
+from django.utils.html import strip_tags
+from dotenv import load_dotenv
 
 # Load all environment variables
-dotenv_path = join(dirname(__file__), "../.env")
+dotenv_path = join(dirname(__file__), "../../.env")
 load_dotenv(dotenv_path)
 
 
 def generate_unique_ids(apps, schema_editor):
-	"""Generate unique IDs for existing employee records."""
-	Employee = apps.get_model("bessie", "Employee")
-	employees = Employee.objects.filter(unique_id__isnull=True)
+	"""Generate unique IDs for all system users"""
+	User = apps.get_model("users", "User")
+	users = User.objects.filter(unique_id__isnull=True)
 
 	DOMAIN = os.getenv("SITE_DOMAIN")
-	link = f"{DOMAIN}/employee/login"
+	link = f"{DOMAIN}/login"
 
-	for employee in employees:
+	for user in users:
 		sleep(0.2)
 
 		unique_id = str(str(int(timezone.now().timestamp())) + str(random.randint(1, 100)))
 
-		employee.unique_id = unique_id
-		employee.save()
+		user.unique_id = unique_id
+		user.save()
 
 		print("SENDING EMAIL TO EXISTING EMPLOYEE THAT WE CHANGED LOGIN SYSTEM")
 
@@ -40,23 +41,23 @@ def generate_unique_ids(apps, schema_editor):
 		plain_message = strip_tags(html_message)
 
 		send_mail(
-			subject="Bessie Employee Login Change",
+			subject="Bessie Login Change",
 			message=plain_message,
 			from_email=None,
-			recipient_list=[employee.user.email],
+			recipient_list=[user.email],
 			html_message=html_message,
 		)
 
 
 def reverse_unique_ids(apps, schema_editor):
 	"""Revert unique IDs to null."""
-	Employee = apps.get_model("bessie", "Employee")
-	Employee.objects.update(unique_id=None)
+	User = apps.get_model("users", "User")
+	User.objects.update(unique_id=None)
 
 
 class Migration(migrations.Migration):
 	dependencies = [
-		("bessie", "0017_employee_magic_link_expiry_employee_magic_link_token_and_more"),
+		("users", "0004_user_magic_link_expiry_user_magic_link_token_and_more"),
 	]
 
 	operations = [

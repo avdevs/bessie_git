@@ -10,8 +10,6 @@ from .views import (
 	company_selection,
 	demote_user_from_admin,
 	employee_forgot_id,
-	employee_login,
-	employee_login_process,
 	export_data,
 	get_companies_for_promotion,
 	get_user_companies_for_demotion,
@@ -19,6 +17,8 @@ from .views import (
 	select_company,
 	toggle_company_results_visible,
 	user_list,
+	user_login,
+	user_login_process,
 	user_results,
 	view_company_results,
 )
@@ -72,10 +72,8 @@ urlpatterns = [
 	),
 	path("create-company/", CompanyFormView.as_view(), name="create_company"),
 	path("company/<int:id>", company_detail, name="company"),
-	path("employee/login", employee_login, name="employee_login"),
-	path(
-		"employee/login/<str:token>", employee_login_process, name="employee_login_process"
-	),
+	path("login", user_login, name="user_login"),
+	path("login/<str:token>", user_login_process, name="user_login_process"),
 	path("employee/forgot-id", employee_forgot_id, name="employee_forgot_id"),
 	path("users", all_system_users, name="all_system_users"),
 	path("company-selection/", company_selection, name="company_selection"),

@@ -4750,11 +4750,11 @@
         font-style: normal;
       }
     </style>
-    <meta
+    <!-- <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
     />
-    <!-- <link
+    <link
       rel="shortcut icon"
       href="{% static 'images/bessie_favicon-7-150x150.png' %}"
       sizes="32x32"
@@ -4812,7 +4812,7 @@
                             class="et_pb_module et_pb_text et_pb_text_1 et_pb_text_align_left et_pb_bg_layout_light"
                           >
                             <div class="et_pb_text_inner">
-                              <h1>Employee Log In</h1>
+                              <h1>Log In</h1>
                             </div>
                           </div>
                         </div>
@@ -4829,7 +4829,25 @@
                           <div
                             class="et_pb_module et_pb_text et_pb_text_4 et_pb_text_align_left et_pb_bg_layout_light"
                           >
-                            <strong>Your login link has expired. Please login again!</strong>
+                            <div class="et_pb_text_inner">
+                                <form method="post">
+                                    {% csrf_token %}
+                                    {{ form.as_p }}
+                                    <button type="submit">Submit</button>
+                                </form>
+
+																<br /><br />
+
+																<p class="rcp_lost_password">
+																	<a href="{% url 'employee_forgot_id' %}">
+																		Forgot your Employee ID?
+																	</a>
+																</p>
+
+																{% if success %}
+																	<p style="color: green; margin-top: 20px;">Please check your email to continue logging in!</p>
+																{% endif %}
+                            </div>
                           </div>
                         </div>
                       </div>
