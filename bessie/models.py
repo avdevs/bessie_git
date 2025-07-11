@@ -139,10 +139,10 @@ class CompanyAdmin(models.Model):
 	class Meta:
 		unique_together = ("user", "company")  # Prevent duplicate user-company combinations
 
-	def save(self, *args, **kwargs):
-		if self.user.user_type != User.UserTypes.COMPANY_ADMIN:
-			raise ValidationError("User must be a company admin")
-		super().save(*args, **kwargs)
+	# def save(self, *args, **kwargs):
+	# 	if self.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# 		raise ValidationError("User must be a company admin")
+	# 	super().save(*args, **kwargs)
 
 	def __str__(self):
 		return f"{self.user.first_name} - {self.company}"
