@@ -1,0 +1,49 @@
+{% extends 'bessie/dashboard.html' %}
+{% block content %}
+<div class="section">
+  <div>
+    <h2>Welcome to the Bessie Quiz</h2>
+  </div>
+  <div>
+    {% if response %}
+			{% if company.results_visible %}
+	    	<a href="{% url 'user_results' %}" class="btn btn-warning">View Results</a>
+			{% else %}
+				<p><strong>Your results are not yet available.<br /></strong>
+					You will be notified via email when they are ready.</p>
+				</p>
+			{% endif %}
+    {% else %}
+	    {% if employee %}
+	    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+	      {% if employee.company.induction_video %}
+		      <video width="854" height="480" controls>
+		        <source src="{{ employee.company.induction_video.url }}" type="video/mp4">
+		      </video>
+	      {% endif %}
+
+	      {% now "c" as current_time %}
+
+	      {% if employee.company.survey_start_date|date:"c" > current_time %}
+	      	<p>Survey starts on {{ employee.company.survey_start_date }}</p>
+	      {% elif employee.company.survey_completion_date|date:"c" < current_time %} 
+					<p>Survey completion deadline passed: {{ employee.company.survey_completion_date }}</p>
+	      {% else %}
+
+	        <div style="background: #abdbe3; padding: 10px; border-radius: 10px; margin: 30px 0 10px 0;">
+	          Please note! Your progress will be saved automatically between the pages of the quiz. <br />
+	          Once you press <strong>Next</strong> button, all previous answers will be saved.
+	        </div>
+	        <a href="{% url 'take_quiz' %}" style="display: block; margin-top: 20px;" class="btn btn-success">
+						Take Individual Quiz
+					</a>
+	      {% endif %}
+	    </div>
+
+	    {% else %}
+	    	<h3>User is not an employee, hence cannot take quiz</h3>
+	    {% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

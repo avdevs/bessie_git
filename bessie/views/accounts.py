@@ -53,39 +53,19 @@ def user_login(request):
 	form = EmployeeLoginForm(request.POST or None)
 
 	if request.method == "POST" and form.is_valid():
-		# Look for employee by user's unique_id if the field exists
-		employee = None
-		if hasattr(User, "_meta") and any(
-			field.name == "unique_id" for field in User._meta.get_fields()
-		):
-			employee = Employee.objects.filter(
-				user__unique_id=form.cleaned_data["unique_user_id"],
-			).first()
-		else:
-			# Fallback - look by employee pk/id if unique_id doesn't exist
-			employee = Employee.objects.filter(
-				pk=form.cleaned_data["unique_user_id"],
-			).first()
+		user = User.objects.filter(unique_id=form.cleaned_data["unique_user_id"]).first()
 
-		if not employee:
+		if not user:
 			form.add_error("unique_user_id", "Employee with this ID does not exist.")
 			return render(request, "bessie/user_login.html", {"form": form})
 
 		token = str(uuid.uuid4())
 
-		# Check if User model has magic link fields before using them
-		if hasattr(employee.user, "magic_link_token") and hasattr(
-			employee.user, "magic_link_expiry"
-		):
-			employee.user.magic_link_token = token
-			employee.user.magic_link_expiry = timezone.now() + timedelta(minutes=15)
-			employee.user.save()
-		else:
-			# If User doesn't have magic link fields, we can't proceed
-			form.add_error("unique_user_id", "Magic link authentication is not available.")
-			return render(request, "bessie/user_login.html", {"form": form})
+		user.magic_link_token = token
+		user.magic_link_expiry = timezone.now() + timedelta(minutes=15)
+		user.save()
 
-		link = request.build_absolute_uri(f"/bessie/employee/login/{token}")
+		link = request.build_absolute_uri(f"/bessie/login/{token}")
 
 		html_message = render_to_string(
 			"emails/user_login.html",
@@ -97,10 +77,10 @@ def user_login(request):
 		plain_message = strip_tags(html_message)
 
 		send_mail(
-			subject="Bessie Employee Login",
+			subject="Bessie Account Login",
 			message=plain_message,
 			from_email=None,
-			recipient_list=[employee.user.email],
+			recipient_list=[user.email],
 			html_message=html_message,
 		)
 
@@ -121,30 +101,18 @@ def user_login(request):
 
 
 def user_login_process(request, token):
-	# Try to find employee using User model magic_link_token field
-	employee = None
-	if hasattr(User, "_meta") and any(
-		field.name == "magic_link_token" for field in User._meta.get_fields()
-	):
-		employee = Employee.objects.filter(user__magic_link_token=token).first()
+	user = User.objects.filter(magic_link_token=token).first()
 
-	if not employee:
+	if not user:
 		return render(request, "bessie/user_login_invalid.html")
 
-	# Check if User model has magic link fields before using them
-	if hasattr(employee.user, "magic_link_token") and hasattr(
-		employee.user, "magic_link_expiry"
-	):
-		employee.user.magic_link_token = None
-		employee.user.magic_link_expiry = None
-		employee.user.save()
-	else:
-		# If User doesn't have the fields, the token is invalid
-		return render(request, "bessie/user_login_invalid.html")
+	user.magic_link_token = None
+	user.magic_link_expiry = None
+	user.save()
 
-	request.session["employee_id"] = employee.pk
+	request.session["user_id"] = user.pk
 
-	login(request, employee.user)
+	login(request, user)
 
 	return redirect("dashboard")
 
