@@ -31,7 +31,7 @@ def generate_unique_ids(apps, schema_editor):
 		user.unique_id = unique_id
 		user.save()
 
-		print("SENDING EMAIL TO EXISTING EMPLOYEE THAT WE CHANGED LOGIN SYSTEM")
+		print(f"\nSENDING EMAIL WITH MAGIC LINK TO {user.email}")
 
 		html_message = render_to_string(
 			"emails/login_change.html",
