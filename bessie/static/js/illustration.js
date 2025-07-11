@@ -76,6 +76,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -106,6 +107,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -136,6 +138,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -166,6 +169,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -195,6 +199,7 @@
 	new Chart(document.getElementById("envSummary"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			indexAxis: "y",
 			plugins: {
 				legend: {
@@ -226,6 +231,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -256,6 +262,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -286,6 +293,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			plugins: {
 				legend: {
 					display: false,
@@ -315,6 +323,7 @@
 	new Chart(document.getElementById("extFactors"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -626,6 +635,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -649,6 +659,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -672,6 +683,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -694,6 +706,7 @@
 	new Chart(document.getElementById("environment"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -716,6 +729,7 @@
 	new Chart(document.getElementById("family"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -738,6 +752,7 @@
 	new Chart(document.getElementById("health"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -760,6 +775,7 @@
 	new Chart(document.getElementById("personal"), {
 		type: "bar",
 		options: {
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
@@ -783,6 +799,7 @@
 		type: "bar",
 		options: {
 			indexAxis: "y",
+			maintainAspectRatio: false,
 			scales: {
 				y: {
 					max: 100,
