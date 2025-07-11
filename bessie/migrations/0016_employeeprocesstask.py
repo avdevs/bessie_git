@@ -5,35 +5,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+	dependencies = [
+		("bessie", "0015_1_cleanup_duplicate_companyadmin"),
+	]
 
-    dependencies = [
-        ("bessie", "0015_AUTH_DANGER__lowercase_all_emails"),
-    ]
-
-    operations = [
-        migrations.CreateModel(
-            name="EmployeeProcessTask",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("job_id", models.IntegerField()),
-                ("chunks_number", models.IntegerField()),
-                ("chunks_completed", models.IntegerField(default=0)),
-                ("notification_email", models.EmailField(max_length=254)),
-                ("completed", models.BooleanField(default=False)),
-                (
-                    "company",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="bessie.company"
-                    ),
-                ),
-            ],
-        ),
-    ]
+	operations = [
+		migrations.CreateModel(
+			name="EmployeeProcessTask",
+			fields=[
+				(
+					"id",
+					models.BigAutoField(
+						auto_created=True,
+						primary_key=True,
+						serialize=False,
+						verbose_name="ID",
+					),
+				),
+				("job_id", models.IntegerField()),
+				("chunks_number", models.IntegerField()),
+				("chunks_completed", models.IntegerField(default=0)),
+				("notification_email", models.EmailField(max_length=254)),
+				("completed", models.BooleanField(default=False)),
+				(
+					"company",
+					models.ForeignKey(
+						on_delete=django.db.models.deletion.CASCADE, to="bessie.company"
+					),
+				),
+			],
+		),
+	]
