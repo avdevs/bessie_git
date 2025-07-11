@@ -49,28 +49,46 @@ def user_list(request, id):
 	)
 
 
-def employee_login(request):
+def user_login(request):
 	form = EmployeeLoginForm(request.POST or None)
 
 	if request.method == "POST" and form.is_valid():
-		employee = Employee.objects.filter(
-			unique_id=form.cleaned_data["unique_user_id"],
-		).first()
+		# Look for employee by user's unique_id if the field exists
+		employee = None
+		if hasattr(User, "_meta") and any(
+			field.name == "unique_id" for field in User._meta.get_fields()
+		):
+			employee = Employee.objects.filter(
+				user__unique_id=form.cleaned_data["unique_user_id"],
+			).first()
+		else:
+			# Fallback - look by employee pk/id if unique_id doesn't exist
+			employee = Employee.objects.filter(
+				pk=form.cleaned_data["unique_user_id"],
+			).first()
 
 		if not employee:
 			form.add_error("unique_user_id", "Employee with this ID does not exist.")
-			return render(request, "bessie/employee_login.html", {"form": form})
+			return render(request, "bessie/user_login.html", {"form": form})
 
 		token = str(uuid.uuid4())
 
-		employee.magic_link_token = token
-		employee.magic_link_expiry = timezone.now() + timedelta(minutes=15)
-		employee.save()
+		# Check if User model has magic link fields before using them
+		if hasattr(employee.user, "magic_link_token") and hasattr(
+			employee.user, "magic_link_expiry"
+		):
+			employee.user.magic_link_token = token
+			employee.user.magic_link_expiry = timezone.now() + timedelta(minutes=15)
+			employee.user.save()
+		else:
+			# If User doesn't have magic link fields, we can't proceed
+			form.add_error("unique_user_id", "Magic link authentication is not available.")
+			return render(request, "bessie/user_login.html", {"form": form})
 
 		link = request.build_absolute_uri(f"/bessie/employee/login/{token}")
 
 		html_message = render_to_string(
-			"emails/employee_login.html",
+			"emails/user_login.html",
 			{
 				"url": link,
 			},
@@ -88,7 +106,7 @@ def employee_login(request):
 
 		return render(
 			request,
-			"bessie/employee_login.html",
+			"bessie/user_login.html",
 			{
 				"form": form,
 				"success": "A magic link has been sent to your email. Please check your inbox.",
@@ -97,20 +115,32 @@ def employee_login(request):
 
 	return render(
 		request,
-		"bessie/employee_login.html",
+		"bessie/user_login.html",
 		{"form": form},
 	)
 
 
-def employee_login_process(request, token):
-	employee = Employee.objects.filter(magic_link_token=token).first()
+def user_login_process(request, token):
+	# Try to find employee using User model magic_link_token field
+	employee = None
+	if hasattr(User, "_meta") and any(
+		field.name == "magic_link_token" for field in User._meta.get_fields()
+	):
+		employee = Employee.objects.filter(user__magic_link_token=token).first()
 
 	if not employee:
-		return render(request, "bessie/employee_login_invalid.html")
+		return render(request, "bessie/user_login_invalid.html")
 
-	employee.magic_link_token = None
-	employee.magic_link_expiry = None
-	employee.save()
+	# Check if User model has magic link fields before using them
+	if hasattr(employee.user, "magic_link_token") and hasattr(
+		employee.user, "magic_link_expiry"
+	):
+		employee.user.magic_link_token = None
+		employee.user.magic_link_expiry = None
+		employee.user.save()
+	else:
+		# If User doesn't have the fields, the token is invalid
+		return render(request, "bessie/user_login_invalid.html")
 
 	request.session["employee_id"] = employee.pk
 
@@ -128,10 +158,17 @@ def employee_forgot_id(request):
 		link = request.build_absolute_uri("/bessie/employee/login")
 
 		if employee:
+			# Check if User model has unique_id field before using it
+			if hasattr(employee.user, "unique_id"):
+				employee_id = employee.user.unique_id
+			else:
+				# Fallback - could use user ID or email as identifier
+				employee_id = employee.user.email
+
 			html_message = render_to_string(
-				"emails/employee_login_forgot_id.html",
+				"emails/user_login_forgot_id.html",
 				{
-					"employee_id": employee.unique_id,
+					"employee_id": employee_id,
 					"url": link,
 				},
 			)
@@ -148,19 +185,19 @@ def employee_forgot_id(request):
 
 			return render(
 				request,
-				"bessie/employee_login_forgot_id.html",
+				"bessie/user_login_forgot_id.html",
 				{"success": "Your Employee ID has been sent to your email.", "form": form},
 			)
 
 		return render(
 			request,
-			"bessie/employee_login_forgot_id.html",
+			"bessie/user_login_forgot_id.html",
 			{"error": "No employee found with that email.", "form": form},
 		)
 
 	return render(
 		request,
-		"bessie/employee_login_forgot_id.html",
+		"bessie/user_login_forgot_id.html",
 		{
 			"form": form,
 			"error": None,

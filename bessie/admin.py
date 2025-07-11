@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import *
 
 # Register your models here.
@@ -70,11 +71,19 @@ class EmployeeAdmin(admin.ModelAdmin):
 		"user__first_name",
 		"user__last_name",
 		"company__name",
-		"unique_id",
+		"get_unique_id",
 		"team",
 	]
 	list_filter = ["company__name"]
 	search_fields = ["user__first_name", "user__last_name"]
+
+	def get_unique_id(self, obj):
+		"""Get unique_id from the related User model"""
+		if hasattr(obj.user, "unique_id"):
+			return obj.user.unique_id
+		return "-"
+
+	get_unique_id.short_description = "Unique ID"  # type: ignore
 
 
 # register CompanyRiskSummary model
