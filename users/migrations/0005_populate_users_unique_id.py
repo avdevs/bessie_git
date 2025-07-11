@@ -11,13 +11,13 @@ from django.utils.html import strip_tags
 from dotenv import load_dotenv
 
 # Load all environment variables
-dotenv_path = join(dirname(__file__), "../.env")
+dotenv_path = join(dirname(__file__), "../../.env")
 load_dotenv(dotenv_path)
 
 
 def generate_unique_ids(apps, schema_editor):
 	"""Generate unique IDs for all system users"""
-	User = apps.get_model("bessie", "User")
+	User = apps.get_model("users", "User")
 	users = User.objects.filter(unique_id__isnull=True)
 
 	DOMAIN = os.getenv("SITE_DOMAIN")
@@ -44,20 +44,20 @@ def generate_unique_ids(apps, schema_editor):
 			subject="Bessie Login Change",
 			message=plain_message,
 			from_email=None,
-			recipient_list=[user.user.email],
+			recipient_list=[user.email],
 			html_message=html_message,
 		)
 
 
 def reverse_unique_ids(apps, schema_editor):
 	"""Revert unique IDs to null."""
-	User = apps.get_model("bessie", "User")
+	User = apps.get_model("users", "User")
 	User.objects.update(unique_id=None)
 
 
 class Migration(migrations.Migration):
 	dependencies = [
-		("bessie", "0017_usersmagiclinksfields"),
+		("users", "0004_user_magic_link_expiry_user_magic_link_token_and_more"),
 	]
 
 	operations = [

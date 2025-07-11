@@ -6,20 +6,22 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+	dependencies = [
+		("bessie", "0016_employeeprocesstask"),
+		("users", "0005_populate_users_unique_id"),
+		migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+	]
 
-    dependencies = [
-        ('bessie', '0018_populate_users_unique_id'),
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-    ]
-
-    operations = [
-        migrations.AlterField(
-            model_name='companyadmin',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
-        ),
-        migrations.AlterUniqueTogether(
-            name='companyadmin',
-            unique_together={('user', 'company')},
-        ),
-    ]
+	operations = [
+		migrations.AlterField(
+			model_name="companyadmin",
+			name="user",
+			field=models.ForeignKey(
+				on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+			),
+		),
+		migrations.AlterUniqueTogether(
+			name="companyadmin",
+			unique_together={("user", "company")},
+		),
+	]
