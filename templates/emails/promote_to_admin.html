@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+
+    .footer {
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .button {
+      display: inline-block;
+      background-color: #ff6b00;
+      color: #ffffff;
+      padding: 12px 30px;
+      text-decoration: none;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+
+    .button:hover {
+      background-color: #e65c00;
+    }
+
+    .divider {
+      border-top: 2px solid #ff6b00;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Bessie - Your account has been promoted to Company Administrator</h1>
+    </div>
+
+    <div class="content">
+      <p>Hello,</p>
+
+			<p>Your account has been promoted to Company Administrator.</p>
+			
+			<p>This is your login for company administrator. To login to see your own results, you will still need to use your magic link sent in a previous email.</p>
+			
+			<p><br />To see your results, click below link and use your unique ID: <strong>{{ unique_id }}</strong></p>
+      <center>
+        <a href="{{ employee_url }}" class="button">Login</a>
+      </center>
+
+			<p>To login as a company administrator, click below link and use following details:</p>
+			<p><strong>Username:</strong> {{ email }}</p>
+			<p><strong>Password:</strong> {{ password }}</p>
+
+			<center>
+				<a href="{{ admin_url }}" class="button">Login as Company Administrator</a>
+			</center>
+      <div class="divider"></div>
+      <p>Warmest wishes.</p>
+    </div>
+  </div>
+</body>
+
+</html>
