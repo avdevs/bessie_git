@@ -297,7 +297,6 @@ def promote_user_to_bessie_admin(request):
 		user = User.objects.get(pk=user_id)
 
 		# Change user type to COMPANY_ADMIN
-		user.user_type = User.UserTypes.COMPANY_ADMIN
 		user.bessie_admin = True
 		user.save()
 
@@ -399,7 +398,6 @@ def demote_user_from_admin(request):
 
 		# If no companies remain, demote user completely
 		if remaining_companies == 0:
-			user.user_type = User.UserTypes.EMPLOYEE
 			user.bessie_admin = False
 			user.save()
 			messages.success(
