@@ -72,9 +72,9 @@ urlpatterns = [
 	),
 	path("create-company/", CompanyFormView.as_view(), name="create_company"),
 	path("company/<int:id>", company_detail, name="company"),
-	path("employee/login", employee_login, name="employee_login"),
+	path("login", employee_login, name="employee_login"),
 	path(
-		"employee/login/<str:token>", employee_login_process, name="employee_login_process"
+		"login/<str:token>", employee_login_process, name="employee_login_process"
 	),
 	path("employee/forgot-id", employee_forgot_id, name="employee_forgot_id"),
 	path("users", all_system_users, name="all_system_users"),

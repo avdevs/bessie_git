@@ -11,17 +11,17 @@ class Migration(migrations.Migration):
 
   operations = [
     migrations.AddField(
-      model_name="employee",
+      model_name="user",
       name="magic_link_expiry",
       field=models.DateTimeField(blank=True, null=True),
     ),
     migrations.AddField(
-      model_name="employee",
+      model_name="user",
       name="magic_link_token",
       field=models.CharField(blank=True, max_length=255, null=True),
     ),
     migrations.AddField(
-      model_name="employee",
+      model_name="user",
       name="unique_id",
       field=models.CharField(blank=True, max_length=255, null=True),
     ),
