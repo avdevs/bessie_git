@@ -1,15 +1,16 @@
-from background_task import background
-from django.core.mail import EmailMultiAlternatives, send_mail, get_connection
-from django.conf import settings
-from django.template.loader import render_to_string
-from django.utils.text import slugify
-from django.utils.html import strip_tags
-from bessie.models import Employee, EmployeeProcessTask
-import time
-import random
 import csv
 import os
+import random
+import time
 
+from background_task import background
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives, get_connection, send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.utils.text import slugify
+
+from bessie.models import Employee, EmployeeProcessTask
 from users.models import User
 
 
@@ -38,18 +39,20 @@ def process_csv_chunk(chunk_path, job_id):
 				failed.append(row)
 				continue
 
-			# We need to keep django's user model in mind as admins and superusers will login normally,
-			# Employees will login with a magic link, but to be able to use existing logics without major changes,
+			# Users will login with a magic link, but to be able to use existing logics without major changes,
 			# we need to create the user and set the password to a random value.
 			try:
 				password = User.objects.make_random_password()
 				email = row[2].lower()
+
+				unique_id = f"{int(time.time())}{random.randint(10, 100)}"
 
 				user = User(
 					first_name=row[0],
 					last_name=row[1],
 					email=email,
 					user_type=User.UserTypes.EMPLOYEE,
+					unique_id=unique_id,
 				)
 
 				user.set_password(password)
@@ -60,14 +63,11 @@ def process_csv_chunk(chunk_path, job_id):
 				if team:
 					company_teams.add(team)
 
-				unique_id = f"{int(time.time())}{random.randint(10, 100)}"
-
 				employees_to_create.append(
 					Employee(
 						company=company,
 						user=user,
 						team=team or None,
-						unique_id=unique_id,
 					)
 				)
 

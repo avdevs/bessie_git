@@ -49,28 +49,26 @@ def user_list(request, id):
 	)
 
 
-def employee_login(request):
+def user_login(request):
 	form = EmployeeLoginForm(request.POST or None)
 
 	if request.method == "POST" and form.is_valid():
-		employee = Employee.objects.filter(
-			unique_id=form.cleaned_data["unique_user_id"],
-		).first()
+		user = User.objects.filter(unique_id=form.cleaned_data["unique_user_id"]).first()
 
-		if not employee:
+		if not user:
 			form.add_error("unique_user_id", "Employee with this ID does not exist.")
-			return render(request, "bessie/employee_login.html", {"form": form})
+			return render(request, "bessie/user_login.html", {"form": form})
 
 		token = str(uuid.uuid4())
 
-		employee.magic_link_token = token
-		employee.magic_link_expiry = timezone.now() + timedelta(minutes=15)
-		employee.save()
+		user.magic_link_token = token
+		user.magic_link_expiry = timezone.now() + timedelta(minutes=15)
+		user.save()
 
-		link = request.build_absolute_uri(f"/bessie/employee/login/{token}")
+		link = request.build_absolute_uri(f"/bessie/login/{token}")
 
 		html_message = render_to_string(
-			"emails/employee_login.html",
+			"emails/user_login.html",
 			{
 				"url": link,
 			},
@@ -79,16 +77,16 @@ def employee_login(request):
 		plain_message = strip_tags(html_message)
 
 		send_mail(
-			subject="Bessie Employee Login",
+			subject="Bessie Account Login",
 			message=plain_message,
 			from_email=None,
-			recipient_list=[employee.user.email],
+			recipient_list=[user.email],
 			html_message=html_message,
 		)
 
 		return render(
 			request,
-			"bessie/employee_login.html",
+			"bessie/user_login.html",
 			{
 				"form": form,
 				"success": "A magic link has been sent to your email. Please check your inbox.",
@@ -97,24 +95,24 @@ def employee_login(request):
 
 	return render(
 		request,
-		"bessie/employee_login.html",
+		"bessie/user_login.html",
 		{"form": form},
 	)
 
 
-def employee_login_process(request, token):
-	employee = Employee.objects.filter(magic_link_token=token).first()
+def user_login_process(request, token):
+	user = User.objects.filter(magic_link_token=token).first()
 
-	if not employee:
-		return render(request, "bessie/employee_login_invalid.html")
+	if not user:
+		return render(request, "bessie/user_login_invalid.html")
 
-	employee.magic_link_token = None
-	employee.magic_link_expiry = None
-	employee.save()
+	user.magic_link_token = None
+	user.magic_link_expiry = None
+	user.save()
 
-	request.session["employee_id"] = employee.pk
+	request.session["user_id"] = user.pk
 
-	login(request, employee.user)
+	login(request, user)
 
 	return redirect("dashboard")
 
@@ -128,10 +126,17 @@ def employee_forgot_id(request):
 		link = request.build_absolute_uri("/bessie/employee/login")
 
 		if employee:
+			# Check if User model has unique_id field before using it
+			if hasattr(employee.user, "unique_id"):
+				employee_id = employee.user.unique_id
+			else:
+				# Fallback - could use user ID or email as identifier
+				employee_id = employee.user.email
+
 			html_message = render_to_string(
-				"emails/employee_login_forgot_id.html",
+				"emails/user_login_forgot_id.html",
 				{
-					"employee_id": employee.unique_id,
+					"employee_id": employee_id,
 					"url": link,
 				},
 			)
@@ -148,19 +153,19 @@ def employee_forgot_id(request):
 
 			return render(
 				request,
-				"bessie/employee_login_forgot_id.html",
+				"bessie/user_login_forgot_id.html",
 				{"success": "Your Employee ID has been sent to your email.", "form": form},
 			)
 
 		return render(
 			request,
-			"bessie/employee_login_forgot_id.html",
+			"bessie/user_login_forgot_id.html",
 			{"error": "No employee found with that email.", "form": form},
 		)
 
 	return render(
 		request,
-		"bessie/employee_login_forgot_id.html",
+		"bessie/user_login_forgot_id.html",
 		{
 			"form": form,
 			"error": None,
@@ -201,28 +206,29 @@ def all_system_users(request):
 
 def company_selection(request):
 	"""Show company selection page for users who admin multiple companies"""
-	if not request.user.is_authenticated:
+	user = request.user
+
+	if not user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
-		return redirect("dashboard")
-
 	# Get all companies this user is admin for
-	company_admins = CompanyAdmin.objects.filter(user=request.user).select_related(
-		"company"
-	)
+	company_admins = CompanyAdmin.objects.filter(user=user).select_related("company")
 	companies = [ca.company for ca in company_admins]
 
 	if len(companies) == 0:
 		# User is not admin for any company, redirect to dashboard
 		return redirect("dashboard")
-	elif len(companies) == 1:
-		# User is admin for only one company, redirect directly to that company's dashboard
-		request.session["selected_company_id"] = companies[0].pk
-		return redirect("dashboard")
+	# elif len(companies) == 1:
+	# 	# User is admin for only one company, redirect directly to that company's dashboard
+	# 	request.session["selected_company_id"] = companies[0].pk
+	# 	return redirect("dashboard")
 
 	# User is admin for multiple companies, show selection page
-	return render(request, "bessie/company_selection.html", {"companies": companies})
+	return render(
+		request,
+		"bessie/company_selection.html",
+		{"companies": companies},
+	)
 
 
 def select_company(request, company_id):
@@ -230,7 +236,8 @@ def select_company(request, company_id):
 	if not request.user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# Check if user is a bessie admin (same logic as general.py)
+	if not request.user.bessie_admin:
 		return redirect("dashboard")
 
 	# Verify user is admin for this company
@@ -250,7 +257,8 @@ def clear_company_selection(request):
 	if not request.user.is_authenticated:
 		return redirect("login")
 
-	if request.user.user_type != User.UserTypes.COMPANY_ADMIN:
+	# Check if user is a bessie admin (same logic as general.py)
+	if not request.user.bessie_admin:
 		return redirect("dashboard")
 
 	# Clear the selected company from session
@@ -292,7 +300,6 @@ def promote_user_to_bessie_admin(request):
 		user = User.objects.get(pk=user_id)
 
 		# Change user type to COMPANY_ADMIN
-		user.user_type = User.UserTypes.COMPANY_ADMIN
 		user.bessie_admin = True
 		user.save()
 
@@ -394,7 +401,6 @@ def demote_user_from_admin(request):
 
 		# If no companies remain, demote user completely
 		if remaining_companies == 0:
-			user.user_type = User.UserTypes.EMPLOYEE
 			user.bessie_admin = False
 			user.save()
 			messages.success(

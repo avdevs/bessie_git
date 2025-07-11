@@ -1,8 +1,5 @@
-import os
 import secrets
 import string
-from os.path import dirname, join
-from pathlib import Path
 
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import Group, Permission, PermissionsMixin
@@ -10,7 +7,6 @@ from django.core.mail import send_mail
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from dotenv import load_dotenv
 
 
 class UserManager(BaseUserManager):
@@ -106,9 +102,6 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-	class Meta:
-		app_label = "authentication"
-
 	class UserTypes(models.TextChoices):
 		STAFF = "STAFF", "Staff"
 		COMPANY_ADMIN = "COMPANY_ADMIN", "Company Admin"
@@ -131,6 +124,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 	is_active = models.BooleanField(default=True)
 	bessie_admin = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(default=timezone.now)
+
+	# Magic link authentication fields
+	magic_link_token = models.CharField(max_length=255, blank=True, null=True)
+	magic_link_expiry = models.DateTimeField(blank=True, null=True)
+	unique_id = models.CharField(max_length=255, blank=True, null=True)
+
 	groups = models.ManyToManyField(Group, related_name="custom_users", blank=True)
 
 	user_permissions = models.ManyToManyField(
@@ -161,7 +160,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	def clean(self):
 		super().clean()
-		self.email = self.__class__.objects.normalize_email(self.email)
+		self.email = BaseUserManager.normalize_email(self.email)
 
 	def email_user(self, subject, message, from_email=None, **kwargs):
 		"""Email this user."""

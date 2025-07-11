@@ -62,21 +62,28 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Bessie Employee Login</h1>
+      <h1>Bessie - Your account has been promoted to Company Administrator</h1>
     </div>
 
     <div class="content">
-      <p>This email was sent to you because you are trying to log in to Bessie. To continue with your login, please click the button below:</p>
+      <p>Hello,</p>
 
-			<p>If you are not trying to login, please ignore this email.</p>
+			<p>Your account has been promoted to Company Administrator.</p>
 			
-			<p>This link is unique to you and will not be shared with anyone else.</p>
+			<p>This is your login for company administrator. To login to see your own results, you will still need to use your magic link sent in a previous email.</p>
 			
-			<p>The link will expire in 15 minutes.</p>
-
+			<p><br />To see your results, click below link and use your unique ID: <strong>{{ unique_id }}</strong></p>
       <center>
-        <a href="{{ url }}" class="button">Login</a>
+        <a href="{{ employee_url }}" class="button">Login</a>
       </center>
+
+			<p>To login as a company administrator, click below link and use following details:</p>
+			<p><strong>Username:</strong> {{ email }}</p>
+			<p><strong>Password:</strong> {{ password }}</p>
+
+			<center>
+				<a href="{{ admin_url }}" class="button">Login as Company Administrator</a>
+			</center>
       <div class="divider"></div>
       <p>Warmest wishes.</p>
     </div>

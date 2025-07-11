@@ -132,12 +132,17 @@
 	</a>
   <div class="user-info">
     <span class="username">Hello, {{ request.user.email }}!</span>
+
+		{% if companies_count == 1 and employee_account and company.results_visible %}
+			<a href="{% url 'user_results' %}" class="btn btn-warning" style="margin-bottom: 0;">View My Results</a>
+		{% endif %}
     <form action="{% url 'logout' %}" method="post">
       {% csrf_token %}
       <button class="btn btn-primary">Log Out</button>
     </form>
   </div>
 </nav>
+
 {% if messages %}
     <div class="messages-container" id="messages-container">
     {% for message in messages %}

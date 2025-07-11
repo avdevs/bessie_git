@@ -2,7 +2,7 @@
 {% block content %}
 <div class="section">
   <div style="display: flex; width: 100%; justify-content: space-between;">
-    <h2 class="section-title">Select Company</h2>
+    <h2 class="section-title">Select what would you like to do</h2>
   </div>
 
   <p>You are an administrator for multiple companies. Please select which company you would like to manage:</p>
@@ -15,11 +15,19 @@
           Survey Period: {{ company.survey_start_date }} - {{ company.survey_completion_date }}
         </p>
         <a href="{% url 'select_company' company.pk %}" class="btn btn-primary">
-          Manage {{ company.name }}
+          Manage {{ company.name }} {{ company.pk }}
         </a>
       </div>
     {% endfor %}
   </div>
+
+	{% if employee_account %}
+		<h2 class="section-title">or you can continue to your Survey account</h2>
+
+		<a href="{% url 'user_results' %}" class="btn btn-warning">
+			View your Survey Account
+		</a>
+	{% endif %}
 
   {% if companies|length == 0 %}
     <p>You are not currently an administrator for any companies.</p>
