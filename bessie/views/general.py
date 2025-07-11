@@ -19,9 +19,17 @@ def index(request):
 	user = request.user
 
 	if user.is_staff:
-		print("User is staff, showing all companies")
+		companies = Company.objects.all().order_by("name")
+		paginator = Paginator(companies, 15)
+
+		page_number = request.GET.get("page", 1)
+		page_obj = paginator.get_page(page_number)
+
+		return render(request, "bessie/super_user_view.html", {"page_obj": page_obj})
+
 	elif user.bessie_admin:
 		print("User is Bessie admin, showing company selection")
+
 	elif user.user_type == "EMPLOYEE":
 		employee = Employee.objects.filter(user=user).first()
 		response = BessieResponse.objects.filter(employee=employee).first()
@@ -33,7 +41,6 @@ def index(request):
 			{"response": response, "employee": employee, "company": company},
 		)
 	else:
-		print("User type not recognized, redirecting to login")
 		return redirect("login")
 
 	# if not request.user.is_authenticated:
