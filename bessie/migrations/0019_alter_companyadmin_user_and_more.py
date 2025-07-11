@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 	dependencies = [
-		("bessie", "0018_cleanup_duplicate_companyadmin"),
+		("bessie", "0016_employeeprocesstask"),
 		("users", "0005_populate_users_unique_id"),
 		migrations.swappable_dependency(settings.AUTH_USER_MODEL),
 	]
