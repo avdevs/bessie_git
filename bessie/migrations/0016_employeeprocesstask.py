@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 	dependencies = [
-		("bessie", "0015_1_cleanup_duplicate_companyadmin"),
+		("bessie", "0015_AUTH_DANGER__lowercase_all_emails"),
 	]
 
 	operations = [

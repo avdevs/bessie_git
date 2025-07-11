@@ -38,7 +38,7 @@ def reverse_cleanup(apps, schema_editor):
 
 class Migration(migrations.Migration):
 	dependencies = [
-		("bessie", "0015_AUTH_DANGER__lowercase_all_emails"),
+		("bessie", "0016_employeeprocesstask"),
 	]
 
 	operations = [
