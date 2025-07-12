@@ -117,26 +117,19 @@ def user_login_process(request, token):
 	return redirect("dashboard")
 
 
-def employee_forgot_id(request):
+def forgot_unique_id(request):
 	form = EmployeeForgotIDForm()
 
 	if request.method == "POST":
 		email = request.POST.get("email")
-		employee = Employee.objects.filter(user__email=email).first()
-		link = request.build_absolute_uri("/bessie/employee/login")
+		user = User.objects.filter(email=email).first()
+		link = request.build_absolute_uri("/bessie/login")
 
-		if employee:
-			# Check if User model has unique_id field before using it
-			if hasattr(employee.user, "unique_id"):
-				employee_id = employee.user.unique_id
-			else:
-				# Fallback - could use user ID or email as identifier
-				employee_id = employee.user.email
-
+		if user:
 			html_message = render_to_string(
 				"emails/user_login_forgot_id.html",
 				{
-					"employee_id": employee_id,
+					"user_id": user.unique_id,
 					"url": link,
 				},
 			)
@@ -144,7 +137,7 @@ def employee_forgot_id(request):
 			plain_message = strip_tags(html_message)
 
 			send_mail(
-				subject="Bessie Employee ID Recovery",
+				subject="Bessie Unique ID Recovery",
 				message=plain_message,
 				from_email=None,
 				recipient_list=[email],
@@ -154,7 +147,7 @@ def employee_forgot_id(request):
 			return render(
 				request,
 				"bessie/user_login_forgot_id.html",
-				{"success": "Your Employee ID has been sent to your email.", "form": form},
+				{"success": "Your Unique ID has been sent to your email.", "form": form},
 			)
 
 		return render(
