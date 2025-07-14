@@ -1,6 +1,7 @@
 import os
+from os.path import dirname, join
 from pathlib import Path
-from os.path import join, dirname
+
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -65,7 +66,7 @@ EMAIL_HOST = EMAILHOST
 EMAIL_PORT = EMAILPORT
 EMAIL_HOST_USER = EMAILUSER
 EMAIL_HOST_PASSWORD = EMAILPASSWORD
-DEFAULT_FROM_EMAIL = "no-reply@bessiestressriskassessment.com"
+DEFAULT_FROM_EMAIL = "No-Reply | Bessie Portal"
 SERVER_EMAIL = "no-reply@bessiestressriskassessment.com"
 
 
