@@ -79,7 +79,7 @@ def user_login(request):
 		send_mail(
 			subject="Bessie Account Login",
 			message=plain_message,
-			from_email=None,
+			from_email="no-reply@bessiestressriskassessment.com",
 			recipient_list=[user.email],
 			html_message=html_message,
 		)
@@ -139,7 +139,7 @@ def forgot_unique_id(request):
 			send_mail(
 				subject="Bessie Unique ID Recovery",
 				message=plain_message,
-				from_email=None,
+				from_email="no-reply@bessiestressriskassessment.com",
 				recipient_list=[email],
 				html_message=html_message,
 			)

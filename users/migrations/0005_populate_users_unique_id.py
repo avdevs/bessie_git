@@ -43,7 +43,7 @@ def generate_unique_ids(apps, schema_editor):
 		send_mail(
 			subject="Bessie Login Change",
 			message=plain_message,
-			from_email=None,
+			from_email="no-reply@bessiestressriskassessment.com",
 			recipient_list=[user.email],
 			html_message=html_message,
 		)

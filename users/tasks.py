@@ -85,7 +85,7 @@ def process_csv_chunk(chunk_path, job_id):
 				user_email = EmailMultiAlternatives(
 					subject=subject,
 					body=plain_message,
-					from_email=None,
+					from_email="no-reply@bessiestressriskassessment.com",
 					to=[email],
 				)
 				user_email.attach_alternative(html_message, "text/html")
