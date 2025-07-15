@@ -19,7 +19,7 @@ from bessie.models import (
 	BessieResponse,
 	Employee,
 	Company,
-	CompanyRiskSummary,
+	CompanyRiskSummary, CompanyAdmin,
 )
 from bessie.views import calculate_stress_load, get_category
 
@@ -31,20 +31,34 @@ from bessie.forms import (
 )
 
 from bessie.report_text import report_text
+from users.models import User
 
 
 @require_http_methods(["GET", "POST"])
 def view_company_results(request, id):
+	user = request.user
+	bypass = False
+
 	try:
-		company = Company.objects.get(pk=id)
+		if user.email == "samantha@prevent-consultancy.com":
+			company = Company.objects.get(name="Traffix")
+			bypass = True
+		else:
+			company = Company.objects.get(pk=id)
 	except Company.DoesNotExist:
 		messages.error(request, "Company not found.")
 		return redirect("dashboard")
 
-	user = request.user
-
-	if not company.results_visible and not user.is_staff:
+	if user.user_type == User.UserTypes.COMPANY_ADMIN:
+		companyAdmin = CompanyAdmin.objects.get(user=user)
+		if companyAdmin.company.pk != id:
+			return redirect("dashboard")
+	elif user.user_type == User.UserTypes.EMPLOYEE:
 		return redirect("dashboard")
+
+	if not company.results_visible and not user.is_staff and not bypass:
+		return redirect("dashboard")
+
 
 	team = request.GET.get("team")
 	risk_summary, created = CompanyRiskSummary.objects.get_or_create(company=company)

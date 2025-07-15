@@ -61,26 +61,23 @@
 <div class="section">
   <h2 class="section-title">Company results</h2>
   {% if company.results_visible %}
-  {% if results_ready %}
-  <div>
-    <a href="{% url 'company_results' company.id %}">View Company results</a>
-    <br />
-    View result by team:
-    <br />
-    {% for team in company.teams %}
-    <a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
-    {% endfor %}
-  </div>
-  {% if company.results_video %}
-  <video width="854" height="480" controls>
-    <source src="{{ company.results_video.url }}" type="video/mp4">
-  </video>
-  {% endif %}
+		<div>
+			<a href="{% url 'company_results' company.id %}">View Company results</a>
+			<br />
+			View result by team:
+			<br />
+
+			{% for team in company.teams %}
+				<a href="{% url 'company_results' company.id %}?team={{team}}">{{ team|format_team_name }}</a>
+			{% endfor %}
+		</div>
+		{% if company.results_video %}
+			<video width="854" height="480" controls>
+				<source src="{{ company.results_video.url }}" type="video/mp4">
+			</video>
+		{% endif %}
   {% else %}
-  <p>Cummulative results not ready. Some employees have not submitted their responses</p>
-  {% endif %}
-  {% else %}
-  <p>Your results are not ready yet. You will be notified when you can view the results.</p>
+  	<p>Your results are not ready yet. You will be notified when you can view the results.</p>
   {% endif %}
 
 </div>
