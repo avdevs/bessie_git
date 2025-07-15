@@ -21,8 +21,6 @@ class CompanyFormView(FormView):
     success_url = reverse_lazy("dashboard")
 
     def form_valid(self, form):
-        email = form.cleaned_data["email"].lower()
-
         try:
             with transaction.atomic():
                 company = Company.objects.create(
@@ -32,26 +30,9 @@ class CompanyFormView(FormView):
                     survey_completion_date=form.cleaned_data["survey_completion_date"],
                     strategy_meeting_date=form.cleaned_data["strategy_meeting_date"],
                 )
-
-                password = User.objects.make_random_password()
-                user = User.objects.create(
-                    first_name=form.cleaned_data["first_name"],
-                    last_name=form.cleaned_data["last_name"],
-                    email=email,
-                    user_type=User.UserTypes.COMPANY_ADMIN,
-                )
-                user.set_password(password)
-                user.save(update_fields=["password"])
-
-                CompanyAdmin.objects.create(company=company, user=user)
         except IntegrityError as e:
             error_msg = str(e)
-            if "users_user.email" in error_msg:
-                messages.error(
-                    self.request,
-                    f"User with email: {email} already exists in the system",
-                )
-            elif "bessie_company.name" in error_msg:
+            if "bessie_company.name" in error_msg:
                 messages.error(
                     self.request,
                     f"Company with name: {form.cleaned_data['name']} already exists in the system",
@@ -63,34 +44,7 @@ class CompanyFormView(FormView):
             )
             return redirect("create_company")
 
-        self._send_welcome_email(user, password, company)
-
         return super().form_valid(form)
-
-    def _send_welcome_email(self, user, password, company):
-        login_url = self.request.build_absolute_uri(reverse("login"))
-
-        subject = "Welcome to Bessie - Let's Get Started!"
-
-        html_message = render_to_string(
-            "emails/admin_invitation_email.html",
-            {
-                "user": user,
-                "password": password,
-                "login_url": login_url,
-                "company": company,
-            },
-        )
-
-        plain_message = strip_tags(html_message)
-
-        send_mail(
-            subject=subject,
-            message=plain_message,
-            from_email=None,
-            recipient_list=[user.email],
-            html_message=html_message,
-        )
 
 
 def company_detail(request, id):

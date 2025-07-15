@@ -2418,17 +2418,6 @@ class CompanyForm(forms.Form):
   strategy_meeting_date = forms.DateField(
     widget=forms.DateInput(attrs={"type": "date"}), label="Select Date"
   )
-  first_name = forms.CharField(
-    max_length=256,
-    widget=forms.TextInput(attrs={"placeholder": "Enter first name"}),
-  )
-  last_name = forms.CharField(
-    max_length=256, widget=forms.TextInput(attrs={"placeholder": "Enter last name"})
-  )
-  email = forms.CharField(
-    max_length=256,
-    widget=forms.EmailInput(attrs={"placeholder": "Enter email address"}),
-  )
 
   def clean(self):
     cleaned_data = super().clean()
