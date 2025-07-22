@@ -43,6 +43,7 @@ QUESTION_PATTERNS = {
 	"q10": [6, 5, 4, 0, 2, 1, 0, 0],
 	"q13": "ALL_ZEROS_3",
 	"q21": [1, 0, 0, 0, 2],
+	"q67": [0, 0],
 	# SIX_ZERO_ZERO pattern questions
 	"q101": "SIX_ZERO_ZERO",
 	"q102": "SIX_ZERO_ZERO",
@@ -950,8 +951,8 @@ class Form10(forms.Form):
 		label="67. Are you in a relationship?",
 		help_text="<h3>Your Family</h3>",
 		choices=[
-			(0, "Yes"),
-			(0, "No"),
+			("q67_0", "Yes"),
+			("q67_1", "No"),
 		],
 		widget=forms.RadioSelect,
 		required=False,
