@@ -19,17 +19,17 @@
     }
   </style>
   <div class="container">
-    <div class="fixed-menu">
-      <div class="tab-buttons">
-        <button class="tab-btn active" data-tab="tab1">Overview</button>
-        <button class="tab-btn" data-tab="tab2">Stress and wellbeing</button>
-        <button class="tab-btn" data-tab="tab3">Workplace stress</button>
-        <button class="tab-btn" data-tab="tab4">Presenteeism</button>
-        <button class="tab-btn" data-tab="tab5">Stress risks likely to impact work</button>
-      </div>
-    </div>
-    <div class="tabs">
-			{% if can_see_result %}
+		{% if can_see_result %}
+	    <div class="fixed-menu">
+	      <div class="tab-buttons">
+	        <button class="tab-btn active" data-tab="tab1">Overview</button>
+	        <button class="tab-btn" data-tab="tab2">Stress and wellbeing</button>
+	        <button class="tab-btn" data-tab="tab3">Workplace stress</button>
+	        <button class="tab-btn" data-tab="tab4">Presenteeism</button>
+	        <button class="tab-btn" data-tab="tab5">Stress risks likely to impact work</button>
+	      </div>
+	    </div>
+	    <div class="tabs">
 	      <div class="switch-tab-content">
 	        <div id="tab1" class="tab-panel active">
 	          <div class="summary-cards">
@@ -565,9 +565,9 @@
 	          </div>
 	        </div>
 	      </div>
-			{% else %}
-		    Thank you for taking the quiz. We will let you know when the results are available.
-			{% endif %}
+		{% else %}
+	    Thank you for taking the quiz. We will let you know when the results are available.
+		{% endif %}
     </div>
   </div>
   <script>
