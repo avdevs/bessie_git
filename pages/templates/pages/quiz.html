@@ -4832,6 +4832,121 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
                             class="et_pb_module et_pb_text et_pb_text_0 et_pb_text_align_left et_pb_bg_layout_light"
                           >
                             <div class="et_pb_text_inner">
+                              <h4>Organisation Wellbeing Index</h4>
+                            </div>
+                          </div>
+                          <div
+                            class="et_pb_module et_pb_text et_pb_text_1 et_pb_text_align_left et_pb_bg_layout_light"
+                          >
+                            <div class="et_pb_text_inner">
+                              <h1>Take the Quiz</h1>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="et_pb_section et_pb_section_1 et_section_regular"
+                    >
+                      <div class="et_pb_row et_pb_row_1">
+                        <div
+                          class="et_pb_column et_pb_column_4_4 et_pb_column_1 et_pb_css_mix_blend_mode_passthrough et-last-child"
+                        >
+                          <div
+                            class="et_pb_module et_pb_text et_pb_text_2 et_pb_text_align_left et_pb_bg_layout_light"
+                          >
+                            <div class="et_pb_text_inner">
+                              <p style="text-align: center">
+                                  <strong>Is your workplace running on resilience or running on fumes?</strong>
+                                  Take the <em>Organisation Wellbeing Index</em>, a quick, evidence-based quiz that reveals how stress, leadership, culture,
+                                  and policy are really impacting your people. In just a few minutes, you'll get clear insights, 
+                                  a custom wellbeing score, and practical next steps to future-proof your organisation.
+                              </p>
+                            </div>
+                          </div>
+              
+                      </div>
+                    </div>
+                    <div
+                      class="et_pb_section et_pb_section_2 et_section_regular"
+                    >
+                      <div class="et_pb_row et_pb_row_2">
+                        <div
+                          class="et_pb_column et_pb_column_4_4 et_pb_column_2 et_pb_css_mix_blend_mode_passthrough et-last-child"
+                        >
+                          <div
+                            class="et_pb_module et_pb_text et_pb_text_4 et_pb_text_align_left et_pb_bg_layout_light"
+                          >
+                            <div class="et_pb_text_inner">
+                              <div
+                                class="frm_forms with_frm_style frm_style_thriveshine"
+                                id="frm_form_7_container"
+                                data-token="e9be760a520ee5a0307e9613a10870a4"
+                              >
+                              <form action="" method="post" >{% csrf_token %}
+                                <!--form slot-->
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form }}
+                                    {% for form in wizard.form.forms %}
+                                        {{ custom_form }}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ custom_form }}
+                                {% endif %}
+                                </table>
+                                {% if wizard.steps.prev %}
+                                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% translate "previous" %}</button>
+                                {% endif %}
+                                {% if wizard.steps.next %}
+                                <input type="submit" value="{% translate "Next" %}">
+                                {% else %}
+                                <input type="submit" id="submitBtn" value="{% translate "Submit" %}">
+                                {% endif %}
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          {% include 'partials/footer.html' %}
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
+            >
+              <div class="entry-content">
+                <div class="et-l et-l--post">
+                  <div class="et_builder_inner_content et_pb_gutters3">
+                    <div
+                      class="et_pb_section et_pb_section_0 et_pb_section_parallax et_pb_with_background et_section_regular"
+                    >
+                      <span class="et_parallax_bg_wrap"
+                        ><span
+                          class="et_parallax_bg et_pb_parallax_css"
+                          style="
+                            background-image: url('{% static "images/BESSIEcover2.jpg" %}');
+                          "
+                        ></span
+                      ></span>
+
+                      <div class="et_pb_row et_pb_row_0">
+                        <div
+                          class="et_pb_column et_pb_column_4_4 et_pb_column_0 et_pb_css_mix_blend_mode_passthrough et-last-child"
+                        >
+                          <div
+                            class="et_pb_module et_pb_text et_pb_text_0 et_pb_text_align_left et_pb_bg_layout_light"
+                          >
+                            <div class="et_pb_text_inner">
                               <h4>Will BESSIE be Useful for my Business?</h4>
                             </div>
                           </div>
