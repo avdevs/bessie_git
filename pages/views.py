@@ -121,8 +121,8 @@ class QuizPageView(SessionWizardView):
 		quiz_taker = OrgQuizTakers(
 			first_name=form_data.get("first_name"),
 			last_name=form_data.get("last_name"),
-			org=form_data.get("org"),
-			position=form_data.get("position"),
+			# org=form_data.get("org"),
+			# position=form_data.get("position"),
 			email=form_data.get("email"),
 			consent=form_data.get("consent", False),
 			proceed=form_data.get("proceed", False),
