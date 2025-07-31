@@ -117,7 +117,7 @@ class Form9(forms.Form):
     last_name = forms.CharField(label="Enter your last name")
     email = forms.EmailField(label="Enter your contact email address")
     consent = forms.BooleanField(label="Would you be happy for us to get in touch with tailored insights based on your results?")
-    proceed = forms.BooleanField(label="If we can help reduce the stress-related risks identified, is your organisation ready to explore solutions within the next 3 months?",
+    proceed = forms.BooleanField(label="If we can help reduce the stress-related risks identified, is your organisation ready to explore solutions within the next 3 months? We'll only contact you if we believe there's real value to share.",
     required=False)
 
 class ContactForm(forms.Form):
