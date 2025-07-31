@@ -179,6 +179,7 @@ class QuizPageView(SessionWizardView):
 				"workplace_culture": workplace_culture,
 				"impact_assessment": impact_assessment,
 				"future_planning": future_planning,
+				"email": form_data.get("email"),
 			},
 		)
 
