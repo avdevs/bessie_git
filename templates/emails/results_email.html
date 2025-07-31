@@ -55,39 +55,6 @@
             Reset your foundations with expert help.
           </p>
           <p style="color: #000000">🧱 {{ highest_risk_category }}</p>
-          {% if highest_risk <= 5 and highest_risk_category == 'Workplace Environment' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 10 and highest_risk_category == 'Workplace Environment'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 3 and highest_risk_category == 'Organizational Policies' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 6 and highest_risk_category == 'Organizational Policies'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 4 and highest_risk_category == 'Leadership Approach' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 7 and highest_risk_category == 'Leadership Approach'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 1 and highest_risk_category == 'Training and Development' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 3 and highest_risk_category == 'Training and Development'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 3 and highest_risk_category == 'Performance Management' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 5 and highest_risk_category == 'Performance Management'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 3 and highest_risk_category == 'Workplace Culture' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 6 and highest_risk_category == 'Workplace Culture'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 3 and highest_risk_category == 'Impact Assessment' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 6 and highest_risk_category == 'Impact Assessment'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% if highest_risk <= 5 and highest_risk_category == 'Future Planning' %}
-            <em style="color: #000000">🔴 High Risk</em>
-          {% elif highest_risk <= 9 and highest_risk_category == 'Future Planning'%}
-            <em style="color: #000000"> Moderate Risk</em>
-          {% endif %}
         {% else %}
           <em style="color: #000000"> Low Risk</em>
         {% endif %}
