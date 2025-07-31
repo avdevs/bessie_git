@@ -116,8 +116,8 @@ class Form9(forms.Form):
     first_name = forms.CharField(label="Enter your first name")
     last_name = forms.CharField(label="Enter your last name")
     email = forms.EmailField(label="Enter your contact email address")
-    consent = forms.BooleanField(label="Do you consent to be contacted by the company after taking the quiz?")
-    proceed = forms.BooleanField(label="If a solution is available to your risks, is your organisation in a position to proceed in the next 3 months?",
+    consent = forms.BooleanField(label="Would you be happy for us to get in touch with tailored insights based on your results?")
+    proceed = forms.BooleanField(label="Is your organisation ready to explore solutions within the next 3 months?",
     required=False)
 
 class ContactForm(forms.Form):
