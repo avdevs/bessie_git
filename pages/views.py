@@ -188,7 +188,7 @@ class QuizPageView(SessionWizardView):
 		# send email to recipient when proceed
 		if form_data.get("proceed", False) == True:
 			send_mail(
-				subject="Results",
+				subject="Results for: " + form_data.get("email"),
 				message=plain_message,
 				from_email="no-reply@bessiestressriskassessment.com",
 				recipient_list=["nicky@thriveandshine.co.uk"],
@@ -196,7 +196,7 @@ class QuizPageView(SessionWizardView):
 			)
 		# send email of results
 		send_mail(
-			subject="Results",
+			subject="Stress is running high, here's what it could be costing you",
 			message=plain_message,
 			from_email="no-reply@bessiestressriskassessment.com",
 			recipient_list=[form_data.get("email")],
