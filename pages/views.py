@@ -55,7 +55,7 @@ class FAQsPageView(FormView):
 			subject=subject,
 			message=message,
 			from_email="no-reply@bessiestressriskassessment.com",
-			recipient_list=["liam@bitjam.org.uk"],
+			recipient_list=["nicky@thriveandshine.co.uk"],
 		)
 		return super(FAQsPageView, self).form_valid(form)
 
@@ -190,7 +190,7 @@ class QuizPageView(SessionWizardView):
 				subject="Results",
 				message=plain_message,
 				from_email="no-reply@bessiestressriskassessment.com",
-				recipient_list=["liam@bitjam.org.uk"],
+				recipient_list=["nicky@thriveandshine.co.uk"],
 				html_message=html_message,
 			)
 		# send email of results
