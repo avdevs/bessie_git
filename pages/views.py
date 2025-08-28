@@ -55,7 +55,7 @@ class FAQsPageView(FormView):
 			subject=subject,
 			message=message,
 			from_email="no-reply@bessiestressriskassessment.com",
-			recipient_list=["liam@bitjam.org.uk"],
+			recipient_list=["nicky@thriveandshine.co.uk"],
 		)
 		return super(FAQsPageView, self).form_valid(form)
 
