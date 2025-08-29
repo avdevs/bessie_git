@@ -1,41 +1,26 @@
-## Installation
-
-Follow below steps to install the project locally on your computer.
-
-### Dependencies
-
-Make sure you have installed on your system:
-
+## Local Setup
+Make sure you have installed
 - MySQL server
-- Redis server
 - Python environment
 - Yarn
 
-#### Python specific
-
+Activate your python environment
 ```
 cd bessie
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-Once your environment is active, install python dependencies:
+Once your environment is active, install dependencies:
 
 ```
 pip3 install -r requirements.txt
 ```
 
-#### Django specific
+Run Django
 ```
-./exec run
+python3 manage.py runserver
 ```
 ```
-./exec migrate
+python3 manage.py migrate
 ```
-
-#### JS specific
-This projects styles are built using Sass, therefore those files have to compiled to CSS so the browser can understand it.
-
-First install gulpjs `sudo yarn global add gulp`.
-
-Then `yarn install`.
